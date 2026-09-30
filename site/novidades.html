@@ -1,0 +1,1394 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Novidades — Meu Consultório App</title>
+<meta name="description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 2.10.0." />
+<meta name="theme-color" content="#0E6B5E" />
+<!-- Google tag (gtag.js) — o mesmo das demais páginas do funil.
+     A linha do page_location é acréscimo meu: por padrão o gtag manda o
+     endereço completo, com tudo que vem depois do "?". Aqui não há token
+     nenhum na query, mas a regra vale para o site inteiro — uma página que
+     hoje é inofensiva ganha um parâmetro amanhã, e ninguém lembra de voltar
+     aqui. Mandar só o caminho dá a mesma informação e não carrega segredo.
+     Esta página é mantida à mão; as outras saem de site-fonte/montar-site.py,
+     onde está escrito quais recebem a tag e quais não recebem. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18460744388"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-18460744388', {
+    page_location: location.origin + location.pathname
+  });
+</script>
+<link rel="icon" href="/img/favicon.png" type="image/png" />
+<link rel="apple-touch-icon" href="/img/favicon.png" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Meu Consultório App" />
+<meta property="og:title" content="Novidades — Meu Consultório App" />
+<meta property="og:description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 2.10.0." />
+<!-- o WhatsApp e o Facebook só montam a prévia do link com endereço absoluto:
+     caminho relativo aqui faz o link chegar sem imagem no celular de quem recebe -->
+<meta property="og:image" content="https://meuconsultorioappodonto.com.br/img/capa-2.8.jpg" />
+<meta property="og:image:secure_url" content="https://meuconsultorioappodonto.com.br/img/capa-2.8.jpg" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Meu Consultório App — sistema para consultório odontológico" />
+<meta property="og:url" content="https://meuconsultorioappodonto.com.br/novidades" />
+<meta property="og:locale" content="pt_BR" />
+<link rel="canonical" href="https://meuconsultorioappodonto.com.br/novidades" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<script>
+/* Tema: aplicado antes da primeira pintura, senão a página pisca.
+   Três estados: escolha gravada, ou o que o sistema do usuário prefere. */
+(function(){
+  try{
+    var g = localStorage.getItem("mca-tema");
+    if(g === "dark" || g === "light") document.documentElement.setAttribute("data-theme", g);
+  }catch(e){}
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400;1,6..72,500&display=swap">
+
+<style>
+/* ============================================================
+   Meu Consultório App — página de apresentação
+   Cores: o verde é o do próprio sistema. O papel é um branco
+   puxado para o verde, não um cinza qualquer.
+   ============================================================ */
+:root{
+  --papel:#F2F5F3;
+  --folha:#FFFFFF;
+  --folha-2:#E9EFEC;
+  --linha:#D5E0DB;
+  --linha-forte:#B6C7C0;
+  --tinta:#0B1A16;
+  --tinta-2:#3E5650;
+  /* escurecido: no #F2F5F3 o antigo #6C837C dava 3,7:1 de contraste, abaixo do
+     mínimo de 4,5:1 para texto. Este dá 4,9:1 no papel e 4,65:1 na folha-2, que
+     é o fundo mais claro onde ele aparece. */
+  --tinta-3:#5F6D68;
+  --verde:#0E6B5E;
+  --verde-claro:#127F70;
+  --verde-suave:#DDEDE8;
+  --verde-fundo:#06322B;
+  --verde-fundo-2:#0A4238;
+  --sobre-verde:#DCEDE8;
+  --sobre-cheio:#FFFFFF;
+  /* escurecido junto com o das páginas de conta: o valor antigo (#9C6412)
+     dava 4,28:1 sobre o âmbar-suave, logo abaixo do mínimo de 4,5:1. O mesmo
+     token com dois valores em dois arquivos é como um deles fica para trás. */
+  --ambar:#8A5810;
+  --ambar-suave:#F6EEDC;
+  --enfase:#8A560F;
+  --enfase-sobre-verde:#E7BC7B;
+  --sombra:0 1px 2px rgba(11,26,22,.05), 0 14px 34px -22px rgba(11,26,22,.45);
+  --sombra-tela:0 2px 6px rgba(11,26,22,.06), 0 30px 60px -34px rgba(11,26,22,.55);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --papel:#091210;
+    --folha:#101B18;
+    --folha-2:#16241F;
+    --linha:#243530;
+    --linha-forte:#38504A;
+    --tinta:#E6EEEA;
+    --tinta-2:#AFC4BD;
+    --tinta-3:#7F958E;
+    --verde:#4FBFA6;
+    --verde-claro:#68D2BA;
+    --verde-suave:#13322C;
+    --verde-fundo:#04201B;
+    --verde-fundo-2:#062B24;
+    --sobre-verde:#CFE8E1;
+    --sobre-cheio:#04201B;
+    --ambar:#D9A85C;
+    --ambar-suave:#2A2113;
+    --enfase:#E0B064;
+    --enfase-sobre-verde:#E7BC7B;
+    --sombra:0 1px 2px rgba(0,0,0,.5), 0 16px 36px -22px rgba(0,0,0,.9);
+    --sombra-tela:0 2px 8px rgba(0,0,0,.5), 0 34px 64px -34px rgba(0,0,0,1);
+  }
+}
+:root[data-theme="dark"]{
+  --papel:#091210;
+  --folha:#101B18;
+  --folha-2:#16241F;
+  --linha:#243530;
+  --linha-forte:#38504A;
+  --tinta:#E6EEEA;
+  --tinta-2:#AFC4BD;
+  --tinta-3:#7F958E;
+  --verde:#4FBFA6;
+  --verde-claro:#68D2BA;
+  --verde-suave:#13322C;
+  --verde-fundo:#04201B;
+  --verde-fundo-2:#062B24;
+  --sobre-verde:#CFE8E1;
+  --ambar:#D9A85C;
+  --ambar-suave:#2A2113;
+  --enfase:#E0B064;
+  --enfase-sobre-verde:#E7BC7B;
+  --sombra:0 1px 2px rgba(0,0,0,.5), 0 16px 36px -22px rgba(0,0,0,.9);
+  --sombra-tela:0 2px 8px rgba(0,0,0,.5), 0 34px 64px -34px rgba(0,0,0,1);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+
+body{
+  margin:0;
+  background:var(--papel);
+  color:var(--tinta);
+  font-family:Archivo, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size:17px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+/* ---------- estrutura ---------- */
+.faixa{padding:clamp(52px,8vw,104px) clamp(18px,5vw,40px)}
+/* AS FAIXAS DEIXAM O CAMPO PASSAR.
+   O campo é da página inteira, mas as seções com fundo próprio o cobririam —
+   e a página voltaria a "apagar" no meio, que é justamente o que o Matheus
+   reclamou. Um sopro de transparência (92% da cor da faixa) mantém a banda
+   como recurso de desenho, mantém o texto legível, e deixa as partículas
+   atravessarem de cima a baixo. Quem lê continua lendo sobre uma faixa; o
+   fundo é que não morre mais na primeira rolada. */
+.faixa.banda{background:color-mix(in srgb, var(--folha-2) 92%, transparent)}
+.faixa.escuro{background:linear-gradient(170deg,
+  color-mix(in srgb, var(--verde-fundo-2) 94%, transparent),
+  color-mix(in srgb, var(--verde-fundo) 94%, transparent))}
+.centro{max-width:1180px; margin:0 auto}
+.prosa{max-width:37rem}
+.prosa p{margin:0 0 16px}
+.prosa p:last-child{margin-bottom:0}
+
+/* ---------- tipografia ---------- */
+h1,h2,h3{font-family:Newsreader, Georgia, "Times New Roman", serif; font-weight:600; text-wrap:balance}
+h1{
+  font-size:clamp(38px,6.4vw,68px); line-height:1.04; letter-spacing:-.018em;
+  margin:0 0 20px;
+}
+h2{font-size:clamp(28px,4vw,42px); line-height:1.12; letter-spacing:-.012em; margin:0 0 14px}
+h3{font-size:20px; line-height:1.3; margin:0 0 6px; letter-spacing:-.005em}
+.subtitulo{font-size:clamp(18px,2.2vw,21px); line-height:1.55; color:var(--tinta-2); margin:0 0 28px; max-width:34rem}
+/* O RÓTULO DE SEÇÃO — a terceira voz da identidade.
+   São três vozes, e cada uma tem um trabalho: o serifado (Newsreader) afirma,
+   a Archivo explica, e a monoespaçada ETIQUETA. O rótulo é a etiqueta: ele não
+   é para ser lido como frase, é para dizer "aqui começa outra coisa". Em
+   monoespaçada, maiúsculo e bem espaçado, ele faz isso sem competir com o
+   título que vem logo abaixo — que era o problema de tê-lo na mesma família do
+   corpo do texto. É a mesma voz que numera as consultas e os valores dentro do
+   programa, e é por isso que o conjunto passa a parecer um produto só. */
+.olho{
+  font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size:11px; font-weight:500; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--verde); margin:0 0 14px; display:flex; align-items:center; gap:12px;
+}
+.olho::after{content:""; flex:1; height:1px; background:var(--linha); max-width:120px}
+/* A ênfase: o serifado itálico já destacava a palavra pela forma; agora
+   destaca também pelo tamanho e pela cor. O âmbar é a segunda voz da paleta
+   (a mesma dos procedimentos indicados no odontograma), então salta no meio
+   de tanto verde sem parecer link — que é o trabalho que ele tem que fazer. */
+em{
+  font-family:Newsreader, Georgia, serif;
+  font-style:italic;
+  font-weight:500;
+  font-size:1.18em;
+  line-height:1.15;
+  color:var(--enfase);
+}
+/* sobre a faixa verde-escura o âmbar precisa clarear para continuar legível */
+.escuro em{color:var(--enfase-sobre-verde)}
+
+/* ---------- a grade de dentes: o motivo da casa ---------- */
+.dentes{display:flex; gap:4px; align-items:flex-end}
+.dentes .d{
+  width:16px; height:20px; border:1px solid var(--linha-forte); border-radius:3px 3px 5px 5px;
+  background:transparent;
+}
+.dentes .d.m{background:var(--verde); border-color:var(--verde)}
+.dentes .d.i{background:var(--ambar); border-color:var(--ambar)}
+.dentes.grande .d{width:26px; height:32px}
+
+/* ---------- topo ----------
+   SEM BARRA. O nome, os links e os botões flutuam direto sobre o céu da
+   página, como pediu o Matheus — e a barra antiga levava junto um
+   backdrop-filter:blur, outro dos efeitos que custam caro fora do Chrome.
+
+   O NOME GANHOU O LUGAR DE MARCA. Antes era um texto de 19px ao lado do ícone,
+   do mesmo peso de um link. Agora é um selo com o ícone e o nome em duas
+   vozes: "Meu Consultório" no serifado da casa, grande, e "APP" na voz de
+   etiqueta (a monoespaçada, espaçada), que é a mesma dos rótulos de seção.
+
+   AO ROLAR, o topo não some: ele encolhe numa pílula flutuante, presa no alto,
+   com o nome curto e os dois botões que importam — Entrar e Testar. Sem isso,
+   quem lê a página inteira chega nos planos sem ter como começar. */
+header.topo{position:absolute; top:0; left:0; right:0; z-index:20}
+.topo-in{
+  max-width:1180px; margin:0 auto; padding:22px clamp(18px,5vw,40px);
+  display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:18px;
+}
+.marca{display:flex; align-items:center; gap:14px; text-decoration:none; color:inherit;
+  justify-self:start; min-width:0}
+/* a logo sozinha, sem moldura em volta: ela já é um selo */
+.marca-selo{flex:none; width:56px; height:56px; display:grid; place-items:center}
+.marca-selo img{width:56px; height:56px; border-radius:14px; display:block;
+  box-shadow:0 10px 24px -14px rgba(11,26,22,.6)}
+.marca-nome{display:flex; flex-direction:column; min-width:0; line-height:1}
+.marca-nome b{font-family:Newsreader, Georgia, serif; font-weight:600; font-size:29px;
+  letter-spacing:-.02em; white-space:nowrap; color:var(--tinta)}
+.marca-nome small{font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size:10.5px; font-weight:500; letter-spacing:.5em; text-transform:uppercase;
+  color:var(--verde); margin:6px 0 0 2px}
+.topo-links{display:flex; gap:26px; justify-self:center}
+.topo-links a{font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size:11.5px; font-weight:500; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--tinta-2); text-decoration:none; padding:6px 0; border-bottom:1px solid transparent;
+  transition:color .15s, border-color .15s}
+.topo-links a:hover{color:var(--verde); border-bottom-color:var(--verde)}
+.topo-acoes{justify-self:end; display:flex; gap:10px; align-items:center}
+/* Entrar e Testar com a MESMA altura: altura fixa e texto centrado, em vez
+   de cada um crescer pelo próprio padding e borda */
+.topo-acoes a.entrar, .topo-acoes .btn{
+  box-sizing:border-box; height:44px; display:inline-flex; align-items:center;
+  justify-content:center; line-height:1}
+.topo-acoes a.entrar{
+  border:1px solid var(--linha-forte); border-radius:9px; padding:0 16px;
+  font-weight:600; font-size:14.5px; color:var(--tinta); white-space:nowrap; text-decoration:none;
+  background:color-mix(in srgb, var(--folha) 45%, transparent)}
+.topo-acoes a.entrar:hover{border-color:var(--verde); color:var(--verde)}
+.topo-acoes .btn{padding:0 18px; font-size:14.5px; white-space:nowrap}
+.topo .btn .curto{display:none}
+/* a abertura desce o tanto que o topo ocupa, agora que ele flutua por cima */
+.abertura{padding-top:calc(clamp(44px,7vw,86px) + 84px) !important}
+section[id]{scroll-margin-top:84px}
+.topo-sentinela{position:absolute; top:160px; height:1px; width:1px}
+
+/* ---- a pílula, depois de rolar ---- */
+html.rolou header.topo{
+  position:fixed; top:12px; left:50%; right:auto; transform:translateX(-50%);
+  width:max-content; max-width:calc(100% - 20px);
+  background:color-mix(in srgb, var(--folha) 94%, transparent);
+  border:1px solid var(--linha); border-radius:16px; box-shadow:var(--sombra-tela);
+  animation:topoDescer .28s ease-out}
+html.rolou .topo-in{padding:7px 8px 7px 10px; grid-template-columns:auto auto auto; gap:22px}
+html.rolou .marca-selo, html.rolou .marca-selo img{width:38px; height:38px; border-radius:10px; box-shadow:none}
+html.rolou .marca-nome b{font-size:19px}
+html.rolou .marca-nome small{display:none}
+html.rolou .topo-acoes .tema{display:none}
+html.rolou .topo-acoes a.entrar, html.rolou .topo-acoes .btn{height:36px; font-size:13.5px}
+html.rolou .topo-acoes a.entrar{padding:0 12px}
+html.rolou .topo-acoes .btn{padding:0 14px}
+@keyframes topoDescer{from{opacity:0; transform:translate(-50%,-10px)} to{opacity:1; transform:translate(-50%,0)}}
+@media (prefers-reduced-motion: reduce){ html.rolou header.topo{animation:none} }
+
+@media (max-width:1060px){
+  .topo-links{gap:18px}
+}
+@media (max-width:900px){
+  .topo-in{grid-template-columns:1fr auto}
+  .topo-links{display:none}
+  html.rolou .topo-in{grid-template-columns:auto auto}
+}
+@media (max-width:600px){
+  .topo-in{padding:14px 14px; gap:10px}
+  .marca{gap:10px}
+  .marca-selo, .marca-selo img{width:42px; height:42px; border-radius:11px}
+  .marca-nome b{font-size:21px}
+  .marca-nome small{font-size:9px; letter-spacing:.42em; margin-top:4px}
+  .topo-acoes{gap:7px}
+  .topo-acoes a.entrar, .topo-acoes .btn{height:38px; font-size:13.5px}
+  .topo-acoes a.entrar{padding:0 11px}
+  .topo-acoes .btn{padding:0 12px; white-space:nowrap}
+  .topo .btn .longo{display:none}
+  .topo .btn .curto{display:inline}
+  .topo-acoes .tema{display:none}
+  .abertura{padding-top:calc(clamp(44px,7vw,86px) + 64px) !important}
+  html.rolou .topo-in{gap:10px}
+  html.rolou .marca-nome{display:none}
+}
+@media (max-width:380px){
+  /* o nome encolhe antes de sumir: é o nome que o dentista guarda */
+  .marca-nome b{font-size:18px}
+  .marca-selo, .marca-selo img{width:36px; height:36px}
+}
+@media (max-width:330px){ .marca-nome{display:none} }
+
+/* ---------- botões ---------- */
+.btn{
+  display:inline-flex; align-items:center; gap:9px;
+  padding:13px 22px; border-radius:9px; text-decoration:none;
+  font-weight:600; font-size:15.5px; letter-spacing:.005em;
+  border:1px solid transparent; cursor:pointer; line-height:1.2;
+  transition:transform .12s ease, background-color .15s ease, border-color .15s ease;
+}
+.btn:active{transform:translateY(1px)}
+/* A COR DO TEXTO SOBRE O VERDE — um token, não um #fff escrito na mão.
+   No tema escuro o verde da marca clareia (#4FBFA6) para se ver no fundo
+   preto. Branco em cima dele dá 2,25:1 de contraste: abaixo do mínimo de
+   4,5:1, e justamente no botão mais importante da tela. O verde-escuro dá
+   7,6:1. Como token, os dois temas escolhem sozinhos e ninguém precisa
+   lembrar de escrever a exceção em cada lugar que usa o verde cheio. */
+.btn.pri{background:var(--verde); color:var(--sobre-cheio)}
+.btn.pri:hover{background:var(--verde-claro)}
+.btn.sec{border-color:var(--linha-forte); color:var(--tinta); background:var(--folha)}
+.btn.sec:hover{border-color:var(--verde); color:var(--verde)}
+.btn.claro{background:var(--sobre-verde); color:var(--verde-fundo)}
+.btn.claro:hover{background:#fff}
+.btn.vazado{border-color:rgba(220,237,232,.42); color:var(--sobre-verde)}
+.btn.vazado:hover{border-color:var(--sobre-verde)}
+.btn svg{width:18px; height:18px; flex:none}
+a:focus-visible, button:focus-visible{outline:2px solid var(--verde); outline-offset:3px; border-radius:6px}
+
+/* ---------- abertura ---------- */
+.abertura{padding-top:clamp(44px,7vw,86px); position:relative; overflow:hidden}
+
+/* ============================================================
+   O CAMPO VIVO DA ABERTURA
+   Véus de luz que respiram e partículas que sobem do rodapé e entram pelas
+   laterais. Tudo em CSS: sem vídeo, sem biblioteca, nada para baixar.
+   Quem tem "reduzir movimento" ligado no sistema recebe a página parada.
+   ============================================================ */
+/* O CAMPO É DA PÁGINA INTEIRA, E NÃO SÓ DA ABERTURA.
+   Ele era `absolute` dentro da primeira seção: a página abria viva e morria
+   na primeira rolada. Agora é `fixed`, preso à janela, atrás de tudo — o
+   movimento acompanha a leitura do começo ao fim.
+   Duas consequências que vêm junto:
+   – as seções que TÊM fundo próprio (as faixas cinzas e as verdes escuras)
+     passam a deixar o campo aparecer por trás, bem de leve, para a página
+     não voltar a "apagar" no meio;
+   – e o conteúdo sobe para z-index 1, senão o campo passaria na frente. */
+.campo{position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:0}
+main, footer{position:relative; z-index:1}
+.campo .veu{position:absolute; border-radius:50%; will-change:transform}
+/* SEM filter:blur — e este é o conserto do "trava em outros navegadores".
+   O blur de 110px era refeito a cada quadro, pelo processador, em todo navegador
+   que não o manda para a placa de vídeo (Firefox, Safari, notebook sem placa,
+   modo de economia). Medido com CPU 4x mais lenta e sem placa: 5,8 quadros por
+   segundo com ele, 58 sem ele. A suavidade agora vem do próprio degradê, em
+   degraus, que é desenhado uma vez e só desliza. */
+.ceu-tela{position:absolute; inset:0; display:block}
+.ceu-leve .campo .veu{animation:none}
+.campo .v1{width:940px; height:940px; left:-220px; top:-300px; opacity:.34;
+  background:radial-gradient(circle closest-side, var(--verde) 0%, color-mix(in srgb, var(--verde) 62%, transparent) 26%, color-mix(in srgb, var(--verde) 26%, transparent) 55%, color-mix(in srgb, var(--verde) 8%, transparent) 78%, transparent 100%);
+  animation:mcaDeriva1 19s ease-in-out infinite}
+.campo .v2{width:860px; height:860px; right:-200px; top:60px; opacity:.30;
+  background:radial-gradient(circle closest-side, #43C0A7 0%, color-mix(in srgb, #43C0A7 62%, transparent) 26%, color-mix(in srgb, #43C0A7 26%, transparent) 55%, color-mix(in srgb, #43C0A7 8%, transparent) 78%, transparent 100%);
+  animation:mcaDeriva2 24s ease-in-out infinite}
+.campo .v3{width:560px; height:560px; left:44%; bottom:-280px; opacity:.16;
+  background:radial-gradient(circle closest-side, var(--ambar) 0%, color-mix(in srgb, var(--ambar) 62%, transparent) 26%, color-mix(in srgb, var(--ambar) 26%, transparent) 55%, color-mix(in srgb, var(--ambar) 8%, transparent) 78%, transparent 100%);
+  animation:mcaDeriva1 29s ease-in-out infinite reverse}
+@keyframes mcaDeriva1{0%,100%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(80px,55px,0) scale(1.13)}}
+@keyframes mcaDeriva2{0%,100%{transform:translate3d(0,0,0) scale(1.07)}
+  50%{transform:translate3d(-70px,-45px,0) scale(1)}}
+:root[data-theme="dark"] .campo .v1{opacity:.5}
+:root[data-theme="dark"] .campo .v2{opacity:.46}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .campo .v1{opacity:.5}
+  :root:not([data-theme="light"]) .campo .v2{opacity:.46}
+}
+
+/* a partícula é um par: o de fora anda, o de dentro balança no seu ritmo.
+   É esse descompasso que faz o movimento parecer vivo e não trilho de trem. */
+.po{position:absolute; animation-timing-function:linear;
+  animation-iteration-count:infinite; will-change:transform;
+  /* no claro elas precisam de mais peso: ponto verde sobre fundo lavado
+     some, e o movimento é justamente o que se quer notar */
+  opacity:calc(var(--op) * 1.5)}
+:root[data-theme="dark"] .po{opacity:var(--op)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .po{opacity:var(--op)} }
+.po i{display:block; border-radius:50%; background:var(--verde);
+  animation-name:mcaBalancar; animation-timing-function:ease-in-out;
+  animation-iteration-count:infinite; animation-direction:alternate}
+:root[data-theme="dark"] .po i{background:#43C0A7; filter:drop-shadow(0 0 5px #43C0A7)}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .po i{background:#43C0A7; filter:drop-shadow(0 0 5px #43C0A7)}
+}
+@keyframes mcaBalancar{from{transform:translateX(calc(var(--bal) * -.5))}
+  to{transform:translateX(calc(var(--bal) * .5))}}
+.po.sobe{bottom:-30px; animation-name:mcaSubir}
+/* Em VH, e não em %.
+   A porcentagem de um `transform` se mede no PRÓPRIO elemento — e a
+   partícula tem três pixels de altura. "translateY(-100%)" mandava cada
+   pontinho subir três pixels e voltar: a página tinha quarenta partículas
+   que, na prática, tremiam paradas no rodapé da abertura. Ninguém percebe
+   isso lendo o CSS; percebe medindo o quanto elas andam. */
+@keyframes mcaSubir{0%{transform:translateY(0) scale(.6)}
+  6%{transform:translateY(-60px) scale(1)}
+  94%{transform:translateY(-94vh) scale(1)}
+  100%{transform:translateY(-100vh) scale(.6)}}
+.po.daEsq{left:-30px; animation-name:mcaDaEsquerda}
+@keyframes mcaDaEsquerda{0%{transform:translate(0,0) scale(.5)}
+  7%{transform:translate(100px,-14px) scale(1)}
+  93%{transform:translate(96vw,-190px) scale(1)}
+  100%{transform:translate(104vw,-210px) scale(.5)}}
+.po.daDir{right:-30px; animation-name:mcaDaDireita}
+@keyframes mcaDaDireita{0%{transform:translate(0,0) scale(.5)}
+  7%{transform:translate(-100px,-14px) scale(1)}
+  93%{transform:translate(-96vw,-190px) scale(1)}
+  100%{transform:translate(-104vw,-210px) scale(.5)}}
+
+.abertura .centro{position:relative; z-index:1}
+
+@media (prefers-reduced-motion: reduce){
+  .campo .veu, .po, .po i{animation:none !important}
+  .po{display:none}
+}
+
+/* ---- botão de tema, no alto ---- */
+.tema{display:inline-flex; align-items:center; gap:3px; padding:3px;
+  border:1px solid var(--linha); border-radius:99px; background:var(--folha)}
+.tema button{width:30px; height:30px; border:0; border-radius:99px; cursor:pointer;
+  background:none; color:var(--tinta-3); display:inline-flex; align-items:center;
+  justify-content:center; padding:0; transition:background .15s, color .15s}
+.tema button[aria-pressed="true"]{background:var(--verde); color:var(--sobre-cheio)}
+.tema button:hover{color:var(--tinta)}
+.tema button[aria-pressed="true"]:hover{color:var(--sobre-cheio)}
+@media (prefers-color-scheme: dark){
+}
+@media (max-width:760px){ .tema{order:2} }
+
+.abertura .centro{position:relative}
+.arcada{
+  display:flex; gap:5px; align-items:flex-end; margin:0 0 26px;
+  opacity:.55;
+}
+.arcada .d{
+  width:15px; height:19px; border:1px solid var(--linha-forte); border-radius:3px 3px 5px 5px;
+}
+.arcada .d:nth-child(3){background:var(--verde); border-color:var(--verde)}
+.arcada .d:nth-child(7){background:var(--ambar); border-color:var(--ambar)}
+.arcada .d:nth-child(12){background:var(--verde); border-color:var(--verde)}
+@media (max-width:560px){ .arcada .d:nth-child(n+11){display:none} }
+
+.selo{
+  display:inline-flex; align-items:center; gap:8px; margin:0 0 22px;
+  padding:6px 13px 6px 10px; border-radius:99px;
+  background:var(--verde-suave); color:var(--verde);
+  font-size:13px; font-weight:600; letter-spacing:.01em;
+}
+.selo .pt{width:7px; height:7px; border-radius:50%; background:var(--verde)}
+
+.acoes{display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top:6px}
+.sob-acoes{margin:16px 0 0; font-size:14px; color:var(--tinta-3)}
+/* a ressalva no fim de um bloco: menor, mas legível — o que ela diz é
+   justamente o que não pode passar despercebido */
+.selo-duda{
+  display:flex; align-items:flex-start; gap:14px; text-decoration:none; color:inherit;
+  margin:26px 0 0; padding:16px 18px; max-width:38rem;
+  background:var(--folha); border:1px solid var(--linha); border-left:3px solid var(--verde);
+  border-radius:12px; box-shadow:var(--sombra); font-size:15px; line-height:1.5;
+  transition:border-color .15s ease, transform .15s ease;
+}
+.selo-duda:hover{border-color:var(--linha-forte); border-left-color:var(--verde-claro); transform:translateY(-1px)}
+.selo-duda b{display:block; color:var(--tinta); margin-bottom:2px}
+.selo-duda span:nth-child(2){color:var(--tinta-2)}
+.selo-duda-marca{flex:none; color:var(--verde); display:grid; place-items:center;
+  width:34px; height:34px; background:var(--verde-suave); border-radius:9px}
+.selo-duda-ir{margin-left:auto; color:var(--verde); font-size:18px; align-self:center}
+@media (max-width:560px){ .selo-duda-ir{display:none} }
+.prosa .miuda{
+  font-size:14.5px; line-height:1.5; color:var(--tinta-2);
+  border-left:2px solid var(--linha-forte); padding-left:14px; margin-top:20px;
+}
+
+/* ---------- telas ---------- */
+.tela{
+  border-radius:12px; overflow:hidden; border:1px solid var(--linha);
+  background:var(--folha); box-shadow:var(--sombra-tela); display:block;
+}
+.tela img{display:block; width:100%; height:auto}
+.tela-topo{
+  display:flex; align-items:center; gap:6px; padding:9px 13px;
+  background:var(--folha-2); border-bottom:1px solid var(--linha);
+}
+.tela-topo i{width:9px; height:9px; border-radius:50%; background:var(--linha-forte); display:block}
+.tela-topo span{
+  margin-left:8px; font-size:12px; color:var(--tinta-3); letter-spacing:.02em;
+}
+.legenda{margin:12px 0 0; font-size:13.5px; color:var(--tinta-3); max-width:44rem}
+
+.celular{
+  border-radius:22px; overflow:hidden; border:1px solid var(--linha-forte);
+  background:var(--folha); box-shadow:var(--sombra-tela); display:block; max-width:250px;
+}
+.celular img{display:block; width:100%; height:auto}
+
+/* ---------- blocos de funcionalidade ---------- */
+.bloco{
+  display:grid; gap:clamp(28px,4vw,56px); align-items:center;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);
+}
+.bloco.espelho{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
+.bloco.espelho .texto{order:2}
+.bloco.espelho .arte{order:1}
+@media (max-width:900px){
+  .bloco, .bloco.espelho{grid-template-columns:1fr}
+  .bloco.espelho .texto{order:1}
+  .bloco.espelho .arte{order:2}
+}
+.blocos{display:flex; flex-direction:column; gap:clamp(56px,8vw,110px)}
+
+.lista{margin:20px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:11px}
+.lista li{display:flex; gap:11px; align-items:flex-start; font-size:15.5px; color:var(--tinta-2); line-height:1.5}
+.lista li::before{
+  content:""; flex:none; width:12px; height:15px; margin-top:5px;
+  border:1.5px solid var(--verde); border-radius:2px 2px 6px 6px;
+  opacity:.85;
+}
+
+/* ---------- cartões ---------- */
+.cartoes{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:16px}
+.cartao{
+  background:var(--folha); border:1px solid var(--linha); border-radius:12px;
+  padding:22px 22px 24px; box-shadow:var(--sombra);
+}
+.cartao h3{margin-bottom:8px}
+.cartao p{margin:0; font-size:15px; color:var(--tinta-2); line-height:1.55}
+
+/* ---------- faixa escura ---------- */
+.escuro{
+  background:linear-gradient(170deg, var(--verde-fundo-2), var(--verde-fundo));
+  color:var(--sobre-verde);
+}
+.escuro h2{color:#fff}
+:root[data-theme="dark"] .escuro h2{color:var(--sobre-verde)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .escuro h2{color:var(--sobre-verde)} }
+.escuro .olho{color:#8FD9C8}
+.escuro .olho::after{background:rgba(143,217,200,.28)}
+.escuro p{color:rgba(220,237,232,.86)}
+.escuro .cartao{background:rgba(255,255,255,.05); border-color:rgba(220,237,232,.16); box-shadow:none}
+.escuro .cartao h3{color:#fff}
+:root[data-theme="dark"] .escuro .cartao h3{color:var(--sobre-verde)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .escuro .cartao h3{color:var(--sobre-verde)} }
+.escuro .cartao p{color:rgba(220,237,232,.8)}
+.escuro .lista li{color:rgba(220,237,232,.86)}
+.escuro .lista li::before{border-color:#8FD9C8}
+
+/* ---------- índice de funcionalidades ---------- */
+.indice{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(268px,1fr));
+  background:var(--folha); border:1px solid var(--linha); border-radius:12px; overflow:hidden;
+}
+/* as divisórias saem das próprias colunas: assim a última linha, quando
+   sobra espaço, continua branca em vez de virar um bloco cinza */
+.grupo{
+  background:var(--folha); padding:22px 22px 24px;
+  border-right:1px solid var(--linha); border-bottom:1px solid var(--linha);
+}
+.grupo h3{
+  font-family:Archivo, sans-serif; font-size:12px; font-weight:700;
+  letter-spacing:.13em; text-transform:uppercase; color:var(--verde); margin:0 0 14px;
+  display:flex; align-items:baseline; gap:8px;
+}
+.grupo h3 span{
+  font-size:11px; color:var(--tinta-3); font-weight:500; letter-spacing:.06em;
+  font-variant-numeric:tabular-nums;
+}
+.grupo ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:9px}
+.grupo li{font-size:14.5px; line-height:1.45; color:var(--tinta-2); padding-left:15px; position:relative}
+.grupo li::before{
+  content:""; position:absolute; left:0; top:8px;
+  width:6px; height:6px; border-radius:1.5px; background:var(--verde); opacity:.5;
+}
+.grupo li b{color:var(--tinta); font-weight:600}
+
+/* ---------- franqueza ---------- */
+/* --- planos ---------------------------------------------------------------
+   Quatro cartões que precisam ser comparáveis de relance: o olho vai no preço
+   por mês, não no total, porque é assim que o dentista compara com o aluguel
+   de qualquer outro sistema. */
+.planos{display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:14px; margin-top:26px}
+.plano{
+  background:var(--folha); border:1px solid var(--linha); border-radius:16px;
+  padding:22px 20px 20px; display:flex; flex-direction:column; gap:2px; position:relative;
+}
+.plano.destaque{border-color:var(--verde); box-shadow:0 0 0 1px var(--verde), var(--sombra)}
+.plano .fita{
+  position:absolute; top:-11px; left:20px; background:var(--verde); color:var(--sobre-cheio);
+  font-size:11.5px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+  padding:4px 10px; border-radius:99px;
+}
+.plano .nome{font-weight:600; font-size:16px; color:var(--tinta)}
+.plano .mes{font-family:Newsreader,Georgia,serif; font-size:34px; line-height:1.1; color:var(--tinta); margin-top:10px; font-variant-numeric:tabular-nums}
+.plano .mes small{font-family:Archivo,system-ui,sans-serif; font-size:14px; color:var(--tinta-3); font-weight:400}
+.plano .total{font-size:14px; color:var(--tinta-2); margin-top:8px; font-variant-numeric:tabular-nums}
+.plano .economia{font-size:13.5px; color:var(--ambar); font-weight:600; margin-top:4px}
+/* margin-top:auto no bloco da cobrança automática cola ele (e o botão logo
+   abaixo) no pé do cartão. Sem isso, o plano mensal — que não tem a linha de
+   economia — fica com o rodapé desalinhado dos outros três. */
+.plano .auto{
+  font-size:13px; color:var(--tinta-3); margin-top:auto; padding-top:12px;
+  border-top:1px solid var(--linha); font-variant-numeric:tabular-nums;
+}
+.plano .auto b{white-space:nowrap; color:var(--tinta-2)}
+.plano .btn{margin-top:14px; justify-content:center; width:100%}
+.pagamento{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px}
+.pagamento span{
+  font-size:13px; color:var(--tinta-2); background:var(--folha-2);
+  border:1px solid var(--linha); border-radius:99px; padding:5px 12px;
+}
+.franco{
+  border:1px solid var(--linha); border-left:3px solid var(--ambar);
+  background:var(--ambar-suave); border-radius:10px; padding:24px clamp(20px,3vw,28px);
+}
+.franco h3{margin-bottom:10px}
+.franco ul{margin:0; padding-left:1.1em; color:var(--tinta-2); font-size:15.5px}
+.franco li{margin-bottom:9px}
+.franco li:last-child{margin-bottom:0}
+
+/* ---------- rodapé ---------- */
+footer{border-top:1px solid var(--linha); background:var(--folha)}
+.rodape{
+  max-width:1180px; margin:0 auto; padding:40px clamp(18px,5vw,40px) 52px;
+  display:flex; gap:32px; flex-wrap:wrap; justify-content:space-between;
+}
+.rodape p{margin:0 0 8px; font-size:14px; color:var(--tinta-3); max-width:30rem}
+.rodape a{color:var(--verde); text-decoration:none}
+/* O LINK DE TEXTO, no corpo da página.
+   Esta regra faltava. Os links daqui vivem quase todos dentro de .btn, de
+   .marca ou do rodapé, que têm cor própria — então o único que caía no
+   padrão do navegador passava despercebido: o do CONTRATO DE ADESÃO, azul
+   #0000EE, na seção de preços. No tema escuro dava 1,71:1 de contraste.
+   Era o link menos sortudo possível para estar ilegível: o documento que a
+   pessoa lê antes de assinar. */
+.faixa a:not(.btn):not(.marca):not(.some):not(.selo-duda){
+  color:var(--verde); text-decoration:underline; text-underline-offset:2px;
+  text-decoration-thickness:1px; text-decoration-color:color-mix(in srgb, var(--verde) 45%, transparent);
+}
+.faixa a:not(.btn):not(.marca):not(.some):not(.selo-duda):hover{
+  text-decoration-color:var(--verde);
+}
+/* na faixa escura o verde do tema claro some no fundo; o claro é que aparece */
+.escuro a:not(.btn):not(.marca):not(.some):not(.selo-duda){color:var(--verde-claro)}
+.rodape a:hover{text-decoration:underline}
+
+/* ---------- galeria de telas ---------- */
+.galeria{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px}
+.galeria figure{margin:0}
+.galeria .tela{box-shadow:var(--sombra)}
+.galeria figcaption{margin-top:10px}
+.galeria b{display:block; font-size:15.5px; margin-bottom:2px}
+.galeria span{display:block; font-size:14px; color:var(--tinta-3); line-height:1.45}
+
+/* duas colunas que viram uma no celular */
+@media (max-width:900px){ .dois{grid-template-columns:1fr !important} }
+@media (max-width:1180px){ .esconde-md{display:none} }
+
+/* ---------- entrada suave ---------- */
+
+/* ============ um dia no consultório ============ */
+.faixa.dia{position:relative; overflow:hidden; isolation:isolate}
+.dia-fundo{position:absolute; inset:0; z-index:-1;
+  background:var(--dia-capa) center/cover no-repeat;
+  /* as bordas somem no céu da página, em vez de a seção começar num corte */
+  -webkit-mask-image:linear-gradient(180deg, transparent 0, #000 14%, #000 86%, transparent 100%);
+  mask-image:linear-gradient(180deg, transparent 0, #000 14%, #000 86%, transparent 100%)}
+:root{--dia-capa:url(/img/plataforma-claro.jpg)}
+:root[data-theme="dark"]{--dia-capa:url(/img/plataforma-escuro.jpg)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--dia-capa:url(/img/plataforma-escuro.jpg)} }
+.dia-video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  opacity:0; transition:opacity .8s ease}
+.dia-video.tocando{opacity:1}
+/* o véu garante contraste de leitura sobre qualquer quadro do vídeo */
+.dia-veu{position:absolute; inset:0;
+  background:linear-gradient(180deg,
+    color-mix(in srgb, var(--papel) 78%, transparent) 0%,
+    color-mix(in srgb, var(--papel) 46%, transparent) 45%,
+    color-mix(in srgb, var(--papel) 82%, transparent) 100%)}
+.dia-conteudo{position:relative}
+.dia-cartoes{
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 330px), 1fr));
+  gap:16px; margin-top:34px; align-items:start;
+}
+.dia-cartao{
+  display:flex; gap:14px; align-items:flex-start;
+  padding:16px 18px; border-radius:14px;
+  background:color-mix(in srgb, var(--folha) 90%, transparent);
+  border:1px solid var(--linha); box-shadow:var(--sombra);
+  /* cada um boia no seu tempo: o mesmo descompasso das partículas, que faz o
+     conjunto parecer vivo e não uma fileira batendo junto */
+  animation:diaBoiar 7s ease-in-out infinite;
+  animation-delay:calc(var(--i) * -0.73s);
+  will-change:transform;
+}
+/* o grid ganha altura em degrau, para parecer mensagens chegando */
+.dia-cartao:nth-child(3n+2){margin-top:26px}
+.dia-cartao:nth-child(3n){margin-top:10px}
+.dia-cartao b{display:block; font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size:11px; font-weight:500; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--verde); margin:2px 0 6px}
+.dia-cartao p{margin:0; font-size:15.5px; line-height:1.5; color:var(--tinta)}
+.dia-ico{flex:none; width:38px; height:38px; border-radius:10px; display:grid; place-items:center;
+  background:var(--verde-suave); color:var(--verde)}
+.dia-legenda{margin-top:26px}
+@keyframes diaBoiar{0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)}}
+@media (max-width:720px){
+  .dia-cartao:nth-child(n){margin-top:0}
+}
+@media (prefers-reduced-motion: reduce){ .dia-cartao{animation:none} }
+.ceu-leve .dia-cartao{animation:none}
+.aparece{opacity:0; transform:translateY(14px); transition:opacity .7s ease, transform .7s ease}
+.aparece.dentro{opacity:1; transform:none}
+@media (prefers-reduced-motion: reduce){
+  .aparece{opacity:1; transform:none; transition:none}
+}
+
+/* ============================================================
+   2.10 — as páginas novas (Recursos, Segurança, Novidades,
+   Dúvidas) e o que elas acrescentam ao desenho da inicial.
+   Tudo em cima dos mesmos tokens: nenhuma cor nova, nenhuma
+   fonte nova.
+   ============================================================ */
+
+/* a abertura das páginas internas é mais baixa que a da inicial */
+.abertura.interna{padding-bottom:clamp(28px,4vw,48px)}
+.abertura.interna h1{font-size:clamp(34px,5.2vw,56px); max-width:22ch}
+.abertura.interna .subtitulo{max-width:40rem}
+
+/* índice de atalhos da página: fichas que quebram linha, nunca rolam de lado */
+.atalhos{display:flex; flex-wrap:wrap; gap:8px; margin:26px 0 0; padding:0; list-style:none}
+.atalhos a{display:inline-flex; align-items:center; gap:7px; padding:8px 13px; border-radius:99px;
+  border:1px solid var(--linha); background:color-mix(in srgb, var(--folha) 82%, transparent);
+  color:var(--tinta-2); text-decoration:none; font-size:14px; line-height:1.2;
+  transition:border-color .15s, color .15s}
+.faixa .atalhos a{color:var(--tinta-2); text-decoration:none}
+.atalhos a:hover, .faixa .atalhos a:hover{border-color:var(--verde); color:var(--verde); text-decoration:none}
+.atalhos a small{font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; font-size:10.5px;
+  letter-spacing:.08em; color:var(--tinta-3)}
+
+/* "novo na 2.10": a etiqueta que marca o que chegou agora */
+.novo{display:inline-block; font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size:10.5px; font-weight:500; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ambar); background:var(--ambar-suave); border-radius:6px; padding:3px 7px;
+  vertical-align:.3em; margin-left:8px; white-space:nowrap}
+.olho .novo{vertical-align:baseline; margin-left:0}
+
+/* telas de celular dentro de um bloco */
+.par-celular{display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:520px; margin:0 auto}
+.par-celular .celular{margin:0}
+
+/* a tabela "o que fica onde" */
+.onde{width:100%; border-collapse:separate; border-spacing:0; margin-top:26px; font-size:15px;
+  background:var(--folha); border:1px solid var(--linha); border-radius:14px; overflow:hidden}
+.onde th, .onde td{text-align:left; vertical-align:top; padding:14px 16px; border-bottom:1px solid var(--linha)}
+.onde tr:last-child th, .onde tr:last-child td{border-bottom:0}
+.onde thead th{font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; font-size:11px;
+  font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3); background:var(--folha-2)}
+.onde tbody th{font-weight:600; color:var(--tinta); width:26%}
+.onde td{color:var(--tinta-2); line-height:1.5}
+.onde .sim{color:var(--verde); font-weight:600}
+.onde .nao{color:var(--ambar); font-weight:600}
+.rola-tabela{overflow-x:auto; -webkit-overflow-scrolling:touch}
+@media (max-width:640px){
+  .onde, .onde tbody, .onde tr, .onde th, .onde td{display:block; width:auto}
+  .onde thead{display:none}
+  .onde tr{border-bottom:1px solid var(--linha); padding:12px 14px}
+  .onde tr:last-child{border-bottom:0}
+  .onde th, .onde td{border:0; padding:3px 0}
+  .onde tbody th{width:auto; font-size:16px; margin-bottom:4px}
+  .onde td[data-rot]::before{content:attr(data-rot); display:block; font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+    font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3); margin-top:6px}
+}
+
+/* caixa de destaque dentro do texto */
+.nota{border:1px solid var(--linha); border-left:3px solid var(--verde); border-radius:10px;
+  background:color-mix(in srgb, var(--verde-suave) 55%, var(--folha)); padding:16px 18px;
+  font-size:15.5px; line-height:1.55; color:var(--tinta-2); margin:22px 0 0; max-width:44rem}
+.nota b{color:var(--tinta)}
+.nota.ambar{border-left-color:var(--ambar); background:color-mix(in srgb, var(--ambar-suave) 70%, var(--folha))}
+
+/* ---------- dúvidas ---------- */
+.duvidas{display:grid; grid-template-columns:minmax(0,15rem) minmax(0,1fr); gap:clamp(24px,5vw,64px); align-items:start}
+.duvidas-nav{position:sticky; top:90px; display:flex; flex-direction:column; gap:4px}
+.duvidas-nav a{font-size:14.5px; color:var(--tinta-2); text-decoration:none; padding:7px 10px; border-radius:8px}
+.faixa .duvidas-nav a{color:var(--tinta-2); text-decoration:none}
+.faixa .duvidas-nav a:hover{background:var(--folha-2); color:var(--verde); text-decoration:none}
+.grupo-duvidas{margin:0 0 42px; scroll-margin-top:90px}
+.grupo-duvidas h2{font-size:clamp(24px,3vw,30px); margin-bottom:14px}
+.faq{border:1px solid var(--linha); border-radius:12px; background:var(--folha); margin:0 0 10px;
+  transition:border-color .15s}
+.faq[open]{border-color:var(--linha-forte)}
+.faq summary{cursor:pointer; list-style:none; padding:16px 48px 16px 18px; font-weight:600; font-size:16.5px;
+  color:var(--tinta); position:relative; line-height:1.4}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:""; position:absolute; right:20px; top:50%; width:9px; height:9px;
+  border-right:2px solid var(--verde); border-bottom:2px solid var(--verde);
+  transform:translateY(-70%) rotate(45deg); transition:transform .2s ease}
+.faq[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+.faq summary:focus-visible{outline:2px solid var(--verde); outline-offset:2px; border-radius:12px}
+.faq .resp{padding:0 18px 18px; color:var(--tinta-2); font-size:15.5px; line-height:1.6; max-width:46rem}
+.faq .resp p{margin:0 0 10px}
+.faq .resp p:last-child{margin-bottom:0}
+.faq .resp ul{margin:0 0 10px; padding-left:1.2em}
+@media (max-width:860px){
+  .duvidas{grid-template-columns:1fr}
+  .duvidas-nav{position:static; flex-direction:row; flex-wrap:wrap; gap:6px}
+  .duvidas-nav a{border:1px solid var(--linha); border-radius:99px; padding:6px 12px; font-size:13.5px}
+}
+
+/* ---------- novidades ---------- */
+.versoes{display:flex; flex-direction:column; gap:0; max-width:52rem}
+.versao{display:grid; grid-template-columns:8.5rem minmax(0,1fr); gap:clamp(16px,3vw,34px);
+  padding:28px 0; border-top:1px solid var(--linha); scroll-margin-top:90px}
+.versao:first-child{border-top:0; padding-top:4px}
+.versao-num{font-family:Newsreader, Georgia, serif; font-size:32px; line-height:1; font-weight:600;
+  color:var(--tinta); font-variant-numeric:tabular-nums}
+.versao-num small{display:block; font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--verde); margin-top:10px; font-weight:500}
+.versao ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:12px}
+.versao li{font-size:15.5px; line-height:1.6; color:var(--tinta-2); padding-left:18px; position:relative}
+.versao li::before{content:""; position:absolute; left:0; top:.62em; width:7px; height:7px; border-radius:2px;
+  background:var(--verde)}
+.versao li b{color:var(--tinta)}
+.versao code{font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; font-size:.9em;
+  background:var(--folha-2); border-radius:5px; padding:1px 5px}
+.versoes-antigas{margin-top:12px}
+.versoes-antigas > summary{cursor:pointer; font-weight:600; color:var(--verde); padding:12px 0; list-style:none}
+.versoes-antigas > summary::-webkit-details-marker{display:none}
+.versoes-antigas > summary::before{content:"+"; display:inline-block; width:1.2em; font-family:"IBM Plex Mono", ui-monospace, monospace}
+.versoes-antigas[open] > summary::before{content:"−"}
+@media (max-width:640px){
+  .versao{grid-template-columns:1fr; gap:12px}
+  .versao-num{font-size:28px}
+  .versao-num small{display:inline; margin:0 0 0 10px}
+}
+
+/* ---------- rodapé com o mapa do site ---------- */
+.rodape-mapa{max-width:1180px; margin:0 auto; padding:0 clamp(18px,5vw,40px) 34px;
+  display:flex; flex-wrap:wrap; gap:8px 22px; font-size:14px}
+.rodape-mapa a{color:var(--verde); text-decoration:none}
+.rodape-mapa a:hover{text-decoration:underline}
+.rodape-mapa span{color:var(--tinta-3); margin-right:4px; font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; align-self:center}
+
+/* chamada final das páginas internas */
+.fecho{text-align:left}
+.fecho .acoes{margin-top:22px}
+
+/* o link da página em que você está */
+.topo-links a[aria-current="page"]{color:var(--verde); border-bottom-color:var(--verde)}
+.bloco[id]{scroll-margin-top:96px}
+/* NO CELULAR O MENU NÃO SOME: vira uma segunda linha, pequena, embaixo da marca.
+   Com páginas novas no site, esconder o menu no telefone era esconder as
+   páginas — e é no telefone que a maior parte das visitas chega. */
+@media (max-width:900px){
+  .topo-links{display:flex; grid-column:1 / -1; grid-row:2; justify-self:start;
+    flex-wrap:wrap; gap:6px 20px; margin-top:-6px}
+  html.rolou .topo-links{display:none}
+  .abertura{padding-top:calc(clamp(44px,7vw,86px) + 112px) !important}
+}
+@media (max-width:600px){
+  .topo-links{gap:4px 16px; margin-top:-2px}
+  .topo-links a{font-size:10.5px; letter-spacing:.1em; padding:4px 0}
+  .abertura{padding-top:calc(clamp(44px,7vw,86px) + 92px) !important}
+}
+/* item de lista com negrito no começo: o <b> virava coluna do flex */
+.lista li{display:block; position:relative; padding-left:23px}
+.lista li::before{position:absolute; left:0; top:0}
+/* os três celulares lado a lado, sem o terceiro cair para a linha de baixo */
+.fila-celulares{flex-wrap:nowrap !important}
+.fila-celulares .celular{flex:1 1 0; min-width:0}
+/* chamada para as páginas de leitura, no fim da inicial */
+.leituras{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin-top:26px}
+.leitura{display:flex; flex-direction:column; gap:6px; padding:20px 20px 22px; border-radius:12px;
+  background:var(--folha); border:1px solid var(--linha); box-shadow:var(--sombra);
+  color:inherit; text-decoration:none; transition:border-color .15s ease, transform .15s ease}
+.leitura:hover{border-color:var(--verde); transform:translateY(-2px)}
+.leitura b{font-family:Newsreader, Georgia, serif; font-size:21px; font-weight:600; color:var(--tinta)}
+.leitura span{font-size:14.5px; color:var(--tinta-2); line-height:1.5}
+.leitura i{font-style:normal; color:var(--verde); font-weight:600; font-size:14px; margin-top:auto; padding-top:8px}
+@media (prefers-reduced-motion: reduce){ .leitura, .leitura:hover{transition:none; transform:none} }
+</style>
+
+</head>
+<body>
+
+<!-- O CAMPO VIVO, ATRÁS DA PÁGINA INTEIRA.
+     Ele morava dentro da primeira seção e acabava com ela: a página abria
+     viva e apagava na primeira rolada. Fora dela, e preso à janela, o
+     movimento acompanha a leitura do começo ao fim. -->
+<div class="campo" aria-hidden="true">
+    <div class="veu v1"></div><div class="veu v2"></div><div class="veu v3"></div>
+  </div>
+
+<header class="topo">
+  <div class="topo-in">
+    <a class="marca" href="/" aria-label="Meu Consultório App — início">
+      <span class="marca-selo"><img src="/img/favicon.png" alt="" width="56" height="56" /></span>
+      <span class="marca-nome"><b>Meu Consultório</b><small>App</small></span>
+    </a>
+    <nav class="topo-links" aria-label="Páginas do site">
+      <a href="/recursos">Recursos</a>
+      <a href="/seguranca">Segurança</a>
+      <a href="/#planos">Planos</a>
+      <a href="/duvidas">Dúvidas</a>
+    </nav>
+    <div class="topo-acoes">
+      <span class="tema" role="group" aria-label="Tema da página">
+        <button type="button" data-tema="light" aria-pressed="false" title="Tema claro" aria-label="Tema claro">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button type="button" data-tema="dark" aria-pressed="false" title="Tema escuro" aria-label="Tema escuro">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5z"/></svg>
+        </button>
+      </span>
+      <a class="entrar" href="/entrar">Entrar</a>
+      <a class="btn pri" href="/criar-conta"><span class="longo">Testar 14 dias</span><span class="curto">Testar</span></a>
+    </div>
+  </div>
+</header>
+<div class="topo-sentinela" aria-hidden="true"></div>
+
+<main id="topo"><main id="topo">
+
+  <section class="faixa abertura interna">
+    <div class="centro">
+      <p class="olho">Novidades</p>
+      <h1>O que mudou em cada versão.</h1>
+      <p class="subtitulo">É o mesmo texto que o programa mostra depois de cada atualização, com os consertos escritos
+        por extenso — conserto silencioso é o jeito de o mesmo defeito voltar.</p>
+    </div>
+  </section>
+
+  <section class="faixa" style="padding-top:clamp(12px,2vw,24px)">
+    <div class="centro">
+      <div class="versoes">
+      <article class="versao" id="v2-10-0">
+        <div class="versao-num">2.10.0<small>versão atual</small></div>
+        <ul>
+          <li><b>Atualizar não abre mais o instalador.</b> Quando sai versão nova, o programa baixa sozinho, mostrando a porcentagem, e avisa: <b>Instalar agora</b>. Um clique, a tela de atualização aparece — a logo pulsando e a barra andando — e em poucos segundos o programa reabre já na versão nova. Sem as telas de “Avançar” do Windows e sem pedir permissão de administrador.</li>
+          <li><b>O instalador continua existindo</b> para a primeira instalação e para quem prefere baixar o <code>.exe</code> e instalar do jeito de sempre. Nas raras versões que trocam o motor do programa, ele roda sozinho, em silêncio — o Windows pode pedir a permissão de administrador uma vez — e o programa volta aberto.</li>
+          <li><b>Uma atualização com defeito não prende ninguém do lado de fora.</b> O pacote novo é conferido pela assinatura antes de ser usado e a cada abertura; se ele não conseguir abrir a primeira tela duas vezes seguidas, o programa volta sozinho para a versão que veio com o instalador. E “Voltar à versão original” continua em Ajustes → Versão.</li>
+          <li><b>Despedida ao fechar.</b> A tela escurece até o preto e a logo aparece invertida — quadro branco, dente verde. Antes disso o programa termina de gravar o que estiver pendente: uma alteração feita no último segundo não fica mais para trás. No celular, a despedida aparece ao sair pelo botão voltar.</li>
+          <li><b>No celular:</b> o botão voltar não para mais de navegar entre as telas depois de o aplicativo ir para o fundo e voltar.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v2-9-0">
+        <div class="versao-num">2.9.0</div>
+        <ul>
+          <li><b>Nova aba Encaminhamentos, no atendimento.</b> Pedido de exame de imagem — periapical (com os dentes), interproximal, oclusal, levantamento periapical completo, panorâmica, telerradiografia com ou sem traçado, mão e punho, ATMs, seios da face, documentação ortodôntica e tomografia de feixe cônico (região, finalidade e guia) — cada um com ou sem laudo; e encaminhamento a colega de qualquer especialidade odontológica, com espaço para a contrarreferência. Mesmo papel A4 dos atestados, com PDF, impressão e assinatura.</li>
+          <li><b>O encaminhamento sai com o mínimo, como pede a LGPD.</b> Nome, idade, o exame ou a especialidade e a indicação clínica. Alergias, medicamentos, condições de saúde, nascimento, CPF e telefone só entram se você marcar — e o que foi incluído fica no Registro.</li>
+          <li><b>A Duda ganhou uma voz neural, bem mais humana.</b> No computador ela roda dentro do programa: nada do que ela fala sai da máquina. É baixada uma vez (cerca de 140 MB) quando você liga a voz. No celular, a Duda agora fala — com a voz feminina do Android que funciona sem internet. Voz masculina saiu das opções.</li>
+          <li><b>Tela de entrada.</b> Ao abrir o programa, a logo aparece na hora, pulsando, até o sistema estar 100% pronto — sem aquele intervalo em branco que fazia clicar duas vezes.</li>
+          <li><b>Mais rápido com muitos pacientes.</b> O menu calculava o Retorno varrendo todas as consultas para cada paciente, a cada desenho de tela. Com um consultório grande (700 pacientes, 9 mil consultas) cada tela levava meio segundo; agora leva centésimos.</li>
+          <li><b>Movimento suave.</b> Trocar de tela, abrir uma janela e receber um aviso ganharam transições curtas; botões respondem ao clique. Quem pediu menos movimento no sistema operacional continua sem nenhum.</li>
+          <li><b>Excluir um paciente leva junto as receitas, atestados e encaminhamentos dele</b> — antes eles ficavam no cofre, sem dono visível.</li>
+          <li><b>Correções:</b> o botão “Parar de falar” não aparece mais com a Duda calada; o nome da voz não sai mais com “(natural)” repetido; e, no computador, uma atualização antiga da tela não passa mais na frente de um instalador mais novo.</li>
+          <li><b>Exemplo:</b> a paciente de demonstração agora é Maria Eduarda de Oliveira, e o exemplo traz três encaminhamentos.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v2-8-6">
+        <div class="versao-num">2.8.6</div>
+        <ul>
+          <li><b>Celular e computador não apagam mais o que o outro fez.</b> A sincronização era “o mais novo leva tudo”: o celular que mexia em qualquer coisa longe do Wi-Fi do consultório voltava com a versão dele inteira e passava por cima do computador — levando junto a Duda ligada lá, a senha única confirmada lá e até ficha cadastrada lá. Agora as duas versões são <b>juntadas ficha por ficha</b>: o que só um lado mudou, vale; o que é novo de qualquer lado, entra; só quando os dois mexem na mesma ficha vale o mais recente, e só naquela ficha.</li>
+          <li><b>A Duda continua ligada depois de reiniciar.</b> Quem desligava era o celular, na sincronização acima — não o reinício.</li>
+          <li><b>“Unificar com a senha da conta” e a senha única não voltam mais a cada reinício.</b> Quem marcou “manter liberado” abre o programa sem digitar senha — e era justamente esse caminho que abria o cofre sem trazer junto os dois envelopes (o da senha da conta e o da senha única). Os Ajustes pediam os dois de novo, e a primeira gravação do dia apagava o que tinha sido feito na véspera. Agora os dois vêm junto em qualquer caminho de abertura, e nenhuma gravação — do computador ou do celular — tira um envelope do arquivo.</li>
+          <li><b>A voz da Duda ficou menos robótica.</b> Antes de falar, ela prepara o texto para o ouvido: “13:30” vira “uma e meia da tarde”, “R$ 1.350,00” vira “mil trezentos e cinquenta reais”, “02/10” vira “dia 2 de outubro”, “Dra.” vira “doutora” — em vez de soletrar símbolos. E fala frase por frase, com a pausa natural entre elas, em vez de uma tirada só. Dá para escolher a voz na tela da Duda e ouvir um exemplo; uma voz “Natural” instalada no computador passa na frente sozinha. Continua só voz do próprio computador: o texto não sai daqui para ser falado.</li>
+          <li><b>O “Carregar exemplo” agora enche o Laboratório</b> — dois laboratórios e cinco trabalhos (coroa, ponte, prótese parcial, facetas e contenção), um deles atrasado, cada um com a sua despesa no Financeiro, ligada pelo mesmo caminho da tela: três a pagar e duas já pagas.</li>
+          <li><b>Trancar logo depois de editar não estraga mais o cofre.</b> A gravação sai um segundo depois de cada alteração; quem apertava “Trancar agora” ou “Sair” nesse segundo deixava uma gravação para depois da tranca — e ela gravava o banco vazio e sem criptografia no lugar do cofre deste aparelho. Agora o programa grava antes de trancar, com a chave ainda aberta, e nada grava depois.</li>
+          <li><b>A senha única não é mais pedida todo dia.</b> Colou uma vez, este computador obedece a ela até você gerar outra no site. Se a internet cair no meio da confirmação, o programa termina sozinho depois, sem pedir o código de novo. E se o site passar a ter uma senha única diferente (gerada em outro aparelho), aí sim o cartão avisa e pede a nova.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v2-8-5">
+        <div class="versao-num">2.8.5</div>
+        <ul>
+          <li><b>O Laboratório lança no Financeiro sozinho — em qualquer caminho.</b> Antes a despesa só nascia no botão “Chegou”; registrar o trabalho já com o valor, ir direto para “Instalado” ou corrigir o valor depois não chegavam ao Financeiro. Agora, com o valor preenchido, a despesa aparece como <b>conta a pagar</b> desde o cadastro e acompanha tudo o que você mudar no trabalho. Na própria linha aparece “a pagar” ou “pago”, e o botão <b>Pagar</b> quita a mesma despesa do Financeiro.</li>
+          <li><b>E o caminho de volta também existe.</b> Corrigir no Financeiro o valor de uma despesa que veio do Laboratório ou de uma compra do Estoque corrige a origem — o desconto do laboratório não é mais desfeito na próxima edição. Toda despesa ligada mostra de onde veio (“do Laboratório”, “do Estoque”), e apagá-la pergunta antes e acerta os dois lados. Despesa de laboratório que você já tinha lançado à mão é reconhecida e ligada, sem duplicar.</li>
+          <li><b>A Duda agora conhece a sua agenda.</b> “Quem eu tenho amanhã às 13:30?”, “o que está atrasado no laboratório?”, “quanto entrou este mês?” — ela lê a agenda, o laboratório, o financeiro, o estoque e a lista de retorno deste aparelho na hora da pergunta, e responde com o nome do paciente: primeiro nome (os dois, se composto) e último sobrenome, com idade e final do telefone para separar homônimos.</li>
+          <li><b>E o nome continua não saindo do computador.</b> Antes de a pergunta viajar, cada paciente vira um apelido — [P1], [P2] — que vale só para aquela pergunta; a IA responde com o apelido, e é o programa, na sua tela, que coloca o nome de volta. CPF, telefone, endereço, nascimento, anamnese, evolução e observações livres nunca vão.</li>
+          <li><b>A Duda pode falar.</b> Ligando “Ouvir as respostas”, ela devolve duas versões: a escrita, técnica, que fica na tela, e uma curta e simples para ouvir. A voz é a do próprio Windows — o texto não sai do computador para ser falado. No celular a voz ainda não está disponível.</li>
+          <li><b>A Duda também aprendeu o programa inteiro</b>: laboratório, lista de retorno, baixa automática do estoque, anamnese pelo WhatsApp, senha única, backup na nuvem e modo tablet entraram no que ela sabe.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v2-8-0">
+        <div class="versao-num">2.8.0</div>
+        <ul>
+          <li><b>O sistema, o site e o aplicativo passaram a ser a mesma coisa de olhar.</b> Até aqui eram três tipografias diferentes para o mesmo produto — uma no site, outra no programa, outra nas peças — e era isso que fazia o conjunto parecer três empresas. Agora é uma família só, em todo lugar. A paleta não mudou: o verde continua exatamente o mesmo.</li>
+          <li><b>E a tipografia vem dentro do programa, não da internet.</b> As fontes estão gravadas no próprio arquivo: o consultório com o link caído abre o sistema com a mesma cara de sempre, e não com a fonte padrão do Windows. Vale também para os documentos salvos em HTML — receita, atestado e termo saem com as fontes embutidas, para abrirem iguais no computador do paciente, do contador ou do advogado.</li>
+          <li><b>O site inteiro ganhou o botão de claro e escuro que o programa já tinha</b> — a página de apresentação e também entrar, criar conta, recuperar senha, perfil, planos e baixar. Ele tem três estados, não dois: claro, escuro, e “o que o seu computador preferir” — clicar de novo no que já está devolve a escolha para o sistema. A escolha fica gravada no aparelho e vale nas próximas visitas.</li>
+          <li><b>A abertura do site ficou viva.</b> Véus de luz que se movem devagar e partículas que sobem do rodapé e entram pelas laterais, nos dois temas. É tudo desenhado pelo próprio navegador — não há vídeo, não há biblioteca, não há nada para baixar, e quem tem “reduzir movimento” ligado no sistema recebe a página parada.</li>
+          <li><b>Cantos um pouco mais boleados</b> em cartões, botões e campos. Parece detalhe e é o que separa uma tela que parece feita de uma tela que parece montada.</li>
+          <li><b>Os botões que são só um desenho ganharam nome.</b> O lápis, a lixeira, a seta — quarenta deles não tinham texto nenhum. Para quem enxerga, o desenho basta; para quem usa leitor de tela, uma linha de paciente era “botão, botão, botão”. Agora cada um se anuncia pelo que faz. O texto continua invisível na tela: nada mudou de lugar.</li>
+          <li><b>Nenhuma função mudou.</b> Agenda, prontuário, odontograma com as cinco faces por dente, receituário, atestados, termos, fotos, tratamentos, financeiro, estoque, laboratório, retorno, corrente, carimbo, vínculo com o celular e o cofre — tudo onde estava, com a mesma senha. A varredura inteira continua sendo a prova disso.</li>
+        </ul>
+      </article>
+      </div>
+      <details class="versoes-antigas">
+        <summary>Versões anteriores — da 1.3.0 à 2.7.1</summary>
+        <div class="versoes">
+      <article class="versao" id="v2-7-1">
+        <div class="versao-num">2.7.1</div>
+        <ul>
+          <li><b>Três consertos do que saiu torto na 2.7.0.</b> Nenhum deles apareceu num teste: os três só aparecem olhando a tela pronta, que é onde o programa é usado. Ficam escritos aqui porque conserto silencioso é o jeito de o mesmo defeito voltar.</li>
+          <li><b>Corrigido: o “08:00” da agenda saía cortado ao meio.</b> A etiqueta da régua fica centrada na linha da hora, e centrar significa metade dela <b>acima</b> da linha. Sem folga no topo do quadro, essa metade caía para fora — e como todo dia começa na primeira hora, a única etiqueta sempre quebrada era justamente a primeira que se lê.</li>
+          <li><b>Corrigido: “No laboratório” lia-se “não laboratório”.</b> Era a situação da peça que já foi enviada. Numa lista, batendo o olho, o “No” vira “não” e a linha diz o contrário do que é. Agora está <b>“Com o laboratório”</b> — que também é a verdade mais exata: a peça não está num lugar, está com alguém.</li>
+          <li><b>Corrigido: o Retorno contava a mesma pessoa até três vezes.</b> Quem faltou, tinha orçamento parado e não voltava havia meses cabia em três faixas — e aparecia nas três, como se fossem três pacientes. Numa tela cujo trabalho é dizer <b>quantas pessoas</b> estão faltando, essa é a única conta que não pode errar. Agora cada pessoa aparece uma vez, na faixa mais urgente, e os outros motivos vêm como etiquetas na mesma linha: você continua vendo tudo o que há sobre ela, sem que ela vire multidão.</li>
+          <li><b>E o ícone do atalho, pela terceira vez — agora sem depender do Windows colaborar.</b> O executável sempre esteve certo: tem os sete tamanhos da logo gravados dentro. O que está velho é o cache de ícones do Explorer, que é guardado <b>por caminho de arquivo e por tamanho</b> — por isso dava para ver, ao mesmo tempo, o dente na pasta (ícone de 16) e o átomo na área de trabalho (ícone de 96). O atalho agora aponta o ícone para um arquivo <code>.ico</code> próprio, instalado ao lado do programa: caminho novo não tem desenho guardado, então o Windows é obrigado a ler. <b>Isto vem pelo instalador</b> — quem atualiza por dentro não troca o instalador, então o atalho só se acerta na próxima instalação pelo <code>.exe</code>.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v2-7-0">
+        <div class="versao-num">2.7.0</div>
+        <ul>
+          <li><b>A agenda virou uma grade de tempo.</b> Dia, semana e a lista de sempre. Cada consulta é um bloco com a altura da duração — 60 minutos é exatamente o dobro de 30 —, e é isso que faz o <b>buraco</b> ter tamanho: numa lista, uma hora vaga e cinco minutos de intervalo ocupam a mesma linha em branco, e “cabe um encaixe hoje?” vira conta de cabeça. Aqui se responde olhando.</li>
+          <li><b>Arraste para remarcar.</b> Puxe o bloco para outro horário ou outro dia; puxe a borda de baixo para mudar a duração; clique num espaço vazio para agendar ali. Nada é gravado antes de você soltar, e <b>Esc no meio desiste</b>. Cada remarcação entra no registro com o de-para. No celular a grade é para olhar: arrastar com o dedo competia com a rolagem e movia consulta sem querer.</li>
+          <li><b>Duas consultas no mesmo horário ficam lado a lado</b>, e não uma escondendo a outra. Marcação em dobro descoberta na hora em que os dois pacientes chegam juntos é o pior jeito de descobrir.</li>
+          <li><b>Nova aba: Retorno.</b> Seis faixas — 🟠 orçamento não aprovado, 🔴 faltou à consulta, 🟡 não retornou, 🟢 retorno previsto, 🔵 tratamento incompleto, 🟣 manutenção atrasada. <b>Ninguém preenche essa lista</b>: ela é lida das consultas, dos tratamentos e dos orçamentos que já estão aqui, e a pessoa sai da faixa quando o motivo some. Quem já tem consulta marcada nunca aparece — é o que impede a lista de virar barulho.</li>
+          <li><b>E ela tem um número no menu</b>, porque é a única tela que você não tem motivo para abrir: consulta você abre porque tem gente chegando; retorno é sobre quem <b>não</b> está chegando. Cada linha oferece o que fazer ali mesmo — chamar pelo WhatsApp com um texto que não começa cobrando, agendar, ou abrir a ficha.</li>
+          <li><b>Financeiro: quatro números que mudam o que se faz na semana.</b> Ticket médio, taxa de falta, conversão de orçamento (em quantidade e em valor) e hora clínica, com a comparação do mês anterior. Mês com menos de cinco atendimentos <b>avisa que a amostra é pequena</b> em vez de fingir precisão, e mês sem movimento mostra um traço, não R$ 0,00 — zero seria uma afirmação sobre um mês do qual não se sabe nada.</li>
+          <li><b>O estoque passou a dar baixa sozinho.</b> Diga o que cada procedimento gasta e, ao marcar a consulta como atendida, o material sai — do lote que vence antes, uma vez só, avisando o que saiu e com <b>desfazer na tela</b>. Sem ficha cadastrada nada é descontado: eu não chuto o que o seu consultório usa. E o saldo pode ficar negativo de propósito — o material saiu da gaveta de verdade, e o negativo é o programa dizendo que a contagem já estava errada antes.</li>
+          <li><b>Nova aba: Laboratório.</b> Cada coroa, prótese ou placa com laboratório, prazo e situação. Ela responde duas perguntas, e as duas são sobre tempo: <b>o que passou do prazo</b> e <b>o que tem consulta marcada antes da data prometida</b> — que é o aviso que nenhum caderno dá, porque exige cruzar o prazo com a agenda, e é o que evita o paciente sentado esperando uma peça que não chegou. Receber com valor preenchido lança a despesa sozinho.</li>
+          <li><b>Backup do cofre na nuvem, opcional e desligado de fábrica.</b> O que sobe é <b>o mesmo bloco cifrado</b> que já está gravado aqui, fechado com a chave da sua senha do cofre — o servidor guarda uma caixa que ele não tem como abrir. <b>Continua não havendo chave-mestra:</b> senha esquecida continua sendo perda total, inclusive do que está lá. Isto protege contra computador roubado, queimado ou perdido, e não contra esquecimento. Restaurar num computador novo pede a senha do cofre logo na primeira abertura.</li>
+          <li><b>O link da anamnese deixou de parecer golpe.</b> Antes era um número de IP com porta, e a mensagem precisava pedir ao paciente para ignorar o aviso de “conexão não é particular” — que é exatamente o que um golpe pede. Agora é um endereço curto no domínio do consultório, com cadeado de verdade e <b>sem aviso nenhum</b>. E funciona fora do Wi-Fi da recepção: dá para mandar na véspera e o paciente chegar com a ficha pronta. As respostas continuam fechadas no telefone dele, com uma chave que só o seu cofre abre.</li>
+          <li><b>A Duda passou a responder odontologia.</b> Perguntada por um dentista sobre qual fórceps usar, ela respondia “a escolha do instrumental é decisão clínica sua” e oferecia ensinar a registrar no odontograma. Isso não era cautela: era fugir da pergunta de um profissional dentro da profissão dele. Agora ela responde técnica, instrumental, material, passo a passo e dose de referência — como um livro responderia a um colega. O que ela não tem é o seu paciente: não examina boca, não recebe radiografia nem foto, e o exame, o diagnóstico e a responsabilidade continuam sendo seus.</li>
+          <li><b>Corrigido: as barras de rolagem sobrando no celular.</b> Um comentário no código dizia, com toda a confiança, que no celular a gente não mexia nelas — e mexia. As regras valiam para todo mundo, e no Android declarar largura para a barra troca a barra flutuante, que some sozinha, por uma clássica, que ocupa espaço para sempre. Uma em cada caixa que rola.</li>
+          <li><b>Corrigido: o atalho com o ícone do Electron.</b> O <code>SHChangeNotify</code> da 2.4.0 não bastou porque o cache de ícones do Explorer é indexado pelo caminho do executável, não pelo atalho — atalho novo apontando para o mesmo caminho herda o desenho velho. O instalador agora manda o Windows reconstruir o cache (<code>ie4uinit</code>) e ainda apaga e refaz o atalho.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v2-4-0">
+        <div class="versao-num">2.4.0</div>
+        <ul>
+          <li><b>A anamnese que o paciente preenche no celular dele, na recepção.</b> Na aba Anamnese da ficha há um botão verde: ele abre o WhatsApp do paciente com um link só da anamnese. O paciente responde enquanto espera, e ao enviar aquilo cai direto na ficha dele, aqui.</li>
+          <li><b>E ele assina ali mesmo, com o dedo.</b> No fim do formulário há a declaração de que leu as perguntas e respondeu a verdade, o nome completo e o quadro de assinatura — sem os três, o botão de enviar recusa. A anamnese chega na ficha <b>assinada pelo paciente e esperando a sua</b>: você lê no atendimento, assina, e só então ela tranca e entra na corrente, com elo e código de verificação, como qualquer outro documento assinado aqui. Documento sem assinatura não fecha nada.</li>
+          <li><b>O conteúdo não se edita</b> — o que o paciente declarou sobre a própria saúde é declaração dele, e a clínica não reescreve. O botão de editar nem aparece, e a ação recusa mesmo se alguém tentar por fora. Correção se faz com uma versão nova, que fica ao lado, com o histórico inteiro visível.</li>
+          <li><b>E ninguém no meio do caminho consegue ler.</b> Ao criar o link nasce um par de chaves: a que abre fica guardada dentro do seu cofre, atrás da sua senha; a outra vai no link. O celular do paciente fecha as respostas com ela, e o que trafega — e o que fica esperando no computador — é um pacote que nem o programa que o guarda sabe abrir. O link não diz o nome de ninguém, vale seis horas, morre assim que for respondido e não dá acesso a ficha nenhuma.</li>
+          <li><b>Corrigido — o celular vinculado recusava a senha certa. De novo, e por outro motivo.</b> A 2.3.0 consertou metade. Faltava esta: o espelho das fichas no celular era guardado num lugar que só aceita uns 5 MB, e um consultório em uso passa disso com vinte fichas com foto. Quando passava, a gravação falhava <b>em silêncio</b> — o cofre do computador chegava, não cabia, o erro sumia, e o aparelho voltava a oferecer o cofre antigo dele. A tela dizia “Vinculado a MEU-PC, entre com a mesma senha do computador” e recusava exatamente essa senha. Parear de novo não adiantava: o teto continuava o mesmo. Agora o espelho mora no depósito grande do aparelho — o mesmo dos exames —, e o que o computador manda vale na hora, tenha ou não cabido.</li>
+          <li><b>Corrigido — um aplicativo recém-instalado não tinha como dizer “minhas fichas estão no computador”.</b> A primeira tela do aplicativo é a da conta, e ali o botão de vincular só aparecia para quem já tinha vínculo. Sobrava um caminho só: digitar a senha — o que <b>cria um consultório novo e vazio</b> naquele aparelho. Uma ilha, com o seu nome e as fichas de ninguém. O botão do vínculo agora está lá, antes de qualquer cofre existir; e digitar a senha num aparelho já vinculado passou a buscar o cofre do computador em vez de fundar outro.</li>
+          <li><b>Agora o computador também escuta o celular.</b> A conversa era de mão única: o celular sabia do computador na hora, e o computador só descobria o que o celular tinha gravado quando alguém fechava e abria o programa. Quem estava com a janela aberta jurava que o celular não tinha mandado nada. Agora chega sozinho, com o aviso <b>“Chegou do celular”</b> — e nunca por cima de uma janela que você deixou aberta.</li>
+          <li><b>Corrigido — “Senha incorreta” continuava aparecendo na hora errada.</b> A mensagem da 2.3.0 se apoiava numa conta que só vale para cofres novos: nos antigos, qualquer senha “nasce” uma chave, então senha errada caía no recado do vínculo e mandava refazer um pareamento que estava perfeito. Agora, antes de acusar seja lá o que for, o aparelho <b>pergunta ao computador</b>. Se o cofre de lá abre com a sua senha, não havia defeito — o celular só estava com uma cópia velha, e ela acabou de ser trocada, sem você fazer nada.</li>
+          <li><b>Atualizar deixou de ser uma corrida de obstáculos.</b> O programa pergunta <b>direto ao GitHub</b>, onde os arquivos moram, se saiu versão nova — e avisa. Em <b>Ajustes → Versão</b>, um botão baixa e instala, sem abrir o site e sem procurar arquivo nenhum.</li>
+          <li><b>E a atualização é completa.</b> Ela baixa o instalador inteiro, e não só a tela: antes, uma versão que mexesse no programa por baixo deixava a interface nova rodando sobre o programa velho — duas metades que se dizem a mesma versão e não são. Agora o programa fecha, o instalador roda por cima, e volta tudo na mesma versão. As suas fichas não são tocadas: elas moram fora do programa. Antes de abrir qualquer coisa baixada, ele confere que é mesmo um executável do Windows e que tem tamanho de instalador — um erro salvo com nome de .exe não passa.</li>
+          <li><b>O aplicativo do celular também avisa</b> quando saiu versão nova, perguntando ao seu computador — e o link que ele abre é o do próprio GitHub, sem passar pela página de downloads do site.</li>
+          <li><b>Corrigido: a tela de novidades sumia.</b> Ela cedia a vez para a tela de boas-vindas ou para qualquer janela aberta na hora em que o sistema abria — e, depois de ceder, ninguém a chamava de novo. Quem atualizava e caía numa dessas telas nunca via o que tinha mudado. Agora ela espera a frente ficar livre e volta. E parou de reaparecer para sempre em quem a fechava no X, em vez do botão.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v2-3-0">
+        <div class="versao-num">2.3.0</div>
+        <ul>
+          <li><b>A Duda, assistente de IA do programa.</b> Ela responde sobre o sistema — onde fica cada coisa, como se faz, o que aquele aviso quer dizer — e sobre o que você ensinou a ela em <b>“Ensinar a Duda”</b>: convênios, prazos, protocolos, o jeito da sua casa. <b>Ela não aprende sozinha com as conversas</b>, e nenhuma assistente desse tipo aprende: o que ela sabe da sua casa é o que está escrito naquela lista, que você abre, lê e edita. Não faz diagnóstico, não indica tratamento e não avalia risco clínico — a decisão clínica é sua. Vem desligada; ligue em Ajustes.</li>
+          <li><b>Nada que identifique alguém sai daqui.</b> Antes de qualquer pergunta viajar, o programa troca por marcadores o nome do paciente em atendimento, o nome de qualquer outro paciente da sua agenda, o seu nome, CPF, telefone, e-mail, CEP, endereço e datas. Quem responde lê “[PACIENTE] relatou dor”. O limite honesto está escrito na tela: se o texto disser “a filha do prefeito”, filtro nenhum resolve — por isso você vê o que vai sair antes de enviar.</li>
+          <li><b>A Duda conhece o programa inteiro.</b> A memória dela passou de 17 para 39 verbetes e cobre tela por tela: entrar, painel, agenda, ficha, atendimento, anamnese, odontograma, evolução, receituário, atestados, termos, fotos, arquivos, tratamentos, financeiro, estoque, registro, corrente, carimbo, backup, celular, assinatura, tabela de preços e ajustes. Entrou também a parte administrativa da rotina clínica: o que um prontuário precisa ter, o que faz uma boa evolução, por quanto tempo guardar (Resolução CFO 91/2009), qual termo cabe em cada caso, o que fazer quando o paciente some e como entregar documentação. Ela continua <b>não</b> dando diagnóstico, indicação de tratamento, escolha de material, dose nem leitura de exame — mas agora, em vez de só recusar, ela responde o lado que é dela: como registrar aquilo.</li>
+          <li><b>A busca dela ficou muito melhor.</b> Pergunta sem acento agora acha (“como gero o orcamento” não trazia nada), e palavra comum deixou de abafar palavra rara — “paciente” aparece em quase toda pergunta e vencia tudo. Numa bateria de 35 perguntas escritas como um dentista escreve, o verbete certo passou de 18 para 35 em primeiro lugar.</li>
+          <li><b>Corrigido: “Senha incorreta” no celular recém-pareado, com a senha certa.</b> Quem já tinha criado um acesso no próprio celular antes de parear ficava trancado do lado de fora: o celular continuava com o cofre antigo dele — mostrando o nome do consultório, então parecia pareado — e recusava a senha do computador, enquanto a própria tela mandava usar exatamente essa senha. A senha nunca esteve errada; o cofre é que era outro. Parear agora faz o cofre do computador valer, e o que estava no celular fica guardado à parte, sem ser jogado fora.</li>
+          <li><b>E a mensagem parou de mentir.</b> “Senha incorreta” era dito para qualquer falha ao abrir. Agora, se a senha abre a chave e mesmo assim as fichas não abrem, a tela diz isso — em vez de mandar você duvidar da senha que sabe de cor.</li>
+          <li><b>A Duda no celular.</b> Perguntando pelo celular, a pergunta sai <b>pelo computador vinculado</b> — é ele que tem a licença assinada e fala com o site. O texto é limpo <b>no próprio celular</b>, antes de sair: mesmo código, mesma limpeza. Sem vínculo a tela diz isso de cara, em vez de deixar você digitar a dúvida para só então avisar.</li>
+          <li><b>Corrigido — parear e sincronizar com o celular estavam quebrados.</b> O programa tinha perdido as respostas que o celular procura (o aperto de mão, o cofre, o aviso de novidade e a licença). Quem tentou vincular o celular nas versões 2.2 recebia erro; agora volta a funcionar, sem refazer nada — é só atualizar o computador.</li>
+          <li><b>Corrigido — o segredo do pareamento não estava sendo exigido.</b> Quem estivesse na mesma rede e achasse a porta conseguia listar e regravar os arquivos do consultório sem o código do vínculo. O conteúdo é cifrado e continua ilegível, mas a porta não podia estar aberta. Agora <b>nenhuma</b> resposta sai sem o segredo, e o modo somente-leitura também vale para o que chega do celular.</li>
+          <li><b>Corrigido — o endereço do paciente podia sair na pergunta à Duda.</b> Nome, CPF, telefone, e-mail e datas já eram trocados por marcadores; o endereço só era, se aquele paciente estivesse em atendimento. Na tela da Duda não há paciente em atendimento — então a rua e o número passavam. Agora o endereço guardado em <b>qualquer</b> ficha é trocado também.</li>
+          <li><b>Um botão flutuante que fica onde você deixar.</b> Fora da tela da Duda, ela vira um botão que você arrasta para o canto que quiser — ou esconde com um clique, e volta pelo menu. Clicando, abre uma caixa pequena de conversa por cima da tela em que você já estava, sem trocar de tela e sem perder o que você estava digitando.</li>
+          <li><b>O logo dela acompanha o nome em todo lugar</b>, com “assistente de IA” escrito ao lado. Quem lê uma resposta precisa saber que quem respondeu foi uma máquina.</li>
+          <li>O <b>“Carregar exemplo”</b> agora enche também o estoque: itens com lote, um vencendo, um vencido, um abaixo do mínimo, as compras já lançadas no financeiro e baixas amarradas a um tratamento. Antes o Estoque era a única tela que abria vazia no exemplo — que é justamente onde o vazio não ensina nada.</li>
+          <li>Corrigido: as explicações dos modelos de termo mostravam as marcas de negrito escritas na tela (“&lt;b&gt;Não substitui&lt;/b&gt;”) em vez do negrito.</li>
+          <li>Corrigido: o título das telas de <b>Duda</b> e <b>Estoque</b> aparecia como “undefined”.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v2-2-1">
+        <div class="versao-num">2.2.1</div>
+        <ul>
+          <li><b>Corrigido: a 2.2.0 não abria.</b> O instalador saiu sem um dos arquivos do programa e ele parava logo no começo, com um erro de “módulo não encontrado”. Nenhuma ficha foi afetada — o programa nem chegava a abrir o cofre. Se você instalou a 2.2.0, instale esta por cima.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v2-2-0">
+        <div class="versao-num">2.2.0</div>
+        <ul>
+          <li><b>Estoque, ligado ao financeiro.</b> Itens com nível mínimo e validade por lote. Registrar a compra <b>lança a despesa sozinha</b>, na categoria Materiais — você não lança duas vezes. Dando baixa vinculada a um tratamento, aparece na tela dele o <b>custo do material e a margem real</b>: o que entrou menos o que foi gasto. O painel avisa o que está acabando, o que vence em 60 dias e o que já venceu, e some quando não há nada a resolver.</li>
+          <li><b>Carimbo do tempo.</b> A corrente prova que a ficha não mudou; o carimbo prova <b>quando</b> ela já existia, que a corrente sozinha não faz — a data dela sai do relógio deste computador. Configure em <b>Ajustes → Carimbo do tempo</b> o endereço da carimbadora que você contratar. Sai daqui <b>só o código</b>: a ficha não viaja. Carimba-se o topo da corrente, e um carimbo cobre tudo que veio antes — então um por dia de atendimento basta.</li>
+          <li><b>Ajuda de redação.</b> Suas anotações telegráficas viram texto de prontuário, e o programa escreve mensagem para paciente e explicação de procedimento em linguagem simples. <b>Nome, CPF, telefone, e-mail e endereço saem do texto aqui, neste computador, antes de qualquer coisa viajar</b> — e voltam na resposta. Você <b>vê o texto exato</b> que vai sair, e pode editá-lo, antes de cada envio. O resultado é <b>rascunho</b>: nada entra na ficha sem você mandar. Não faz diagnóstico, não sugere tratamento e não avalia risco — é ajuda de escrita. Vem desligada; ligue em Ajustes.</li>
+          <li>A lupa de trocar de paciente agora tem <b>“Trocar de paciente” escrito ao lado</b>. Ícone sozinho obriga a descobrir por tentativa.</li>
+          <li>Corrigido: material vencido contava como saldo, e o aviso de “está acabando” ficava calado justamente quando parte do que estava na gaveta não podia ser usada.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v2-1-0">
+        <div class="versao-num">2.1.0</div>
+        <ul>
+          <li><b>Aba de esclarecimentos: 22 modelos de termo, prontos para imprimir.</b> Cirurgia, siso e raiz residual, canal, implante, prótese, ortodontia, clareamento, condição de saúde separada por caso (anticoagulante, antirreabsortivo, diabetes, cardiopatia e outras), recusa de tratamento, pós-operatório, cuidados e não comparecimento, interrupção de tratamento, entrega de documentação e uso de imagem. Saem em A4 com as duas assinaturas — e os de cirurgia e de recusa saem também com espaço para duas testemunhas.</li>
+          <li><b>O sistema sugere o termo, você decide.</b> Ele lê o odontograma, o plano e a anamnese: dente 38 marcado para extrair puxa o termo do siso, e não o da extração simples; anticoagulante na anamnese soma o termo da condição de saúde ao termo da cirurgia; cirurgia lançada na evolução oferece as orientações pós-operatórias. Cada sugestão diz de onde veio. Nada é emitido nem assinado sozinho.</li>
+          <li><b>Aba de fotos, com antes e depois lado a lado.</b> As fotos ficam guardadas criptografadas junto com o prontuário, organizadas por caso. Guardar não depende de autorização, porque documentação clínica é dever legal; o que depende de termo assinado é a foto <b>sair</b> daqui — e são três autorizações separadas: documentação, ensino e publicidade.</li>
+          <li><b>O paciente sumiu no meio do tratamento?</b> Passados 90 dias sem comparecer, o painel avisa e oferece o registro de interrupção — o único termo que só você assina. É a prova de quando o paciente parou de vir, que é justamente o que costuma faltar quando alguém volta dois anos depois.</li>
+          <li><b>Corrente dos documentos.</b> Cada anamnese, evolução ou termo assinado pelas duas partes passa a levar o código do documento anterior dentro do seu próprio código. Alterar um documento antigo deixa de ser reescrever um registro e passa a exigir reescrever todos os que vieram depois, na ordem. Em <b>Ajustes → Corrente dos documentos</b> dá para conferir a corrente inteira a qualquer momento.</li>
+          <li><b>Trocar de paciente ficou onde a gente olha.</b> A lupa ao lado do nome abre a lista com nome e telefone, com busca — e o atendimento continua aberto atrás, em vez de sumir.</li>
+          <li><b>Senha nova exige mais.</b> Dez caracteres, com maiúscula, minúscula, número e símbolo. Quem já tem senha continua entrando com a que tem; a exigência vale para senha nova.</li>
+          <li>Excluir um paciente agora apaga também os arquivos e as fotos dele deste aparelho — antes o registro sumia da lista e a imagem ficava.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v2-0-2">
+        <div class="versao-num">2.0.2</div>
+        <ul>
+          <li><b>Os downloads passaram a ficar todos no site.</b> O programa não guarda mais o aplicativo do Android para servir aos celulares da rede. Eram dois lugares publicando a mesma coisa, e o do computador vivia atrasado: dava para instalar no celular uma versão mais velha do que a do computador sem perceber. Agora existe um lugar só, e a página de instalação acompanha sozinha a versão mais nova publicada — o instalador do computador e o aplicativo do celular saem de lá. Quem já instalou o aplicativo não precisa fazer nada.</li>
+          <li>Em <b>Ajustes → Aplicativo no celular</b> ficou um botão que abre a página de instalação direto no navegador.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v2-0-1">
+        <div class="versao-num">2.0.1</div>
+        <ul>
+          <li><b>Excluir um tratamento agora acerta o financeiro junto.</b> As cobranças em aberto dele saem do “A receber”, e o que já foi pago continua no caixa — esse dinheiro entrou de verdade. O programa avisa os valores antes de excluir. O mesmo passou a valer para excluir um paciente, que também não perguntava nada antes de apagar ficha, agenda e tratamentos.</li>
+          <li>Corrigido: o ícone do programa não aparecia no atalho nem na barra de tarefas.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v2-0-0">
+        <div class="versao-num">2.0.0</div>
+        <ul>
+          <li><b>O sistema agora tem conta.</b> O cadastro é feito no site, uma vez, e o programa do computador e o aplicativo do celular só pedem o login. Quem já usava continua com as fichas onde estavam — nada foi mexido no que está gravado neste computador.</li>
+          <li><b>Quatorze dias de teste, sem cartão.</b> Depois, a assinatura vale por plano: mensal, trimestral, semestral ou anual, com desconto quanto maior o período.</li>
+          <li><b>Assinatura em aberto não tranca ficha nenhuma.</b> O programa entra em modo somente-leitura: ler, buscar, imprimir, gerar PDF e exportar o backup continuam funcionando igual — o que para é criar e alterar. Prontuário é do paciente e do dentista, e não fica preso a boleto.</li>
+          <li><b>O programa aguenta ficar sem internet.</b> Ele confirma a assinatura de tempos em tempos e guarda uma autorização assinada; se a internet cair, continua trabalhando normalmente por até <b>três semanas</b> antes de pedir uma nova confirmação.</li>
+          <li><b>A sua senha continua não saindo daqui.</b> Nem para entrar na conta: o que viaja é um resultado de 600 mil embaralhamentos feito neste computador, e não a senha. E a chave que abre as fichas continua sendo outra, que nunca sai da memória — nem eu nem ninguém do outro lado consegue abrir o seu cofre.</li>
+          <li>A numeração pulou de 1.11.5 para <b>2.0.0</b> porque o que mudou não foi uma função: foi o modelo do produto.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v1-11-4">
+        <div class="versao-num">1.11.4</div>
+        <ul>
+          <li><b>Os aplicativos do celular foram atualizados para o Android 16.</b> A partir desta versão do Android, todo aplicativo é obrigado a desenhar por baixo da barra de status e da barra de navegação. O sistema passou a calcular sozinho a folga do topo e do rodapé — e a descontar o teclado quando ele sobe, para o campo em que você está digitando nunca ficar escondido.</li>
+          <li><b>A faixa atrás da barra de status agora segue a sua paleta.</b> Ela pega a mesma cor de fundo do modo em que você está, claro ou escuro, e os ícones do relógio e da bateria trocam de tom para continuarem legíveis.</li>
+          <li>O programa do computador não mudou por dentro: subiu para a <b>1.11.4</b> só para ficar na mesma versão dos aplicativos, que é o que faz os dois conversarem por inteiro.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v1-11-3">
+        <div class="versao-num">1.11.3</div>
+        <ul>
+          <li><b>No receituário, o medicamento escolhido fica marcado.</b> Enquanto estiver na receita, o botão dele aparece contornado — e clicar de novo no que já está escolhido tira da receita.</li>
+          <li><b>Sumiu a barrinha de rolagem que aparecia à direita das abas do atendimento.</b> Ela nascia de um único pixel de sobra na altura, sem nada para rolar.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v1-11-2">
+        <div class="versao-num">1.11.2</div>
+        <ul>
+          <li>As <b>barras de rolagem</b> do computador ganharam as pontas arredondadas de verdade — e sumiu o coto de botão que aparecia no topo.</li>
+          <li><b>O celular agora mostra a versão</b> em que está: no menu <b>Mais</b> e em <b>Ajustes → Versão</b>. Se ele estiver vinculado, a tela compara com a versão do computador e avisa quando as duas não batem.</li>
+          <li><b>A tela de novidades passou a aparecer no celular também.</b> Ela não aparecia porque a marca de “já vi” morava no cofre, que os dois aparelhos compartilham — então quem abrisse primeiro consumia o aviso pelos dois. Agora cada aparelho tem a sua.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v1-11-0">
+        <div class="versao-num">1.11.0</div>
+        <ul>
+          <li><b>Sincronizar deixou de ser um botão.</b> O que você faz no celular sobe para o computador logo depois de salvar, e o que muda no computador aparece no celular em seguida — sem apertar nada. O botão “Sincronizar agora” continua lá, mas só como atalho.</li>
+          <li><b>No celular, as tabelas viraram cartões.</b> Receituário, financeiro, tratamentos: cada linha ocupa a tela inteira, com o nome da coluna ao lado do valor. Acabou o arrastar para o lado.</li>
+          <li>As <b>abas do atendimento</b> viram uma grade: as seis aparecem de uma vez, e sumiu aquele borrão cinza na beirada.</li>
+          <li>A <b>visualização de documentos</b> no celular passa a caber na largura da tela, inteira e legível, rolando só para cima e para baixo.</li>
+          <li>A <b>ficha do paciente</b> no celular: o nome ganhou a linha dele e os botões desceram para uma faixa própria, em vez de se atropelarem.</li>
+          <li>No computador, as <b>barras de rolagem</b> ficaram finas e arredondadas, e seguem o modo claro/escuro e a paleta que você escolher.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v1-10-0">
+        <div class="versao-num">1.10.0</div>
+        <ul>
+          <li><b>O celular passa a funcionar de qualquer lugar.</b> Antes o vínculo só valia dentro do Wi-Fi do consultório. Agora, se você ligar os dois aparelhos numa rede privada (o programa ensina como, em <b>Ajustes → Vincular o celular → Usar de qualquer lugar</b>), o celular alcança o computador de qualquer Wi-Fi ou do 4G — <b>sem expor nada na internet</b> e sem mexer no roteador.</li>
+          <li>O cartão do vínculo agora <b>separa os dois endereços</b> e diz para que serve cada um: o de casa, que só vale no Wi-Fi daqui, e o de qualquer lugar, que não muda nunca.</li>
+          <li>O código de oito dígitos continua igual, e agora serve para os dois casos.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v1-9-0">
+        <div class="versao-num">1.9.0</div>
+        <ul>
+          <li><b>O aplicativo do celular agora se vincula ao computador.</b> Antes, um aparelho recém-instalado era uma ilha: nascia sem conta e sem como achar o seu computador. Agora a própria tela de entrada tem <b>“Já uso no computador: vincular”</b> — você digita o endereço e um código de oito dígitos que aparecem em <b>Ajustes → Vincular o celular</b>, e as fichas descem para o celular, que abre com a sua senha de sempre.</li>
+          <li>O aviso de “conexão não particular” <b>não aparece mais</b> no aplicativo instalado: lá a conversa com o computador não passa mais pelo navegador.</li>
+          <li>No computador, o cartão do vínculo passou a mostrar o <b>endereço e o código</b> ao lado do QR, e ganhou um botão para renovar só o código — sem derrubar os aparelhos já vinculados.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v1-8-0">
+        <div class="versao-num">1.8.0</div>
+        <ul>
+          <li>O programa passou a se chamar <b>Meu Consultório App</b> — no atalho, na janela, no instalador e no aplicativo do celular. Quando você põe o nome do seu consultório em Ajustes, é ele que aparece na aba, como antes.</li>
+          <li>Corrigido: o botão de escolher o arquivo do aplicativo não fazia nada em algumas máquinas. <i>Essa tela deixou de existir na 2.0.2.</i></li>
+        </ul>
+      </article>
+      <article class="versao" id="v1-7-0">
+        <div class="versao-num">1.7.0</div>
+        <ul>
+          <li><b>O aplicativo do Android saía do próprio sistema:</b> o arquivo ficava guardado no computador e os celulares da rede baixavam por ali. <i>Isto valeu até a 2.0.1 — hoje o download é pelo site.</i></li>
+        </ul>
+      </article>
+      <article class="versao" id="v1-6-1">
+        <div class="versao-num">1.6.1</div>
+        <ul>
+          <li>A <b>versão do sistema</b> agora aparece na tela de login e no canto da barra lateral — para você saber em que versão está sem precisar procurar.</li>
+          <li>Esta janela: depois de cada atualização, o que mudou aparece uma vez, no seu primeiro acesso.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v1-6-0">
+        <div class="versao-num">1.6.0</div>
+        <ul>
+          <li><b>Assinatura do profissional automática.</b> Se você já cadastrou a sua assinatura em Ajustes, clicar em “Assinar (profissional)” assina na hora, sem prancheta.</li>
+          <li>A do paciente continua sendo colhida na tela, sempre.</li>
+          <li>Quando a sua assinatura for a última e for bloquear o documento, o sistema pergunta antes.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v1-5-1">
+        <div class="versao-num">1.5.1</div>
+        <ul>
+          <li>O <b>vínculo com o celular</b> ficou permanente: mesmo endereço e mesmo código a cada vez. Pareou uma vez, o celular reencontra o computador sempre.</li>
+          <li>Opção de <b>ligar o vínculo sozinho</b> quando o programa abre.</li>
+          <li>Botão para <b>gerar um código novo</b>, que desliga celulares perdidos.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v1-5-0">
+        <div class="versao-num">1.5.0</div>
+        <ul>
+          <li><b>Vínculo com o celular por Wi-Fi.</b> O computador mostra um QR, o celular lê, e os dois passam a trocar as fichas — sem servidor no meio, com o cofre sempre fechado.</li>
+          <li><b>Instalação como aplicativo</b> no celular: ícone na tela inicial, sem barra de navegador.</li>
+          <li>Todas as telas revisadas para as proporções do celular, com alvos de toque maiores.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v1-4-0">
+        <div class="versao-num">1.4.0</div>
+        <ul>
+          <li>Campos de <b>senha legíveis</b> no modo escuro — antes ficavam quase invisíveis.</li>
+          <li>Botão de <b>exibir a senha</b> em todos os campos, para conferir antes de confirmar.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v1-3-0">
+        <div class="versao-num">1.3.0</div>
+        <ul>
+          <li>A primeira tela passou a ser o <b>login</b>, com o cadastro logo abaixo para quem ainda não tem acesso.</li>
+          <li><b>Cores do sistema</b>: oito paletas prontas e cores próprias para o modo claro e o escuro.</li>
+        </ul>
+      </article>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="faixa escuro">
+    <div class="centro fecho" style="max-width:760px">
+      <h2 style="font-size:clamp(28px,4.2vw,42px)">Todas essas versões vêm junto.</h2>
+      <p style="font-size:18px; margin:0; max-width:36rem">Não existe módulo cobrado à parte nem versão capada: quem assina recebe o sistema inteiro e cada atualização, pelo próprio programa.</p>
+      <div class="acoes">
+        <a class="btn claro" href="/criar-conta">Testar 14 dias de graça</a>
+        <a class="btn vazado" href="https://wa.me/5521986624185?text=Oi%2C%20Matheus.%20Vi%20o%20site%20do%20Meu%20Consult%C3%B3rio%20App%20e%20tenho%20uma%20d%C3%BAvida." target="_blank" rel="noopener">Perguntar no WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="rodape">
+    <div>
+      <p><b style="color:var(--tinta)">Meu Consultório App</b></p>
+      <p>Sistema de gestão para consultório odontológico. Feito e mantido por Matheus Torres, cirurgião-dentista.</p>
+      <p style="margin-top:14px">
+        <a href="mailto:contato@meuconsultorioappodonto.com.br">contato@meuconsultorioappodonto.com.br</a><br>
+        <a href="https://wa.me/5521986624185" target="_blank" rel="noopener">WhatsApp (21) 98662-4185</a> ·
+        <a href="https://instagram.com/meuconsultorio_app" target="_blank" rel="noopener">@meuconsultorio_app</a>
+      </p>
+    </div>
+    <div style="max-width:26rem">
+      <p><b style="color:var(--tinta)">Sobre os dados</b></p>
+      <p>Quem só navega pelo site não deixa nome nem e-mail. O site usa a etiqueta do Google Ads, que grava
+        cookies do Google no seu navegador, para saber se um anúncio trouxe alguém até a criação da conta — vai o
+        endereço da página, sem nada do que você digita. Quem cria conta deixa nome, e-mail, telefone e CPF/CNPJ,
+        e recebe um cookie de sessão, que mantém você logado.</p>
+      <p style="margin-top:10px">Ficha de paciente é outra coisa: ela nunca passa por aqui em texto legível.
+        Fica cifrada no computador e no celular do profissional, que é quem responde por ela. Se ele
+        ligar o backup do cofre na nuvem — que vem desligado —, o que chega até nós é o mesmo bloco
+        cifrado, fechado com a senha dele: guardamos uma caixa que não temos como abrir, e não há
+        chave-mestra nenhuma do nosso lado. Sincronizar as fichas entre aparelhos, isso a gente não faz.</p>
+    </div>
+  </div>
+  <nav class="rodape-mapa" aria-label="Mapa do site">
+    <span>No site</span>
+    <a href="/recursos">Recursos</a>
+    <a href="/seguranca">Segurança e LGPD</a>
+    <a href="/novidades">Novidades</a>
+    <a href="/duvidas">Perguntas frequentes</a>
+    <a href="/#planos">Planos</a>
+    <a href="/baixar">Baixar o sistema</a>
+    <a href="/entrar">Entrar</a>
+    <a href="/contrato.pdf" target="_blank" rel="noopener">Contrato de adesão</a>
+  </nav>
+</footer>
+
+<script>
+/* A entrada das telas: aparecem quando entram no campo de visão. Uma vez só,
+   e desligada para quem pediu menos movimento no sistema. */
+(function(){
+  var alvos = document.querySelectorAll('.aparece');
+  var menos = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(menos || !('IntersectionObserver' in window)){
+    alvos.forEach(function(el){ el.classList.add('dentro'); });
+    return;
+  }
+  var obs = new IntersectionObserver(function(itens){
+    itens.forEach(function(i){
+      if(i.isIntersecting){ i.target.classList.add('dentro'); obs.unobserve(i.target); }
+    });
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+  alvos.forEach(function(el){ obs.observe(el); });
+})();
+</script>
+
+
+<script>
+/* ---------------------------------------------------------------------------
+   O BOTÃO DE TEMA
+   Três estados, não dois: claro, escuro e "o que o sistema preferir". Quem
+   nunca clicou fica no terceiro — e é por isso que o par de botões só marca um
+   como apertado quando existe escolha gravada.
+   --------------------------------------------------------------------------- */
+(function(){
+  var raiz = document.documentElement;
+  var botoes = document.querySelectorAll(".tema button[data-tema]");
+  if(!botoes.length) return;
+
+  function guardado(){
+    try{ return localStorage.getItem("mca-tema"); }catch(e){ return null; }
+  }
+  function daMaquina(){
+    return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+  function pintar(){
+    var q = guardado() || daMaquina();
+    botoes.forEach(function(b){
+      b.setAttribute("aria-pressed", b.dataset.tema === q ? "true" : "false");
+    });
+  }
+  botoes.forEach(function(b){
+    b.addEventListener("click", function(){
+      var quer = b.dataset.tema;
+      if(guardado() === quer){
+        /* clicar de novo no que já está devolve a escolha para o sistema */
+        try{ localStorage.removeItem("mca-tema"); }catch(e){}
+        raiz.removeAttribute("data-theme");
+      }else{
+        try{ localStorage.setItem("mca-tema", quer); }catch(e){}
+        raiz.setAttribute("data-theme", quer);
+      }
+      pintar();
+    });
+  });
+  /* o sistema mudou de tema com a página aberta e sem escolha gravada */
+  try{
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(){
+      if(!guardado()) pintar();
+    });
+  }catch(e){}
+  pintar();
+})();
+</script>
+<script src="/js/ceu.js" defer></script>
+<script>
+/* O topo vira pílula depois de rolar. Um observador olhando um pixel
+   escondido, e não um ouvinte de rolagem: não roda nada enquanto a pessoa
+   rola, só quando o pixel entra ou sai da tela. */
+(function(){
+  var s = document.querySelector('.topo-sentinela');
+  if(!s || !('IntersectionObserver' in window)) return;
+  new IntersectionObserver(function(es){
+    document.documentElement.classList.toggle('rolou', !es[0].isIntersecting);
+  }).observe(s);
+})();
+</script>
+</body>
+</html>

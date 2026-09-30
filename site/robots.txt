@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /api/
+Disallow: /a/
+Disallow: /perfil
+Disallow: /nova-senha
+
+Sitemap: https://meuconsultorioappodonto.com.br/sitemap.xml

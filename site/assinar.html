@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Escolher meu plano — Meu Consultório App</title>
+<meta name="description" content="Escolha o plano da sua assinatura." />
+<meta name="theme-color" content="#0E6B5E" />
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" href="/img/favicon.png" type="image/png" />
+<link rel="apple-touch-icon" href="/img/favicon.png" />
+<script>
+/* O tema tem de ser aplicado ANTES da primeira pintura, senão a página abre
+   clara e pisca para escura — e o piscar é pior do que não ter o botão. Por
+   isso este trecho é minúsculo, fica aqui em cima e não espera nada. */
+(function(){
+  try{
+    var g = localStorage.getItem("mca-tema");
+    if(g === "dark" || g === "light") document.documentElement.setAttribute("data-theme", g);
+  }catch(e){}
+})();
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18460744388"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-18460744388', {
+    /* só o caminho: o que vem depois do "?" pode ser um token */
+    page_location: location.origin + location.pathname
+  });
+
+  /* O DISPARO DE CONVERSÃO, COM TRÊS TRAVAS.
+   *
+   * 1. SEM RÓTULO, NÃO DISPARA. Rótulo errado não dá erro: o gtag manda e o
+   *    Google descarta calado. Melhor não medir do que achar que mede.
+   * 2. UMA VEZ SÓ POR SESSÃO. Recarregar a página de "conta criada" com F5
+   *    não pode contar uma segunda conta — e é exatamente o que a pessoa faz
+   *    quando a tela demora.
+   * 3. NADA DE DADO PESSOAL. Vai o nome do evento e mais nada: sem e-mail,
+   *    sem nome, sem valor que identifique alguém.
+   */
+  /* O SEGUNDO ARGUMENTO EXISTE POR CAUSA DE UM CASO SÓ: "iniciou pagamento"
+   * dispara na linha antes de o navegador sair do site (location.href para o
+   * Asaas). Se a página trocar antes de a medida subir, ela se perde — e o
+   * jeito de não perder NÃO é atrasar o dentista.
+   *
+   * Então: quem passa "depois" manda a medida com event_callback, e o Google
+   * chama de volta assim que ela sobe — normalmente em milésimos. O
+   * event_timeout de 1200ms é o limite: se a rede do Google estiver ruim, a
+   * ida ao pagamento acontece do mesmo jeito e a medida é que se perde. A
+   * ordem importa: primeiro o dentista paga, depois eu conto.
+   *
+   * E o "depois" roda SEMPRE, inclusive quando a conversão não dispara (sem
+   * rótulo, repetida, ou erro). Uma medida quebrada não pode prender ninguém
+   * na tela de assinar.
+   */
+  window.__conversao = function (nome, depois) {
+    var seguiu = false;
+    var seguir = function () {
+      if (seguiu) return;
+      seguiu = true;
+      if (typeof depois === 'function') depois();
+    };
+    try {
+      var rotulos = window.__rotulosConversao || {};
+      var r = rotulos[nome];
+      if (!r) { seguir(); return false; }                /* trava 1 */
+      var chave = 'mca-conv-' + nome;
+      if (sessionStorage.getItem(chave)) { seguir(); return false; }  /* trava 2 */
+      sessionStorage.setItem(chave, '1');
+      var carga = { send_to: 'AW-18460744388/' + r };
+      if (typeof depois === 'function') {
+        carga.event_callback = seguir;
+        carga.event_timeout = 1200;
+        setTimeout(seguir, 1200);
+      }
+      gtag('event', 'conversion', carga);
+      return true;
+    } catch (e) { seguir(); return false; }
+  };
+  window.__rotulosConversao = {"conta_criada": "wrrgCJ6-kf8cEMS14uJE", "inicio_pagamento": "3OIFCKG-kf8cEMS14uJE"};
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,500&display=swap">
+<style>:root{
+  --papel:#F2F5F3; --folha:#FFFFFF; --folha-2:#E9EFEC; --linha:#D5E0DB;
+  --linha-forte:#B6C7C0; --tinta:#0B1A16; --tinta-2:#3E5650; --tinta-3:#5F6D68;
+  --verde:#0E6B5E; --verde-claro:#127F70; --verde-suave:#DDEDE8;
+  --verde-fundo:#06322B; --sobre-verde:#DCEDE8; --sobre-cheio:#FFFFFF;
+  --ambar:#8A5810; --ambar-suave:#F6EEDC; --enfase:#8A560F;
+  --erro:#8C2F1D; --erro-suave:#F7E7E3;
+  --sombra:0 1px 2px rgba(11,26,22,.05), 0 14px 34px -22px rgba(11,26,22,.45);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --papel:#091210; --folha:#101B18; --folha-2:#16241F; --linha:#243530;
+    --linha-forte:#38504A; --tinta:#E6EEEA; --tinta-2:#AFC4BD; --tinta-3:#7F958E;
+    --verde:#4FBFA6; --verde-claro:#68D2BA; --verde-suave:#13322C;
+    --verde-fundo:#04201B; --sobre-verde:#CFE8E1; --sobre-cheio:#04201B;
+    --ambar:#D9A85C; --ambar-suave:#2A2113; --enfase:#E0B064;
+    --erro:#E79383; --erro-suave:#2C1815;
+    --sombra:0 1px 2px rgba(0,0,0,.5), 0 16px 36px -22px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+    --papel:#091210; --folha:#101B18; --folha-2:#16241F; --linha:#243530;
+    --linha-forte:#38504A; --tinta:#E6EEEA; --tinta-2:#AFC4BD; --tinta-3:#7F958E;
+    --verde:#4FBFA6; --verde-claro:#68D2BA; --verde-suave:#13322C;
+    --verde-fundo:#04201B; --sobre-verde:#CFE8E1; --sobre-cheio:#04201B;
+    --ambar:#D9A85C; --ambar-suave:#2A2113; --enfase:#E0B064;
+    --erro:#E79383; --erro-suave:#2C1815;
+    --sombra:0 1px 2px rgba(0,0,0,.5), 0 16px 36px -22px rgba(0,0,0,.9);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--papel); color:var(--tinta-2);
+  font-family:Archivo,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.6; min-height:100vh;
+  display:flex; flex-direction:column;
+}
+a{color:var(--verde); text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* AS TRÊS VOZES DA IDENTIDADE, que até agora só existiam na página inicial.
+   Estas telas eram Archivo do título ao rodapé — e é por isso que atravessar
+   do site para "Criar conta" parecia trocar de empresa. Cada voz tem um
+   trabalho:
+     o serifado (Newsreader) AFIRMA     -> títulos
+     a Archivo EXPLICA                  -> texto, campos, botões
+     a monoespaçada ETIQUETA            -> rótulos, valores, códigos
+   A monoespaçada é a mesma que numera consultas e valores dentro do programa.
+   É ela que faz o site, o programa e o aplicativo parecerem um produto só. */
+h1,h2,h3{
+  font-family:Newsreader, Georgia, "Times New Roman", serif;
+  color:var(--tinta); line-height:1.2; margin:0 0 10px; font-weight:600; text-wrap:balance;
+}
+h1{font-size:clamp(26px,3.6vw,34px); letter-spacing:-.012em; line-height:1.14}
+h2{font-size:21px; letter-spacing:-.008em}
+p{margin:0 0 14px}
+
+/* o rótulo — etiqueta, não frase */
+.rot{
+  font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.14em;
+  color:var(--verde); display:flex; align-items:center; gap:12px; margin:0 0 12px;
+}
+.rot::after{content:""; flex:1; height:1px; background:var(--linha); max-width:110px}
+
+/* A ênfase, igual à da página inicial: o âmbar é a segunda voz da paleta —
+   a mesma dos procedimentos indicados no odontograma. */
+em{
+  font-family:Newsreader, Georgia, serif; font-style:italic; font-weight:500;
+  font-size:1.14em; line-height:1.15; color:var(--enfase);
+}
+:focus-visible{outline:2px solid var(--verde); outline-offset:2px; border-radius:6px}
+
+/* --- cabeçalho e rodapé --- */
+.topo{border-bottom:1px solid var(--linha); background:var(--folha)}
+.topo-in{
+  max-width:1080px; margin:0 auto; padding:13px 22px;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+}
+.marca{display:flex; align-items:center; gap:10px; color:var(--tinta); text-decoration:none;
+  font-family:Newsreader, Georgia, serif; font-weight:600; font-size:18px; letter-spacing:-.01em;
+  min-width:0}
+.marca:hover{text-decoration:none}
+.marca img{width:30px; height:30px; border-radius:22%; display:block; flex:none}
+/* O NOME DA MARCA NUNCA QUEBRA.
+   No telefone "Meu Consultório App" empilhava em duas linhas e a barra de
+   cima inchava de 40 para 84 pixels de altura — o mesmo defeito da página
+   inicial, e aqui ninguém tinha visto porque a tela de entrar é a que menos
+   se olha no computador. O nome encolhe, depois vira "Consultório", e só
+   então some. Medido em 360 e 390, que são as larguras de telefone reais. */
+.marca span{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
+.marca .mini{display:none}
+.topo nav{display:flex; align-items:center; gap:18px; font-size:14.5px; flex:none}
+@media (max-width:560px){
+  .topo-in{padding:11px 14px; gap:10px}
+  .topo nav{gap:12px; font-size:13.5px}
+  .marca{font-size:16px; gap:8px}
+  .marca img{width:27px; height:27px}
+}
+@media (max-width:440px){
+  .marca .longo{display:none}
+  .marca .mini{display:inline}
+}
+@media (max-width:330px){ .marca span{display:none} }
+.rodape{
+  margin-top:auto; border-top:1px solid var(--linha); background:var(--folha);
+  font-size:13px; color:var(--tinta-3);
+}
+.rodape div{max-width:1080px; margin:0 auto; padding:18px 22px; display:flex; gap:18px; flex-wrap:wrap}
+
+/* --- O CÉU VIVO, O MESMO CAMPO DA PÁGINA INICIAL ---
+
+   Chama-se .ceu e não .campo, que é o nome usado no index.html, por um motivo
+   que custou uma tela quebrada: aqui .campo JÁ É o campo de formulário
+   (.campo label, .campo .dica). Com o nome repetido, o position:fixed;inset:0
+   das partículas caía em cima de todo input da página — o e-mail e a senha
+   saltaram para fora do cartão e se esparramaram no topo da tela.
+   Duas coisas diferentes não podem dividir o mesmo nome de classe só porque
+   nasceram em arquivos diferentes.
+
+   Véus de luz que derivam devagar e partículas que sobem do rodapé e entram
+   pelas laterais. É o mesmo sistema do index.html, com as mesmas cores e os
+   mesmos tempos — de propósito: era a página inicial que parecia um produto
+   e estas aqui que pareciam outro.
+
+   Fica FIXO na janela, e não preso à seção: estas telas são curtas e centradas,
+   e um campo preso ao conteúdo deixaria metade da tela morta.
+
+   Tudo desenhado pelo navegador — sem vídeo, sem biblioteca, sem nada para
+   baixar — e tudo desligado para quem pediu menos movimento no sistema. */
+.ceu{position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:0}
+.ceu .veu{position:absolute; border-radius:50%; will-change:transform}
+/* SEM filter:blur — e este é o conserto do "trava em outros navegadores".
+   O blur de 110px era refeito a cada quadro, pelo processador, em todo navegador
+   que não o manda para a placa de vídeo (Firefox, Safari, notebook sem placa,
+   modo de economia). Medido com CPU 4x mais lenta e sem placa: 5,8 quadros por
+   segundo com ele, 58 sem ele. A suavidade agora vem do próprio degradê, em
+   degraus, que é desenhado uma vez e só desliza. */
+.ceu-tela{position:absolute; inset:0; display:block}
+.ceu-leve .ceu .veu{animation:none}
+.ceu .v1{width:940px; height:940px; left:-220px; top:-300px; opacity:.34;
+  background:radial-gradient(circle closest-side, var(--verde) 0%, color-mix(in srgb, var(--verde) 62%, transparent) 26%, color-mix(in srgb, var(--verde) 26%, transparent) 55%, color-mix(in srgb, var(--verde) 8%, transparent) 78%, transparent 100%);
+  animation:mcaDeriva1 19s ease-in-out infinite}
+.ceu .v2{width:860px; height:860px; right:-200px; top:60px; opacity:.30;
+  background:radial-gradient(circle closest-side, #43C0A7 0%, color-mix(in srgb, #43C0A7 62%, transparent) 26%, color-mix(in srgb, #43C0A7 26%, transparent) 55%, color-mix(in srgb, #43C0A7 8%, transparent) 78%, transparent 100%);
+  animation:mcaDeriva2 24s ease-in-out infinite}
+.ceu .v3{width:560px; height:560px; left:44%; bottom:-280px; opacity:.16;
+  background:radial-gradient(circle closest-side, var(--ambar) 0%, color-mix(in srgb, var(--ambar) 62%, transparent) 26%, color-mix(in srgb, var(--ambar) 26%, transparent) 55%, color-mix(in srgb, var(--ambar) 8%, transparent) 78%, transparent 100%);
+  animation:mcaDeriva1 29s ease-in-out infinite reverse}
+@keyframes mcaDeriva1{0%,100%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(80px,55px,0) scale(1.13)}}
+@keyframes mcaDeriva2{0%,100%{transform:translate3d(0,0,0) scale(1.07)}
+  50%{transform:translate3d(-70px,-45px,0) scale(1)}}
+:root[data-theme="dark"] .ceu .v1{opacity:.5}
+:root[data-theme="dark"] .ceu .v2{opacity:.46}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .ceu .v1{opacity:.5}
+  :root:not([data-theme="light"]) .ceu .v2{opacity:.46}
+}
+
+/* a partícula é um par: o de fora anda, o de dentro balança no seu ritmo.
+   É esse descompasso que faz o movimento parecer vivo e não trilho de trem. */
+.po{position:absolute; animation-timing-function:linear;
+  animation-iteration-count:infinite; will-change:transform;
+  /* no claro elas precisam de mais peso: ponto verde sobre fundo lavado
+     some, e o movimento é justamente o que se quer notar */
+  opacity:calc(var(--op) * 1.5)}
+:root[data-theme="dark"] .po{opacity:var(--op)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .po{opacity:var(--op)} }
+.po i{display:block; border-radius:50%; background:var(--verde);
+  animation-name:mcaBalancar; animation-timing-function:ease-in-out;
+  animation-iteration-count:infinite; animation-direction:alternate}
+:root[data-theme="dark"] .po i{background:#43C0A7; filter:drop-shadow(0 0 5px #43C0A7)}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .po i{background:#43C0A7; filter:drop-shadow(0 0 5px #43C0A7)}
+}
+@keyframes mcaBalancar{from{transform:translateX(calc(var(--bal) * -.5))}
+  to{transform:translateX(calc(var(--bal) * .5))}}
+.po.sobe{bottom:-30px; animation-name:mcaSubir}
+@keyframes mcaSubir{0%{transform:translateY(0) scale(.6)}
+  6%{transform:translateY(-60px) scale(1)}
+  94%{transform:translateY(-94vh) scale(1)}
+  100%{transform:translateY(-100vh) scale(.6)}}
+.po.daEsq{left:-30px; animation-name:mcaDaEsquerda}
+@keyframes mcaDaEsquerda{0%{transform:translate(0,0) scale(.5)}
+  7%{transform:translate(100px,-14px) scale(1)}
+  93%{transform:translate(96vw,-190px) scale(1)}
+  100%{transform:translate(104vw,-210px) scale(.5)}}
+.po.daDir{right:-30px; animation-name:mcaDaDireita}
+@keyframes mcaDaDireita{0%{transform:translate(0,0) scale(.5)}
+  7%{transform:translate(-100px,-14px) scale(1)}
+  93%{transform:translate(-96vw,-190px) scale(1)}
+  100%{transform:translate(-104vw,-210px) scale(.5)}}
+@media (prefers-reduced-motion: reduce){
+  .ceu .veu, .po, .po i{animation:none !important}
+  .po{display:none}
+}
+/* o conteúdo vive acima do campo */
+.topo, main, .rodape{position:relative; z-index:1}
+
+/* --- caixa central --- */
+main{width:100%; padding:clamp(26px,5vw,52px) 22px}
+.estreito{max-width:452px; margin:0 auto}
+.largo{max-width:1080px; margin:0 auto}
+.medio{max-width:660px; margin:0 auto}
+.caixa{
+  background:var(--folha); border:1px solid var(--linha); border-radius:18px;
+  padding:clamp(24px,4vw,34px); box-shadow:var(--sombra);
+}
+.sub{color:var(--tinta-3); font-size:15px; margin:-2px 0 22px}
+
+/* --- formulário --- */
+.campo{margin-bottom:16px}
+.campo label{display:block; font-size:14px; font-weight:500; color:var(--tinta); margin-bottom:6px}
+.campo .dica{font-size:13px; color:var(--tinta-3); margin:5px 0 0; line-height:1.45}
+input[type=text],input[type=email],input[type=password],input[type=tel]{
+  width:100%; padding:11px 13px; font:inherit; font-size:15.5px; color:var(--tinta);
+  background:var(--papel); border:1px solid var(--linha-forte); border-radius:10px;
+}
+input:focus{border-color:var(--verde); outline:none; box-shadow:0 0 0 3px var(--verde-suave)}
+input[aria-invalid="true"]{border-color:var(--erro)}
+.senha-caixa{position:relative}
+.senha-caixa input{padding-right:82px}
+.ver-senha{
+  position:absolute; right:6px; top:50%; transform:translateY(-50%);
+  background:none; border:0; color:var(--tinta-3); font:inherit; font-size:13px;
+  cursor:pointer; padding:6px 8px; border-radius:8px;
+}
+.ver-senha:hover{color:var(--verde); background:var(--verde-suave)}
+
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:12px 20px; border-radius:11px; border:1px solid transparent;
+  font:inherit; font-size:15.5px; font-weight:600; cursor:pointer; text-decoration:none;
+}
+.btn:hover{text-decoration:none}
+/* A COR DO TEXTO SOBRE O VERDE — um token, não um #fff escrito na mão.
+   No tema escuro o verde da marca clareia (#4FBFA6) para se ver no fundo
+   preto. Branco em cima dele dá 2,25:1 de contraste: abaixo do mínimo de
+   4,5:1, e justamente no botão mais importante da tela. O verde-escuro dá
+   7,6:1. Como token, os dois temas escolhem sozinhos e ninguém precisa
+   lembrar de escrever a exceção em cada lugar que usa o verde cheio. */
+.btn.pri{background:var(--verde); color:var(--sobre-cheio)}
+.btn.pri:hover:not(:disabled){background:var(--verde-claro)}
+.btn.sec{background:var(--folha); color:var(--tinta); border-color:var(--linha-forte)}
+.btn.sec:hover{border-color:var(--verde); color:var(--verde)}
+.btn:disabled{opacity:.55; cursor:not-allowed}
+.btn.bloco{width:100%; margin-top:6px}
+
+.recado{
+  margin:0 0 16px; padding:11px 14px; border-radius:10px; font-size:14.5px; line-height:1.5;
+  border-left:4px solid transparent;
+}
+.recado.erro{background:var(--erro-suave); border-color:var(--erro); color:var(--erro)}
+.recado.ok{background:var(--verde-suave); border-color:var(--verde); color:var(--verde)}
+.recado.atencao{background:var(--ambar-suave); border-color:var(--ambar); color:var(--ambar)}
+
+.marcador{display:flex; gap:10px; align-items:flex-start; font-size:14.5px; line-height:1.5; margin:18px 0 4px}
+.marcador input{margin-top:3px; width:17px; height:17px; accent-color:var(--verde); flex:none}
+.rodape-form{margin-top:20px; padding-top:16px; border-top:1px solid var(--linha); font-size:14.5px; color:var(--tinta-3)}
+.problemas{margin:6px 0 0; padding-left:1.1em; font-size:13px; color:var(--tinta-3)}
+
+/* --- perfil --- */
+.grade{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; align-items:start}
+.linha-dado{display:flex; justify-content:space-between; gap:14px; padding:11px 0; border-top:1px solid var(--linha); font-size:14.5px}
+.linha-dado:first-of-type{border-top:0}
+.linha-dado b{color:var(--tinta); font-weight:500; text-align:right;
+  font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size:14px; font-variant-numeric:tabular-nums}
+.selo{
+  display:inline-flex; align-items:center; gap:7px; font-size:13px; font-weight:600;
+  padding:5px 11px; border-radius:99px; letter-spacing:.01em;
+}
+.selo.teste{background:var(--ambar-suave); color:var(--ambar)}
+.selo.ativa{background:var(--verde-suave); color:var(--verde)}
+.selo.suspensa,.selo.teste_expirado,.selo.cancelada{background:var(--erro-suave); color:var(--erro)}
+.selo .pt{width:7px; height:7px; border-radius:50%; background:currentColor}
+
+/* --- planos --- */
+.planos{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:13px; margin:20px 0 0}
+.plano{
+  background:var(--papel); border:1px solid var(--linha); border-radius:14px; padding:18px 16px;
+  cursor:pointer; display:block; position:relative;
+}
+.plano:hover{border-color:var(--linha-forte)}
+.plano input{position:absolute; opacity:0; pointer-events:none}
+.plano:has(input:checked){border-color:var(--verde); box-shadow:0 0 0 1px var(--verde); background:var(--folha)}
+.plano .nome{font-weight:600; color:var(--tinta); font-size:15px}
+.plano .mes{font-family:Newsreader,Georgia,serif; font-size:29px; color:var(--tinta); margin-top:8px; font-variant-numeric:tabular-nums}
+.plano .mes small{font-family:Archivo,system-ui,sans-serif; font-size:13px; color:var(--tinta-3)}
+.plano .tot{font-size:13.5px; color:var(--tinta-2); margin-top:6px;
+  font-family:"IBM Plex Mono", ui-monospace, Menlo, monospace; font-variant-numeric:tabular-nums}
+.plano .eco{font-size:13px; color:var(--ambar); font-weight:600; margin-top:4px}
+
+.interruptor{display:flex; gap:12px; align-items:flex-start; background:var(--papel);
+  border:1px solid var(--linha); border-radius:12px; padding:14px 16px; margin-top:20px; font-size:14.5px}
+.interruptor input{margin-top:3px; width:18px; height:18px; accent-color:var(--verde); flex:none}
+
+/* --- download --- */
+.baixar{display:flex; gap:14px; align-items:flex-start; padding:18px 0; border-top:1px solid var(--linha)}
+.baixar:first-of-type{border-top:0; padding-top:4px}
+.baixar .ico{width:42px; height:42px; border-radius:11px; background:var(--verde-suave); color:var(--verde);
+  display:grid; place-items:center; flex:none; font-weight:700; font-size:13px}
+.baixar .txt{flex:1; min-width:0}
+.baixar h3{margin:0 0 3px; font-size:16px}
+.baixar p{margin:0; font-size:14px; color:var(--tinta-3)}
+.baixar .btn{flex:none; align-self:center}
+.mini{font-size:12.5px; color:var(--tinta-3); line-height:1.5}
+ol.passos{margin:14px 0 0; padding-left:1.3em; font-size:15px; color:var(--tinta-2)}
+ol.passos li{margin-bottom:9px; line-height:1.6}
+ol.passos li::marker{color:var(--verde); font-weight:600}
+.caixa.suporte{border-color:var(--verde); background:var(--verde-suave)}
+.caixa.suporte h2,.caixa.suporte p{color:var(--tinta)}
+.caixa.suporte .mini{color:var(--tinta-2)}
+.baixar .mini{margin-top:5px}
+.linha-conta{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap}
+@media (max-width:520px){
+  .baixar{flex-wrap:wrap}
+  .baixar .btn{width:100%; margin-top:4px}
+}
+
+/* --- a senha única ---
+   O código é o objeto mais importante desta tela inteira, então ele tem o
+   tratamento de objeto: monoespaçada de verdade, tracejado em volta (que lê
+   como "destaque para recortar"), e o verde da marca na borda para dizer que
+   é nosso e não um erro do sistema. O tracejado é o mesmo da etiqueta de
+   remédio — a pessoa já sabe, sem ler, que ali vai algo para guardar. */
+.codigo{
+  font-family:"IBM Plex Mono", ui-monospace, "Cascadia Mono", Menlo, Consolas, monospace;
+  font-size:clamp(16px,4.1vw,21px); font-weight:600; letter-spacing:.08em;
+  background:var(--verde-suave); border:2px dashed var(--verde); border-radius:12px;
+  padding:20px 14px; color:var(--tinta); margin:18px 0 20px;
+  display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:0 2px;
+  user-select:all;
+}
+/* Cada bloco de cinco é um pedaço indivisível.
+   Com word-break:break-all o código quebrava NO MEIO de um bloco — "…-D4Q"
+   numa linha e "JR" na outra —, e quem copia à caneta de um papel lê isso
+   errado. Aqui a quebra só pode acontecer entre blocos, que é onde o hífen já
+   diz que é para quebrar. */
+.codigo b{font-weight:inherit; white-space:nowrap}
+.codigo i{font-style:normal; opacity:.45; padding:0 1px}
+.paraque{
+  background:var(--folha-2); border-radius:12px; padding:16px 18px;
+  font-size:14.5px; line-height:1.55;
+}
+.paraque p{margin:0 0 10px}
+.paraque p:last-child{margin:0}
+.guardar{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:9px}
+.guardar .btn{width:100%}
+.confirmar{display:flex; gap:9px; margin-top:12px; flex-wrap:wrap}
+.btn.sm{padding:8px 14px; font-size:14px}
+.carregando{color:var(--tinta-3); font-size:15px; text-align:center; padding:26px 0}
+
+/* --- botão de tema ---
+   O mesmo par de botões da página inicial, com a mesma aparência e o mesmo
+   comportamento de três estados. Fica no cabeçalho, que é comum a todas as
+   páginas — então basta existir aqui para existir em todas. */
+.tema{display:inline-flex; align-items:center; gap:3px; padding:3px;
+  border:1px solid var(--linha); border-radius:99px; background:var(--folha)}
+.tema button{width:30px; height:30px; border:0; border-radius:99px; cursor:pointer;
+  background:none; color:var(--tinta-3); display:inline-flex; align-items:center;
+  justify-content:center; padding:0; transition:background .15s, color .15s}
+.tema button[aria-pressed="true"]{background:var(--verde); color:var(--sobre-cheio)}
+.tema button:hover{color:var(--tinta)}
+.tema button[aria-pressed="true"]:hover{color:var(--sobre-cheio)}
+:root[data-theme="dark"] .tema button[aria-pressed="true"]{background:#43C0A7; color:#04201B}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .tema button[aria-pressed="true"]{background:#43C0A7; color:#04201B}
+}
+@media (max-width:520px){ .topo nav{gap:12px} }
+/* ===== 2.10: a marca do topo igual à da página inicial ===== */
+.marca{gap:11px}
+.marca span{overflow:visible}
+.marca-selo{flex:none; display:grid; place-items:center}
+.marca-selo img{width:40px; height:40px; border-radius:11px; display:block;
+  box-shadow:0 8px 18px -12px rgba(11,26,22,.55)}
+.marca-nome{display:flex; flex-direction:column; min-width:0; line-height:1}
+.marca-nome b{font-family:Newsreader, Georgia, serif; font-weight:600; font-size:23px;
+  letter-spacing:-.02em; white-space:nowrap; color:var(--tinta)}
+.marca-nome small{font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size:9.5px; font-weight:500; letter-spacing:.46em; text-transform:uppercase;
+  color:var(--verde); margin:5px 0 0 2px}
+@media (max-width:560px){
+  .marca-selo img{width:36px; height:36px; border-radius:10px}
+  .marca-nome b{font-size:20px}
+  .marca-nome small{font-size:8.5px; letter-spacing:.42em; margin-top:4px}
+}
+@media (max-width:360px){ .marca-nome b{font-size:18px} .marca-nome small{display:none} }
+@media (max-width:300px){ .marca-nome{display:none} }
+/* O PREENCHIMENTO AUTOMÁTICO DO NAVEGADOR pintava o campo de azul-claro (e,
+   no tema escuro, deixava letra clara em fundo claro). A sombra interna cobre
+   o fundo que o navegador impõe; a cor do texto volta a ser a da página. */
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus{
+  -webkit-text-fill-color:var(--tinta); caret-color:var(--tinta);
+  -webkit-box-shadow:0 0 0 1000px var(--papel) inset; box-shadow:0 0 0 1000px var(--papel) inset;
+  transition:background-color 99999s ease-out 0s}
+input:-webkit-autofill:focus{
+  -webkit-box-shadow:0 0 0 1000px var(--papel) inset, 0 0 0 3px var(--verde-suave);
+  box-shadow:0 0 0 1000px var(--papel) inset, 0 0 0 3px var(--verde-suave)}
+</style>
+</head>
+<body>
+<div class="ceu" aria-hidden="true">
+  <div class="veu v1"></div><div class="veu v2"></div><div class="veu v3"></div>
+</div>
+<header class="topo">
+  <div class="topo-in">
+    <a class="marca" href="/" aria-label="Meu Consultório App — início"><span class="marca-selo"><img src="/img/favicon.png" alt="" width="40" height="40" /></span><span class="marca-nome"><b>Meu Consultório</b><small>App</small></span></a>
+    <nav><a href="/perfil">Meu perfil</a>
+      <span class="tema" role="group" aria-label="Tema da página">
+        <button type="button" data-tema="light" aria-pressed="false" title="Tema claro" aria-label="Tema claro">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button type="button" data-tema="dark" aria-pressed="false" title="Tema escuro" aria-label="Tema escuro">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5z"/></svg>
+        </button>
+      </span>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="estreito">
+
+    <div class="caixa">
+      <p class="rot">Assinatura</p>
+      <h1>Escolher meu plano</h1>
+      <p class="sub">Todos os planos têm o sistema inteiro. Muda só de quanto em quanto tempo você paga.</p>
+      <p class="recado" id="recado" hidden></p>
+
+      <form id="forma">
+        <div class="planos" id="planos"></div>
+
+        <label class="interruptor">
+          <input type="checkbox" id="automatica" />
+          <span><b>Ligar a cobrança automática</b> e ganhar mais 3% de desconto.<br />
+            <span style="color:var(--tinta-3);font-size:13.5px">Vale só para cartão de crédito — débito e
+            Pix, pela regra dos bancos, não podem ser cobrados sozinhos. Você desliga quando quiser, aqui
+            mesmo, sem falar com ninguém.</span></span>
+        </label>
+
+        <p class="recado" id="total" style="margin-top:18px"></p>
+
+        <label class="marcador">
+          <input type="checkbox" id="aceite" />
+          <span>Li e aceito o <a href="/contrato.pdf" target="_blank" rel="noopener">contrato de adesão</a><span
+            id="versaoContrato"></span>, inclusive o preço acima, a renovação, a suspensão por falta de
+            pagamento e os 7 dias de arrependimento.</span>
+        </label>
+        <p class="dica" id="avisoContrato" style="margin:6px 0 0" hidden></p>
+
+        <button class="btn pri bloco" id="enviar" type="submit">Ir para o pagamento</button>
+      </form>
+      <p class="rodape-form" style="margin-bottom:0"><a href="/perfil">Voltar ao perfil</a></p>
+    </div>
+  </div>
+</main>
+<footer class="rodape">
+  <div>
+    <span>© 2026 Meu Consultório App</span>
+    <a href="/contrato.pdf" target="_blank" rel="noopener">Contrato de adesão</a>
+    <a href="/#planos">Planos</a>
+    <a href="mailto:contato@meuconsultorioappodonto.com.br">contato@meuconsultorioappodonto.com.br</a>
+    <a href="https://wa.me/5521986624185" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+</footer>
+<script src="/js/acesso.js"></script>
+<script src="/js/ceu.js" defer></script>
+<script>
+/* O BOTÃO DE TEMA — três estados, não dois: claro, escuro e "o que o sistema
+   preferir". Quem nunca clicou fica no terceiro, e por isso os dois botões só
+   marcam um como apertado quando existe escolha gravada. Clicar de novo no que
+   já está ligado devolve a escolha para o sistema. É o mesmo código da página
+   inicial, palavra por palavra. */
+(function(){
+  var raiz = document.documentElement;
+  var botoes = document.querySelectorAll(".tema button[data-tema]");
+  if(!botoes.length) return;
+  function guardado(){
+    try{ return localStorage.getItem("mca-tema"); }catch(e){ return null; }
+  }
+  function daMaquina(){
+    return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+  function pintar(){
+    var q = guardado() || daMaquina();
+    botoes.forEach(function(b){
+      b.setAttribute("aria-pressed", b.dataset.tema === q ? "true" : "false");
+    });
+  }
+  botoes.forEach(function(b){
+    b.addEventListener("click", function(){
+      var quer = b.dataset.tema;
+      if(guardado() === quer){
+        try{ localStorage.removeItem("mca-tema"); }catch(e){}
+        raiz.removeAttribute("data-theme");
+      }else{
+        try{ localStorage.setItem("mca-tema", quer); }catch(e){}
+        raiz.setAttribute("data-theme", quer);
+      }
+      pintar();
+    });
+  });
+  try{
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(){
+      if(!guardado()) pintar();
+    });
+  }catch(e){}
+  pintar();
+})();
+</script>
+<script>
+/* QUAL VERSÃO DO CONTRATO ESTÁ SENDO ACEITA.
+   O PDF publicado é um só e hoje traz a 1.1, que passa a valer em 03/10/2026 —
+   mas o que o banco grava é a versão vigente no dia do aceite. Sem isto na
+   tela, a pessoa lia 1.1 e aceitava 1.0 sem nada dizer que são duas. O PDF já
+   explica na primeira página o que muda entre elas; o que faltava era a tela
+   não esconder a diferença. */
+(async () => {
+  try {
+    const r = await MCA.chamar('/api/planos', {});
+    const c = r.ok && r.dados.contrato;
+    if (!c) return;
+    const alvo = document.getElementById('versaoContrato');
+    if (alvo) alvo.textContent = ' (versão ' + c.versao + ')';
+    if (c.proxima) {
+      const av = document.getElementById('avisoContrato');
+      if (av) {
+        const d = c.proximaDesde.split('-').reverse().join('/');
+        av.textContent = 'Você está aceitando a versão ' + c.versao + '. O PDF acima já traz a '
+          + c.proxima + ', que passa a valer em ' + d + ' — a primeira página dele diz exatamente '
+          + 'o que muda de uma para a outra.';
+        av.hidden = false;
+      }
+    }
+  } catch (e) {}
+})();
+
+const recado = document.getElementById('recado');
+const total = document.getElementById('total');
+const botao = document.getElementById('enviar');
+let planos = [];
+
+function pintarTotal() {
+  const escolhido = document.querySelector('input[name=plano]:checked');
+  if (!escolhido) { total.hidden = true; return; }
+  const p = planos.find((x) => x.id === escolhido.value);
+  const auto = document.getElementById('automatica').checked;
+  total.hidden = false;
+  total.className = 'recado ok';
+  total.innerHTML = 'Plano <b>' + p.nome + '</b> — ' +
+    (auto ? '<b>' + p.valorAutoTexto + '</b> (com os 3% da cobrança automática)'
+          : '<b>' + p.valorTexto + '</b>') +
+    ' a cada ' + (p.meses === 1 ? 'mês' : p.meses + ' meses') + '.';
+}
+
+(async () => {
+  const r = await MCA.chamar('/api/planos');
+  planos = r.dados.planos;
+  document.getElementById('planos').innerHTML = planos.map((p, i) => `
+    <label class="plano">
+      <input type="radio" name="plano" value="${p.id}" ${p.id === 'anual' ? 'checked' : ''} />
+      <div class="nome">${p.nome}</div>
+      <div class="mes">${p.porMesTexto} <small>/mês</small></div>
+      <div class="tot">${p.valorTexto} a cada ${p.meses === 1 ? 'mês' : p.meses + ' meses'}</div>
+      ${p.desconto ? '<div class="eco">' + p.desconto + '% de desconto</div>' : ''}
+    </label>`).join('');
+  document.querySelectorAll('input[name=plano]').forEach((i) => i.addEventListener('change', pintarTotal));
+  pintarTotal();
+})();
+
+document.getElementById('automatica').addEventListener('change', pintarTotal);
+
+document.getElementById('forma').onsubmit = async (e) => {
+  e.preventDefault();
+  const escolhido = document.querySelector('input[name=plano]:checked');
+  if (!escolhido) return MCA.aviso(recado, 'Escolha um plano.');
+  if (!document.getElementById('aceite').checked) return MCA.aviso(recado, 'É preciso aceitar o contrato.');
+  MCA.ocupado(botao, true, 'Abrindo o pagamento…');
+  const r = await MCA.chamar('/api/conta/plano', {
+    plano: escolhido.value,
+    cobrancaAutomatica: document.getElementById('automatica').checked,
+    aceite: true,
+  });
+  if (r.ok && r.dados.urlPagamento) {
+    // O pagamento acontece na página do Asaas: o número do cartão nunca passa
+    // por aqui. Quem libera o acesso é o aviso que o Asaas manda de volta,
+    // não esta ida ao navegador — por isso não adianta forjar a volta.
+    MCA.aviso(recado, 'Levando você para a tela de pagamento…', 'ok');
+    /* Conversão SECUNDÁRIA e de valor zero: isto é intenção, não é venda.
+       Quem confirma a venda é o webhook do Asaas, e nessa hora este navegador
+       já não está aqui. Contar isto como venda ensinaria o Google a caçar
+       gente que clica em assinar e desiste.
+       O ir-para-o-pagamento vai dentro do "depois": se a medida não subir em
+       1,2s, ela se perde e o dentista vai para o pagamento assim mesmo. */
+    const irPagar = () => { location.href = r.dados.urlPagamento; };
+    if (window.__conversao) window.__conversao('inicio_pagamento', irPagar);
+    else irPagar();
+    return;
+  }
+  if (r.ok) {
+    MCA.aviso(recado, r.dados.recado || 'Escolha registrada.', 'ok');
+    document.getElementById('forma').hidden = true;
+  } else {
+    MCA.aviso(recado, r.dados.erro || 'Não foi possível registrar.');
+    MCA.ocupado(botao, false);
+  }
+};
+</script>
+</body>
+</html>
