@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Novidades — Meu Consultório App</title>
-<meta name="description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 2.10.1." />
+<meta name="description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 2.10.2." />
 <meta name="theme-color" content="#0E6B5E" />
 <!-- Google tag (gtag.js) — o mesmo das demais páginas do funil.
      A linha do page_location é acréscimo meu: por padrão o gtag manda o
@@ -29,7 +29,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Meu Consultório App" />
 <meta property="og:title" content="Novidades — Meu Consultório App" />
-<meta property="og:description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 2.10.1." />
+<meta property="og:description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 2.10.2." />
 <!-- o WhatsApp e o Facebook só montam a prévia do link com endereço absoluto:
      caminho relativo aqui faz o link chegar sem imagem no celular de quem recebe -->
 <meta property="og:image" content="https://meuconsultorioappodonto.com.br/img/capa-2.8.jpg" />
@@ -966,8 +966,16 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
   <section class="faixa" style="padding-top:clamp(12px,2vw,24px)">
     <div class="centro">
       <div class="versoes">
+      <article class="versao" id="v2-10-2">
+        <div class="versao-num">2.10.2<small>versão atual</small></div>
+        <ul>
+          <li><b>Dá para esconder as opções de voz na tela da Duda.</b> Um botão <b>Ocultar</b> na faixa de voz tira a faixa da frente, e a caixa de pergunta fica logo abaixo da conversa. Para trazer de volta, <b>Opções de voz</b>, ao lado de Perguntar. A escolha vale para este aparelho.</li>
+          <li><b>As respostas da Duda saem com o negrito certo.</b> Antes, as palavras que ela destacava apareciam entre asteriscos — **assim**. Agora aparecem em negrito, como devem.</li>
+          <li><b>Esta é a primeira versão entregue pela atualização por dentro</b> a quem já está na 2.10: o programa baixa, mostra a porcentagem e reabre já atualizado.</li>
+        </ul>
+      </article>
       <article class="versao" id="v2-10-1">
-        <div class="versao-num">2.10.1<small>versão atual</small></div>
+        <div class="versao-num">2.10.1</div>
         <ul>
           <li><b>O programa volta a falar com a internet em computadores com antivírus ou proxy.</b> Num consultório, o Chrome navegava normalmente e o programa ficava “sem internet”: a Duda dizia que não conseguia falar com o site e a atualização não conferia. A conexão do programa agora tenta o caminho de sempre e, se ele falhar, repete pelo mesmo caminho que o Chrome usa — e passa a preferir esse caminho dali em diante.</li>
           <li><b>Quando mesmo assim não conectar, a tela diz o porquê</b>, em letras pequenas, ao lado do aviso — para o suporte saber se foi o nome do site, o certificado ou a conexão.</li>
@@ -1010,6 +1018,10 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
           <li><b>A senha única não é mais pedida todo dia.</b> Colou uma vez, este computador obedece a ela até você gerar outra no site. Se a internet cair no meio da confirmação, o programa termina sozinho depois, sem pedir o código de novo. E se o site passar a ter uma senha única diferente (gerada em outro aparelho), aí sim o cartão avisa e pede a nova.</li>
         </ul>
       </article>
+      </div>
+      <details class="versoes-antigas">
+        <summary>Versões anteriores — da 1.3.0 à 2.8.5</summary>
+        <div class="versoes">
       <article class="versao" id="v2-8-5">
         <div class="versao-num">2.8.5</div>
         <ul>
@@ -1021,10 +1033,6 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
           <li><b>A Duda também aprendeu o programa inteiro</b>: laboratório, lista de retorno, baixa automática do estoque, anamnese pelo WhatsApp, senha única, backup na nuvem e modo tablet entraram no que ela sabe.</li>
         </ul>
       </article>
-      </div>
-      <details class="versoes-antigas">
-        <summary>Versões anteriores — da 1.3.0 à 2.8.0</summary>
-        <div class="versoes">
       <article class="versao" id="v2-8-0">
         <div class="versao-num">2.8.0</div>
         <ul>
