@@ -878,6 +878,104 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
 .fecho{text-align:left}
 .fecho .acoes{margin-top:22px}
 
+/* ============================================================
+   A FAIXA ESCURA SE FUNDE NO FUNDO.
+   A cor vai para uma camada atrás do conteúdo, mais transparente
+   (80% em vez de 94%), e some aos poucos em cima e embaixo — sem
+   linha dura entre a faixa e a página. Máscara, não backdrop-filter:
+   o desfoque ao vivo pesava fora do Chrome.
+   ============================================================ */
+.faixa.escuro{position:relative; isolation:isolate; background:none}
+.faixa.escuro::before{
+  content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  --esfuma:clamp(44px,7vw,110px);
+  background:linear-gradient(170deg,
+    color-mix(in srgb, var(--verde-fundo-2) 80%, transparent),
+    color-mix(in srgb, var(--verde-fundo) 82%, transparent));
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0, rgba(0,0,0,.55) calc(var(--esfuma) * .45), #000 var(--esfuma),
+    #000 calc(100% - var(--esfuma)), rgba(0,0,0,.55) calc(100% - var(--esfuma) * .45), transparent 100%);
+          mask-image:linear-gradient(to bottom, transparent 0, rgba(0,0,0,.55) calc(var(--esfuma) * .45), #000 var(--esfuma),
+    #000 calc(100% - var(--esfuma)), rgba(0,0,0,.55) calc(100% - var(--esfuma) * .45), transparent 100%);
+}
+
+/* ============================================================
+   TRÊS CELULARES DE VERDADE.
+   Cada aparelho é desenhado em CSS na proporção da tela real
+   (largura × altura em pontos), com a barra de status, a câmera
+   e o indicador de gestos de cada um. A foto é exatamente a área
+   abaixo da barra de status, então nada é cortado.
+   Tudo medido em cqw: o aparelho encolhe inteiro, sem deformar.
+   ============================================================ */
+.vitrine-cel{display:flex; justify-content:center; align-items:flex-start; gap:clamp(12px,1.8vw,22px); margin:0}
+.aparelho{margin:0; flex:1 1 0; min-width:0; max-width:224px; container-type:inline-size}
+.aparelho.i13{flex-grow:.92; max-width:206px; margin-top:44px}
+.aparelho.promax{margin-top:22px}
+.aparelho-corpo{position:relative; padding:var(--aro); border-radius:var(--raio);
+  background:#0a0b0c}
+/* botões laterais */
+.aparelho-corpo::before, .aparelho-corpo::after{content:""; position:absolute; width:1.4cqw; border-radius:1cqw; background:var(--metal-botao)}
+.aparelho-tela{position:relative; overflow:hidden; border-radius:var(--raio-tela); background:#E6EFED;
+  container-type:inline-size; aspect-ratio:var(--proporcao)}
+.aparelho-tela img{position:absolute; left:0; right:0; bottom:0; width:100%; height:auto; display:block}
+.status{position:absolute; left:0; right:0; top:0; height:var(--status); display:flex; align-items:center;
+  justify-content:space-between; padding:0 var(--status-lado); color:#0B1A16;
+  background:linear-gradient(90deg, #ECF3F1, #E0EBE9);
+  font:600 var(--hora-tam)/1 -apple-system, "SF Pro Text", Roboto, "Segoe UI", system-ui, sans-serif;
+  letter-spacing:-.01em; font-variant-numeric:tabular-nums}
+.status svg{height:var(--icone); width:auto; display:block}
+.status .icones{display:flex; align-items:center; gap:1.4cqw}
+.gesto{position:absolute; left:50%; bottom:var(--gesto-base); transform:translateX(-50%);
+  width:var(--gesto-largura); height:var(--gesto-altura); border-radius:9cqw; background:rgba(11,26,22,.82); z-index:2}
+
+/* Galaxy S26 Ultra: titânio, cantos quase retos, câmera em furo no centro */
+.aparelho.s26{--aro:2.1cqw; --raio:6.2cqw}
+.s26 .aparelho-corpo{--metal-botao:#8d9296}
+.s26 .aparelho-corpo{box-shadow:0 0 0 1.25cqw #9a9fa3, 0 0 0 calc(1.25cqw + 1px) rgba(0,0,0,.4),
+    inset 0 0 0 .35cqw #1b1d1f, 0 3px 8px rgba(0,0,0,.28), 0 36px 60px -30px rgba(0,0,0,.75)}
+.s26 .aparelho-corpo::before{right:-2.6cqw; top:18%; height:11%}
+.s26 .aparelho-corpo::after{right:-2.6cqw; top:33%; height:6%}
+.s26 .aparelho-tela{--raio-tela:3.6cqw; --proporcao:412/915; --status:7.77cqw; --status-lado:5.4cqw;
+  --hora-tam:3.5cqw; --icone:3.1cqw; --gesto-base:1.5cqw; --gesto-largura:26cqw; --gesto-altura:.95cqw}
+.s26 .furo{position:absolute; left:50%; top:1.35cqw; width:3.3cqw; height:3.3cqw; transform:translateX(-50%);
+  border-radius:50%; background:radial-gradient(circle at 38% 36%, #2a3340 0 18%, #07080a 46%); z-index:2;
+  box-shadow:0 0 0 .3cqw rgba(0,0,0,.25)}
+
+/* iPhone Pro Max: aro fino, Dynamic Island */
+.aparelho.promax{--aro:2.6cqw; --raio:14.2cqw}
+.promax .aparelho-corpo{box-shadow:0 0 0 1.1cqw #a9a49b, 0 0 0 calc(1.1cqw + 1px) rgba(0,0,0,.4),
+    inset 0 0 0 .3cqw #2b2a28, 0 3px 8px rgba(0,0,0,.28), 0 36px 60px -30px rgba(0,0,0,.75)}
+.promax .aparelho-corpo{--metal-botao:#a39e95}
+.promax .aparelho-corpo::before{left:-2.4cqw; top:21%; height:7.5%; box-shadow:0 calc(100cqw * .16) 0 #a39e95}
+.promax .aparelho-corpo::after{right:-2.4cqw; top:26%; height:10.5%}
+.promax .aparelho-tela{--raio-tela:11.8cqw; --proporcao:440/956; --status:14.09cqw; --status-lado:8.8cqw;
+  --hora-tam:3.85cqw; --icone:2.9cqw; --gesto-base:1.9cqw; --gesto-largura:33cqw; --gesto-altura:1.15cqw}
+.promax .status{padding-top:1.2cqw}
+.promax .status .hora{padding-left:3.4cqw}
+.ilha{position:absolute; left:50%; top:2.6cqw; width:28.5cqw; height:8.3cqw; transform:translateX(-50%);
+  border-radius:9cqw; background:#050505; z-index:2}
+
+/* iPhone 13: aro mais grosso, entalhe */
+.aparelho.i13{--aro:4.4cqw; --raio:15.5cqw}
+.i13 .aparelho-corpo{box-shadow:0 0 0 1.2cqw #3d5a74, 0 0 0 calc(1.2cqw + 1px) rgba(0,0,0,.4),
+    inset 0 0 0 .3cqw #22313f, 0 3px 8px rgba(0,0,0,.28), 0 36px 60px -30px rgba(0,0,0,.75)}
+.i13 .aparelho-corpo{--metal-botao:#3a5670}
+.i13 .aparelho-corpo::before{left:-2.5cqw; top:22%; height:8%; box-shadow:0 calc(100cqw * .2) 0 #3a5670}
+.i13 .aparelho-corpo::after{right:-2.5cqw; top:27%; height:12%}
+.i13 .aparelho-tela{--raio-tela:10.6cqw; --proporcao:390/844; --status:12.05cqw; --status-lado:7.6cqw;
+  --hora-tam:4.1cqw; --icone:3.1cqw; --gesto-base:2cqw; --gesto-largura:35cqw; --gesto-altura:1.25cqw}
+.i13 .status .hora{padding-left:2.2cqw}
+.entalhe{position:absolute; left:50%; top:0; width:41cqw; height:8.2cqw; transform:translateX(-50%);
+  background:#050505; border-radius:0 0 4.6cqw 4.6cqw; z-index:2}
+.entalhe::before, .entalhe::after{content:""; position:absolute; top:0; width:2.4cqw; height:2.4cqw}
+.entalhe::before{left:-2.4cqw; background:radial-gradient(circle at 0 100%, transparent 2.4cqw, #050505 2.45cqw)}
+.entalhe::after{right:-2.4cqw; background:radial-gradient(circle at 100% 100%, transparent 2.4cqw, #050505 2.45cqw)}
+.entalhe i{position:absolute; top:2.6cqw; left:58%; width:3cqw; height:3cqw; border-radius:50%;
+  background:radial-gradient(circle at 38% 36%, #24303d 0 20%, #050505 50%)}
+.escuro .vitrine-legenda{margin:18px auto 0; text-align:center; font-size:13px; line-height:1.5;
+  color:rgba(220,237,232,.66); max-width:30rem}
+@media (max-width:1180px){ .vitrine-cel .aparelho.i13{display:none} }
+@media (max-width:520px){ .vitrine-cel .aparelho{max-width:200px} }
+
 /* o link da página em que você está */
 .topo-links a[aria-current="page"]{color:var(--verde); border-bottom-color:var(--verde)}
 .bloco[id]{scroll-margin-top:96px}
@@ -898,9 +996,6 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
 /* item de lista com negrito no começo: o <b> virava coluna do flex */
 .lista li{display:block; position:relative; padding-left:23px}
 .lista li::before{position:absolute; left:0; top:0}
-/* os três celulares lado a lado, sem o terceiro cair para a linha de baixo */
-.fila-celulares{flex-wrap:nowrap !important}
-.fila-celulares .celular{flex:1 1 0; min-width:0}
 /* chamada para as páginas de leitura, no fim da inicial */
 .leituras{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin-top:26px}
 .leitura{display:flex; flex-direction:column; gap:6px; padding:20px 20px 22px; border-radius:12px;
