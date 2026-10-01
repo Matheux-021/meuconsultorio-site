@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Novidades — Meu Consultório App</title>
-<meta name="description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 2.10.2." />
+<meta name="description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 2.10.3." />
 <meta name="theme-color" content="#0E6B5E" />
 <!-- Google tag (gtag.js) — o mesmo das demais páginas do funil.
      A linha do page_location é acréscimo meu: por padrão o gtag manda o
@@ -29,7 +29,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Meu Consultório App" />
 <meta property="og:title" content="Novidades — Meu Consultório App" />
-<meta property="og:description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 2.10.2." />
+<meta property="og:description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 2.10.3." />
 <!-- o WhatsApp e o Facebook só montam a prévia do link com endereço absoluto:
      caminho relativo aqui faz o link chegar sem imagem no celular de quem recebe -->
 <meta property="og:image" content="https://meuconsultorioappodonto.com.br/img/capa-2.8.jpg" />
@@ -1061,8 +1061,17 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
   <section class="faixa" style="padding-top:clamp(12px,2vw,24px)">
     <div class="centro">
       <div class="versoes">
+      <article class="versao" id="v2-10-3">
+        <div class="versao-num">2.10.3<small>versão atual</small></div>
+        <ul>
+          <li><b>A chave das fichas não fica mais legível no computador.</b> Com o programa aberto, a chave do cofre fica guardada para a senha não ser pedida a cada tela. Essa cópia ia parar numa pasta interna do programa, legível, e continuava lá depois de fechar. Agora ela vai lacrada com um segredo que só existe enquanto o programa está aberto: fechou, o lacre não abre mais, e na próxima vez a senha é pedida. A pasta antiga é apagada ao abrir.</li>
+          <li><b>“Lembrar minha senha neste aparelho” ficou mais seguro.</b> A senha lembrada passa a ser cifrada pelo próprio Windows, presa à sua conta do Windows. Quem já usava não precisa fazer nada: na primeira abertura ela é cifrada e, na seguinte, a cópia antiga é apagada.</li>
+          <li><b>As ferramentas do desenvolvedor (Ctrl+Shift+I) não abrem mais no programa instalado.</b> Com o cofre aberto, elas eram uma porta direta para a memória da tela.</li>
+          <li><b>No celular:</b> o aplicativo chega junto, na 2.10.3, com o botão Ocultar da voz da Duda e o negrito nas respostas.</li>
+        </ul>
+      </article>
       <article class="versao" id="v2-10-2">
-        <div class="versao-num">2.10.2<small>versão atual</small></div>
+        <div class="versao-num">2.10.2</div>
         <ul>
           <li><b>Dá para esconder as opções de voz na tela da Duda.</b> Um botão <b>Ocultar</b> na faixa de voz tira a faixa da frente, e a caixa de pergunta fica logo abaixo da conversa. Para trazer de volta, <b>Opções de voz</b>, ao lado de Perguntar. A escolha vale para este aparelho.</li>
           <li><b>As respostas da Duda saem com o negrito certo.</b> Antes, as palavras que ela destacava apareciam entre asteriscos — **assim**. Agora aparecem em negrito, como devem.</li>
@@ -1101,6 +1110,10 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
           <li><b>Exemplo:</b> a paciente de demonstração agora é Maria Eduarda de Oliveira, e o exemplo traz três encaminhamentos.</li>
         </ul>
       </article>
+      </div>
+      <details class="versoes-antigas">
+        <summary>Versões anteriores — da 1.3.0 à 2.8.6</summary>
+        <div class="versoes">
       <article class="versao" id="v2-8-6">
         <div class="versao-num">2.8.6</div>
         <ul>
@@ -1113,10 +1126,6 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
           <li><b>A senha única não é mais pedida todo dia.</b> Colou uma vez, este computador obedece a ela até você gerar outra no site. Se a internet cair no meio da confirmação, o programa termina sozinho depois, sem pedir o código de novo. E se o site passar a ter uma senha única diferente (gerada em outro aparelho), aí sim o cartão avisa e pede a nova.</li>
         </ul>
       </article>
-      </div>
-      <details class="versoes-antigas">
-        <summary>Versões anteriores — da 1.3.0 à 2.8.5</summary>
-        <div class="versoes">
       <article class="versao" id="v2-8-5">
         <div class="versao-num">2.8.5</div>
         <ul>
