@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Novidades — Meu Consultório App</title>
-<meta name="description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 3.0.1." />
+<meta name="description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 3.1.0." />
 <meta name="theme-color" content="#0E6B5E" />
 <!-- Google tag (gtag.js) — o mesmo das demais páginas do funil.
      A linha do page_location é acréscimo meu: por padrão o gtag manda o
@@ -29,7 +29,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Meu Consultório App" />
 <meta property="og:title" content="Novidades — Meu Consultório App" />
-<meta property="og:description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 3.0.1." />
+<meta property="og:description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 3.1.0." />
 <!-- o WhatsApp e o Facebook só montam a prévia do link com endereço absoluto:
      caminho relativo aqui faz o link chegar sem imagem no celular de quem recebe -->
 <meta property="og:image" content="https://meuconsultorioappodonto.com.br/img/capa-2.8.jpg" />
@@ -1105,6 +1105,10 @@ main > section.faixa.escuro:last-of-type::before{
 .campo .v2, .ceu .v2{background:radial-gradient(circle closest-side, var(--azul) 0%, color-mix(in srgb, var(--azul) 62%, transparent) 26%, color-mix(in srgb, var(--azul) 26%, transparent) 55%, color-mix(in srgb, var(--azul) 8%, transparent) 78%, transparent 100%)}
 
 </style>
+<style>
+.topo-links a.link-duda{background:linear-gradient(90deg, var(--verde), var(--azul)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:600}
+.topo-links a.link-duda[aria-current="page"]{border-bottom-color:var(--azul)}
+</style>
 </head>
 <body>
 
@@ -1124,6 +1128,7 @@ main > section.faixa.escuro:last-of-type::before{
     </a>
     <nav class="topo-links" aria-label="Páginas do site">
       <a href="/clinica" style="color:var(--azul)">Clínica</a>
+      <a href="/duda" class="link-duda">Duda</a>
       <a href="/recursos">Recursos</a>
       <a href="/seguranca">Segurança</a>
       <a href="/#planos">Planos</a>
@@ -1159,8 +1164,21 @@ main > section.faixa.escuro:last-of-type::before{
   <section class="faixa" style="padding-top:clamp(12px,2vw,24px)">
     <div class="centro">
       <div class="versoes">
+      <article class="versao" id="v3-1-0">
+        <div class="versao-num">3.1.0<small>versão atual</small></div>
+        <ul>
+          <li><b>Solo e Clínica na mesma versão, 3.1.0</b> — e a atualização é sempre uma versão só, instalada por inteiro, que reabre sozinha.</li>
+          <li><b>O ícone novo chega ao atalho</b> da área de trabalho, do menu Iniciar e da barra de tarefas de quem atualizou.</li>
+          <li><b>O aviso de versão nova só aparece quando existe mesmo uma versão mais nova</b> que a sua, e com o número dela.</li>
+          <li><b>Menu recolhível:</b> um botão no pé do menu deixa só os ícones, e a tela ganha espaço.</li>
+          <li><b>Fotos e exames em tela cheia:</b> a roda do mouse aproxima no ponto do cursor, arrastar leva a imagem para onde você quiser mostrar ao paciente, duplo clique alterna e dá para girar. PDF abre ali mesmo, com zoom.</li>
+          <li><b>O programa abre maximizado</b>, ocupando a tela inteira.</li>
+          <li><b>A Duda ganhou o orbe animado</b>, sabe muito mais sobre o próprio programa e responde do jeito que você escolher: <b>Completa</b> ou <b>Prática</b>. Conheça tudo em <a href="/duda">/duda</a>.</li>
+          <li><b>Cada conta é de um programa.</b> Quem é do Solo e quer a Clínica faz a mudança no site, em Perfil › Mudar para a Clínica — cadastro, plano e valores conferidos antes de confirmar. O contrato passou à versão 2.0.</li>
+        </ul>
+      </article>
       <article class="versao" id="v3-0-1">
-        <div class="versao-num">3.0.1<small>versão atual</small></div>
+        <div class="versao-num">3.0.1</div>
         <ul>
           <li><b>Uma versão só, sempre.</b> A atualização agora instala o programa inteiro, em silêncio, e reabre sozinho já na versão nova — no Solo e na Clínica. Acabou o “sistema de uma versão, instalador de outra”: quem estava assim recebe o instalador completo e volta a ter um número só. Ela baixa em segundo plano; se você fechar o programa sem clicar em instalar, ela se instala ao fechar.</li>
           <li><b>Ícone novo.</b> O dente sobre a cor de cada programa — verde no Solo (2.11.1), azul na Clínica (3.0.1) — com as partículas ao fundo, no instalador, no atalho, na barra de tarefas e no celular.</li>
@@ -1198,6 +1216,10 @@ main > section.faixa.escuro:last-of-type::before{
           <li><b>No celular:</b> o aplicativo chega junto, na 2.10.3, com o botão Ocultar da voz da Duda e o negrito nas respostas.</li>
         </ul>
       </article>
+      </div>
+      <details class="versoes-antigas">
+        <summary>Versões anteriores — da 1.3.0 à 2.10.2</summary>
+        <div class="versoes">
       <article class="versao" id="v2-10-2">
         <div class="versao-num">2.10.2</div>
         <ul>
@@ -1206,10 +1228,6 @@ main > section.faixa.escuro:last-of-type::before{
           <li><b>Esta é a primeira versão entregue pela atualização por dentro</b> a quem já está na 2.10: o programa baixa, mostra a porcentagem e reabre já atualizado.</li>
         </ul>
       </article>
-      </div>
-      <details class="versoes-antigas">
-        <summary>Versões anteriores — da 1.3.0 à 2.10.1</summary>
-        <div class="versoes">
       <article class="versao" id="v2-10-1">
         <div class="versao-num">2.10.1</div>
         <ul>

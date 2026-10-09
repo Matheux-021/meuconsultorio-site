@@ -1,12 +1,14 @@
 {
- "versao": "3.0.0",
+ "versao": "3.3",
  "arquivos": [
   "404.html",
   "armazenamento.html",
   "assinar.html",
   "baixar.html",
   "clinica.html",
+  "contrato-1.1.pdf",
   "criar-conta.html",
+  "duda.html",
   "duvidas.html",
   "entrar.html",
   "img/agenda.webp",

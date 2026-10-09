@@ -494,6 +494,27 @@ body.pagina-clinica .marca .cli-marca{display:inline}
 @media (max-width:520px){ .convite-equipe{grid-template-columns:minmax(0,1fr)} }
 
 </style>
+<style>
+
+.mudar-cli{margin-top:18px; border-top:1px solid var(--linha); padding-top:16px}
+.mudar-cli h3{font-family:Newsreader, Georgia, serif; font-size:22px; margin:0 0 6px}
+.mudar-cli .dica{font-size:14px; color:var(--tinta-2); margin:0 0 10px}
+.grade-campos{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 14px}
+.grade-campos .inteiro{grid-column:1/-1}
+@media (max-width:600px){ .grade-campos{grid-template-columns:minmax(0,1fr)} }
+.secao-cad{border:0; margin:0 0 6px; padding:0; min-width:0}
+.secao-cad legend{display:flex; align-items:center; gap:10px; font-family:Newsreader, Georgia, serif; font-size:19px; font-weight:600; color:var(--tinta); padding:0; margin:10px 0 12px}
+.secao-cad legend span{display:grid; place-items:center; width:24px; height:24px; border-radius:50%; background:var(--azul-suave); color:var(--azul); font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:12px}
+.opc{color:var(--tinta-3); font-weight:400}
+.campo select, .campo input[type=number]{width:100%; padding:11px 13px; font:inherit; font-size:15.5px; color:var(--tinta); background:var(--papel); border:1px solid var(--linha-forte); border-radius:10px}
+.mudar-valores{margin:10px 0 14px; border:1px solid color-mix(in srgb, var(--azul) 35%, var(--linha)); background:var(--azul-suave); border-radius:12px; padding:12px 14px; font-size:14.5px; line-height:1.55}
+.mudar-valores .lin{display:flex; justify-content:space-between; gap:12px; padding:3px 0}
+.mudar-valores .lin b{font-variant-numeric:tabular-nums}
+.mudar-valores .total{border-top:1px solid color-mix(in srgb, var(--azul) 30%, transparent); margin-top:6px; padding-top:8px; font-size:15.5px}
+.mudar-bts{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; margin-top:14px}
+.mudanca-pend{margin-top:12px; padding:12px 14px; border-radius:12px; border-left:4px solid var(--azul); background:var(--azul-suave); font-size:14.5px}
+
+</style>
 </head>
 <body>
 <script>
@@ -637,6 +658,7 @@ if(document.body.classList.contains('pagina-clinica')) document.addEventListener
           <div><label for="cvCodigo">Código do convite <span style="color:var(--tinta-3);font-weight:400">(opcional)</span></label><input id="cvCodigo" type="text" inputmode="numeric" maxlength="7" autocomplete="off" placeholder="000 000" /></div>
           <button class="btn azul" type="submit" id="cvEnviar">Enviar o convite</button>
         </form>
+<form class="mudar-cli" id="formMudar" hidden novalidate><h3>Mudar para a Clínica</h3><p class="dica">A Clínica tem cadastro próprio. Preencha os dados da clínica, escolha o plano e confira os valores antes de confirmar. Até o pagamento ser confirmado, nada muda: a conta continua no Solo.</p><fieldset class="secao-cad"><legend><span>1</span>A clínica</legend><div class="grade-campos"><div class="campo inteiro"><label for="mcRazao">Razão social</label><input id="mcRazao" type="text" autocomplete="off" /></div><div class="campo"><label for="mcFantasia">Nome fantasia</label><input id="mcFantasia" type="text" autocomplete="off" /></div><div class="campo"><label for="mcCnpj">CNPJ</label><input id="mcCnpj" type="text" autocomplete="off" inputmode="numeric"/><p class="dica">A cobrança e a nota passam a sair neste CNPJ.</p></div><div class="campo"><label for="mcTel">Telefone da clínica</label><input id="mcTel" type="tel" autocomplete="off" inputmode="numeric"/></div><div class="campo"><label for="mcWhats">WhatsApp da clínica <span class="opc">(opcional)</span></label><input id="mcWhats" type="tel" autocomplete="off" inputmode="numeric"/></div><div class="campo"><label for="mcCadeiras">Consultórios (cadeiras)</label><input id="mcCadeiras" type="number" autocomplete="off" min="1" max="60" inputmode="numeric"/></div><div class="campo"><label for="mcDentistas">Dentistas que atendem</label><input id="mcDentistas" type="number" autocomplete="off" min="1" max="300" inputmode="numeric"/></div><div class="campo"><label for="mcIm">Inscrição municipal <span class="opc">(opcional)</span></label><input id="mcIm" type="text" autocomplete="off" /></div><div class="campo"><label for="mcCnes">CNES <span class="opc">(opcional)</span></label><input id="mcCnes" type="text" autocomplete="off" inputmode="numeric" maxlength="7"/></div></div></fieldset><fieldset class="secao-cad"><legend><span>2</span>Endereço</legend><div class="grade-campos"><div class="campo"><label for="mcCep">CEP</label><input id="mcCep" type="text" autocomplete="off" inputmode="numeric" maxlength="9"/></div><div class="campo"><label for="mcUf">Estado (UF)</label><select id="mcUf"><option value="">UF</option><option>AC</option><option>AL</option><option>AP</option><option>AM</option><option>BA</option><option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MA</option><option>MT</option><option>MS</option><option>MG</option><option>PA</option><option>PB</option><option>PR</option><option>PE</option><option>PI</option><option>RJ</option><option>RN</option><option>RS</option><option>RO</option><option>RR</option><option>SC</option><option>SP</option><option>SE</option><option>TO</option></select></div><div class="campo inteiro"><label for="mcRua">Logradouro</label><input id="mcRua" type="text" autocomplete="off" /></div><div class="campo"><label for="mcNum">Número</label><input id="mcNum" type="text" autocomplete="off" /></div><div class="campo"><label for="mcCompl">Complemento <span class="opc">(opcional)</span></label><input id="mcCompl" type="text" autocomplete="off" /></div><div class="campo"><label for="mcBairro">Bairro</label><input id="mcBairro" type="text" autocomplete="off" /></div><div class="campo"><label for="mcCidade">Cidade</label><input id="mcCidade" type="text" autocomplete="off" /></div></div></fieldset><fieldset class="secao-cad"><legend><span>3</span>Responsável técnico</legend><div class="grade-campos"><div class="campo inteiro"><label for="mcRtNome">Nome completo</label><input id="mcRtNome" type="text" autocomplete="off" /></div><div class="campo"><label for="mcRtSocial">Nome social <span class="opc">(opcional)</span></label><input id="mcRtSocial" type="text" autocomplete="off" /></div><div class="campo"><label for="mcRtCpf">CPF</label><input id="mcRtCpf" type="text" autocomplete="off" inputmode="numeric"/></div><div class="campo"><label for="mcRtCro">Número do CRO</label><input id="mcRtCro" type="text" autocomplete="off" inputmode="numeric"/></div><div class="campo"><label for="mcRtUf">UF do CRO</label><select id="mcRtUf"><option value="">UF</option><option>AC</option><option>AL</option><option>AP</option><option>AM</option><option>BA</option><option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MA</option><option>MT</option><option>MS</option><option>MG</option><option>PA</option><option>PB</option><option>PR</option><option>PE</option><option>PI</option><option>RJ</option><option>RN</option><option>RS</option><option>RO</option><option>RR</option><option>SC</option><option>SP</option><option>SE</option><option>TO</option></select></div></div></fieldset><fieldset class="secao-cad"><legend><span>4</span>O plano da Clínica</legend><div class="grade-campos"><div class="campo"><label for="mcPlanoN">Dentistas no plano</label><select id="mcPlanoN"><option value="2">Até 2 dentistas</option><option value="3">Até 3 dentistas</option><option value="5">Até 5 dentistas</option><option value="8">Até 8 dentistas</option></select></div><div class="campo"><label for="mcPer">Período</label><select id="mcPer"><option value="mensal">Mensal</option><option value="trimestral">Trimestral (−20%)</option><option value="semestral">Semestral (−25%)</option><option value="anual" selected>Anual (−30%)</option></select></div></div><label class="marcador"><input type="checkbox" id="mcAuto" /><span>Renovação automática no cartão (−3%)</span></label><div class="mudar-valores" id="mcValores" aria-live="polite"></div></fieldset><label class="marcador"><input type="checkbox" id="mcConfirma" /><span>Confirmo a mudança do meu plano do Solo para a Clínica, com os valores acima.</span></label><label class="marcador"><input type="checkbox" id="mcAceite" /><span>Li e aceito o <a href="/contrato.pdf" target="_blank" rel="noopener">contrato de adesão</a> (versão 2.0), inclusive a cláusula 7.7 sobre a mudança de produto.</span></label><div class="mudar-bts"><button class="btn sec" type="button" id="mcCancelar">Agora não</button><button class="btn azul" type="submit" id="mcEnviar">Confirmar a mudança</button></div></form>
         <form class="cod-testador" id="formTestador">
           <label for="codTestador" style="flex-basis:100%;font-size:13.5px;color:var(--tinta-2)">Tem o código de testador do convite?</label>
           <input id="codTestador" type="text" autocomplete="off" placeholder="CÓDIGO" />
@@ -748,7 +770,7 @@ function pintarClinica(c) {
   const baixa = bt('Baixar o programa da Clínica', 'sec'); baixa.href = '/baixar#clinica'; ac.appendChild(baixa);
   document.getElementById('formTestador').hidden = !!c.testador;
   /* 3.2 — conta da Clínica: a página fica azul, e aparecem o cadastro e o convite */
-  if (window.mcaPintarClinica) window.mcaPintarClinica(!!(c.contaClinica || k));
+  if (window.mcaPintarClinica) window.mcaPintarClinica(!!c.contaClinica);
   const cad = c.cadastroClinica, box = document.getElementById('clinicaCadastro');
   if (cad && box) {
     const e = (v) => String(v == null ? '' : v).replace(/[&<>"]/g, (x) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[x]));
@@ -765,6 +787,7 @@ function pintarClinica(c) {
     box.hidden = false;
   }
   const fc = document.getElementById('formConvite'); if (fc) fc.hidden = !k;
+  if (window.mcaMudarParaClinica) window.mcaMudarParaClinica(c);
 }
 document.addEventListener('submit', async (e) => {
   if (!e.target || e.target.id !== 'formConvite') return;
@@ -1015,6 +1038,120 @@ $p('chaveSim').onclick = async (e) => {
          : (r.dados.erro || 'Nao consegui enviar agora.'),
     r.ok ? 'ok' : 'erro');
 };
+</script>
+<script>
+/* 3.1 — DO SOLO PARA A CLÍNICA. A conta do Solo não "liga" a Clínica: muda de
+   produto, com o cadastro da clínica, o plano escolhido e os valores conferidos
+   antes de confirmar. Até o pagamento, nada muda. */
+(function(){
+  var PLANOS = null, CONTA = null;
+  var $ = function(id){ return document.getElementById(id); };
+  function dinheiro(v){ return 'R$ ' + Number(v).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  ['mcCnpj','mcRtCpf'].forEach(function(id){ var i = $(id); if(i) i.addEventListener('input', function(){ i.value = MCA.mascaraDocumento(i.value); }); });
+  ['mcTel','mcWhats'].forEach(function(id){ var i = $(id); if(i) i.addEventListener('input', function(){ i.value = MCA.mascaraTelefone(i.value); }); });
+  var cep = $('mcCep'); if(cep) cep.addEventListener('input', function(){ var d = cep.value.replace(/\D/g,'').slice(0,8); cep.value = d.length > 5 ? d.slice(0,5) + '-' + d.slice(5) : d; });
+  function planoEscolhido(){
+    if(!PLANOS) return null;
+    var n = Number($('mcPlanoN').value), per = $('mcPer').value;
+    var g = (PLANOS.clinica || []).find(function(x){ return x.dentistas === n; });
+    return g ? (g.periodos || []).find(function(x){ return x.periodo === per; }) : null;
+  }
+  function valores(){
+    var alvo = $('mcValores'); if(!alvo) return;
+    var p = planoEscolhido(); if(!p){ alvo.textContent = 'Carregando os valores…'; return; }
+    var auto = $('mcAuto').checked, tst = CONTA && CONTA.testador;
+    var v = tst ? p.valorTestador : p.valor; if(auto) v = Math.round(v * 0.97 * 100) / 100;
+    var mesN = v / p.meses, mesSolo = (CONTA && CONTA.mensalSolo) || 88.9;
+    var dias = (CONTA && CONTA.diasRestantes) || 0;
+    var pagoSolo = CONTA && CONTA.situacao === 'ativa' && /^(mensal|trimestral|semestral|anual)$/.test(CONTA.plano || '');
+    var mensalCli = { 2:147.9, 3:177.9, 5:272.9, 8:366.9 }[Number($('mcPlanoN').value)];
+    var credito = pagoSolo && dias > 0 ? Math.floor(dias * mesSolo / mensalCli) : 0;
+    var h = '<div class="lin"><span>Hoje</span><b>Solo · ' + (CONTA ? CONTA.planoNome : '') + '</b></div>'
+      + '<div class="lin"><span>Depois</span><b>' + p.nome + '</b></div>'
+      + '<div class="lin"><span>Valor do período' + (tst ? ' (testador −5%)' : '') + (auto ? ' (automática −3%)' : '') + '</span><b>' + dinheiro(v) + '</b></div>'
+      + '<div class="lin"><span>Equivale por mês</span><b>' + dinheiro(mesN) + '</b></div>'
+      + '<div class="lin"><span>Diferença por mês em relação ao Solo (' + dinheiro(mesSolo) + ')</span><b>+ ' + dinheiro(Math.max(0, mesN - mesSolo)) + '</b></div>';
+    if(credito) h += '<div class="lin"><span>Faltam ' + dias + ' dia(s) pagos no Solo, que viram</span><b>' + credito + ' dia(s) de Clínica</b></div>';
+    if(tst && !(CONTA && CONTA.testeClinicaUsado)) h += '<div class="lin total"><span>Hoje você não paga nada: como testador, o primeiro mês da Clínica é grátis. O plano acima vale depois dele.</span><b></b></div>';
+    else h += '<div class="lin total"><span>A pagar agora</span><b>' + dinheiro(v) + '</b></div>';
+    alvo.innerHTML = h;
+  }
+  ['mcPlanoN','mcPer','mcAuto'].forEach(function(id){ var e = $(id); if(e) e.addEventListener('change', valores); });
+  var dn = $('mcDentistas'); if(dn) dn.addEventListener('input', function(){ var n = parseInt(dn.value, 10); if(n > 0){ $('mcPlanoN').value = n <= 2 ? '2' : n <= 3 ? '3' : n <= 5 ? '5' : '8'; valores(); } });
+  function validar(){
+    var v = function(id){ return $(id).value.trim(); }, dg = function(id){ return v(id).replace(/\D/g, ''); };
+    if(v('mcRazao').length < 3) return ['mcRazao', 'Escreva a razão social da clínica.'];
+    if(v('mcFantasia').length < 2) return ['mcFantasia', 'Escreva o nome fantasia.'];
+    if(dg('mcCnpj').length !== 14 || !MCA.documentoValido(dg('mcCnpj'))) return ['mcCnpj', 'Confira o CNPJ da clínica.'];
+    if(dg('mcTel').length < 10) return ['mcTel', 'Confira o telefone da clínica.'];
+    if(!(parseInt(v('mcCadeiras'), 10) > 0)) return ['mcCadeiras', 'Diga quantos consultórios a clínica tem.'];
+    if(!(parseInt(v('mcDentistas'), 10) > 0)) return ['mcDentistas', 'Diga quantos dentistas atendem.'];
+    if(parseInt(v('mcDentistas'), 10) > 8) return ['mcDentistas', 'Acima de 8 dentistas o plano é por orçamento — fale comigo pela página da Clínica.'];
+    if(dg('mcCep').length !== 8) return ['mcCep', 'Confira o CEP.'];
+    if(!v('mcUf')) return ['mcUf', 'Escolha o estado (UF).'];
+    if(!v('mcRua') || !v('mcNum') || !v('mcBairro') || !v('mcCidade')) return ['mcRua', 'Complete o endereço.'];
+    if(v('mcRtNome').split(' ').filter(Boolean).length < 2) return ['mcRtNome', 'Escreva o nome completo do responsável técnico.'];
+    if(dg('mcRtCpf').length !== 11 || !MCA.documentoValido(dg('mcRtCpf'))) return ['mcRtCpf', 'Confira o CPF do responsável técnico.'];
+    if(dg('mcRtCro').length < 3) return ['mcRtCro', 'Escreva o número do CRO.'];
+    if(!v('mcRtUf')) return ['mcRtUf', 'Escolha a UF do CRO.'];
+    if(!$('mcConfirma').checked) return ['mcConfirma', 'Confirme a mudança de plano e de valores.'];
+    if(!$('mcAceite').checked) return ['mcAceite', 'É preciso aceitar o contrato.'];
+    return null;
+  }
+  function abrir(){ var f = $('formMudar'); if(!f) return; f.hidden = false; valores(); try{ f.scrollIntoView({ behavior:'smooth', block:'start' }); }catch(e){} var r = $('mcRazao'); if(r) r.focus({ preventScroll:true }); }
+  window.mcaMudarParaClinica = function(conta){
+    CONTA = conta;
+    var cx = $('clinicaCaixa'), ac = $('clinicaAcoes'), est = $('clinicaEstado'); if(!cx || !ac) return;
+    var solo = conta.produtoConta === 'solo';
+    var f = $('formMudar'); if(f && !solo) f.hidden = true;
+    var pend = document.querySelector('.mudanca-pend'); if(pend) pend.remove();
+    if(!solo) return;
+    /* o teste avulso e o "plano da Clínica" direto saem: para a Solo, o caminho é a mudança */
+    [].slice.call(ac.querySelectorAll('button, a')).forEach(function(b){ if(/Testar a Clínica|plano da Clínica/.test(b.textContent)) b.remove(); });
+    if(est) est.innerHTML = '<p style="margin:0 0 4px">Um programa próprio para clínicas: um acesso para cada pessoa da equipe, sala de espera ao vivo e repasse por profissional. De 2 a 8 dentistas, equipe ilimitada. Sua conta é do <b>Solo</b> — para usar a Clínica, faça a mudança aqui: cadastro da clínica, plano e valores, conferidos antes de confirmar.</p>';
+    if(conta.mudancaClinica){
+      var m = conta.mudancaClinica, d = document.createElement('div'); d.className = 'mudanca-pend';
+      d.innerHTML = '<b>Mudança para a Clínica aguardando pagamento.</b> Plano ' + m.planoNome + (m.valor ? ' · ' + dinheiro(m.valor) : '') + '. Assim que o pagamento for confirmado, a conta vira Clínica sozinha.';
+      var bts = document.createElement('div'); bts.className = 'mudar-bts'; bts.style.justifyContent = 'flex-start';
+      if(m.link){ var a = document.createElement('a'); a.className = 'btn azul sm'; a.href = m.link; a.textContent = 'Pagar agora'; bts.appendChild(a); }
+      var x = document.createElement('button'); x.type = 'button'; x.className = 'btn sec sm'; x.textContent = 'Desistir da mudança';
+      x.onclick = async function(){ MCA.ocupado(x, true, 'Cancelando…'); var r = await MCA.chamar('/api/conta/mudar-para-clinica/desistir', {}); MCA.ocupado(x, false);
+        if(r.ok && r.dados.conta){ window.mcaMudarParaClinica(r.dados.conta); MCA.aviso(document.getElementById('recado'), r.dados.recado || 'Mudança cancelada.', 'ok'); } };
+      bts.appendChild(x); d.appendChild(bts); est.parentNode.insertBefore(d, ac);
+    }
+    if(!ac.querySelector('[data-mudar]')){
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'btn azul'; b.setAttribute('data-mudar', '1'); b.textContent = 'Mudar para a Clínica';
+      b.onclick = abrir; ac.insertBefore(b, ac.firstChild);
+      var k = document.createElement('a'); k.className = 'btn sec'; k.href = '/clinica'; k.textContent = 'Conhecer a Clínica'; ac.insertBefore(k, b.nextSibling);
+    }
+    if(!PLANOS) MCA.chamar('/api/planos', {}).then(function(r){ if(r.ok){ PLANOS = r.dados; valores(); } });
+    if(location.hash === '#mudar-clinica') setTimeout(abrir, 300);
+  };
+  var cancelar = $('mcCancelar'); if(cancelar) cancelar.onclick = function(){ $('formMudar').hidden = true; };
+  document.addEventListener('submit', async function(e){
+    if(!e.target || e.target.id !== 'formMudar') return;
+    e.preventDefault();
+    var recado = document.getElementById('recado');
+    var erro = validar();
+    if(erro){ var el = $(erro[0]); if(el){ el.setAttribute('aria-invalid','true'); el.focus({ preventScroll:true }); el.addEventListener('input', function(){ el.removeAttribute('aria-invalid'); }, { once:true }); }
+      MCA.aviso(recado, erro[1]); try{ recado.scrollIntoView({ behavior:'smooth', block:'center' }); }catch(x){} return; }
+    var v = function(id){ return $(id).value.trim(); };
+    var p = planoEscolhido();
+    var dados = { cnpj: v('mcCnpj'), plano: p ? p.id : '', cobrancaAutomatica: $('mcAuto').checked, confirmaValores: true, aceite: true,
+      cadastroClinica: { razaoSocial: v('mcRazao'), nomeFantasia: v('mcFantasia'), telefone: v('mcTel'), whatsapp: v('mcWhats'),
+        consultorios: v('mcCadeiras'), dentistas: v('mcDentistas'), inscricaoMunicipal: v('mcIm'), cnes: v('mcCnes'),
+        endereco: { cep: v('mcCep'), logradouro: v('mcRua'), numero: v('mcNum'), complemento: v('mcCompl'), bairro: v('mcBairro'), cidade: v('mcCidade'), uf: v('mcUf') },
+        rt: { nome: v('mcRtNome'), nomeSocial: v('mcRtSocial'), cpf: v('mcRtCpf'), cro: v('mcRtCro'), croUf: v('mcRtUf') } } };
+    var b = $('mcEnviar'); MCA.ocupado(b, true, 'Confirmando…');
+    var r = await MCA.chamar('/api/conta/mudar-para-clinica', dados);
+    MCA.ocupado(b, false);
+    if(!r.ok){ MCA.aviso(recado, (r.dados && r.dados.erro) || 'Não deu certo agora.'); try{ recado.scrollIntoView({ behavior:'smooth', block:'center' }); }catch(x){} return; }
+    if(r.dados.urlPagamento){ MCA.aviso(recado, 'Abrindo o pagamento da Clínica…', 'ok'); location.href = r.dados.urlPagamento; return; }
+    MCA.aviso(recado, r.dados.recado || 'Pronto.', 'ok');
+    if(r.dados.conta){ $('formMudar').hidden = true; if(typeof pintarClinica === 'function') pintarClinica(r.dados.conta); window.mcaMudarParaClinica(r.dados.conta); }
+    else location.reload();
+  });
+})();
 </script>
 </body>
 </html>

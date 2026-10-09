@@ -779,6 +779,7 @@ document.getElementById('forma').onsubmit = async (e) => {
     cobrancaAutomatica: document.getElementById('automatica').checked,
     aceite: true,
   });
+  if (!r.ok && r.dados && r.dados.mudarParaClinica) { MCA.aviso(recado, r.dados.erro, 'erro'); setTimeout(() => { location.href = '/perfil#mudar-clinica'; }, 2200); return; }
   if (r.ok && r.dados.urlPagamento) {
     // O pagamento acontece na página do Asaas: o número do cartão nunca passa
     // por aqui. Quem libera o acesso é o aviso que o Asaas manda de volta,

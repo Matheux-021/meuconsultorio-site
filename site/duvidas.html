@@ -1105,6 +1105,10 @@ main > section.faixa.escuro:last-of-type::before{
 .campo .v2, .ceu .v2{background:radial-gradient(circle closest-side, var(--azul) 0%, color-mix(in srgb, var(--azul) 62%, transparent) 26%, color-mix(in srgb, var(--azul) 26%, transparent) 55%, color-mix(in srgb, var(--azul) 8%, transparent) 78%, transparent 100%)}
 
 </style>
+<style>
+.topo-links a.link-duda{background:linear-gradient(90deg, var(--verde), var(--azul)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:600}
+.topo-links a.link-duda[aria-current="page"]{border-bottom-color:var(--azul)}
+</style>
 </head>
 <body>
 
@@ -1124,6 +1128,7 @@ main > section.faixa.escuro:last-of-type::before{
     </a>
     <nav class="topo-links" aria-label="Páginas do site">
       <a href="/clinica" style="color:var(--azul)">Clínica</a>
+      <a href="/duda" class="link-duda">Duda</a>
       <a href="/recursos">Recursos</a>
       <a href="/seguranca">Segurança</a>
       <a href="/#planos">Planos</a>

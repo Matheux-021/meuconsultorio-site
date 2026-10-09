@@ -1146,6 +1146,10 @@ body.pagina-arm{background:
 .pagina-arm .calc-form{border-top:3px solid transparent; background:linear-gradient(var(--folha), var(--folha)) padding-box, linear-gradient(90deg, var(--verde), var(--azul)) border-box}
 
 </style>
+<style>
+.topo-links a.link-duda{background:linear-gradient(90deg, var(--verde), var(--azul)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:600}
+.topo-links a.link-duda[aria-current="page"]{border-bottom-color:var(--azul)}
+</style>
 </head>
 <body class="pagina-arm">
 
@@ -1165,6 +1169,7 @@ body.pagina-arm{background:
     </a>
     <nav class="topo-links" aria-label="Páginas do site">
       <a href="/clinica" style="color:var(--azul)">Clínica</a>
+      <a href="/duda" class="link-duda">Duda</a>
       <a href="/recursos">Recursos</a>
       <a href="/seguranca">Segurança</a>
       <a href="/#planos">Planos</a>
