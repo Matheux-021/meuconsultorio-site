@@ -976,6 +976,63 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
 @media (max-width:1180px){ .vitrine-cel .aparelho.i13{display:none} }
 @media (max-width:520px){ .vitrine-cel .aparelho{max-width:200px} }
 
+/* ============================================================
+   CALCULADORA DE ARMAZENAMENTO (/armazenamento)
+   ============================================================ */
+.calc{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(18px,3vw,32px); align-items:start}
+.calc-form, .calc-res{background:var(--folha); border:1px solid var(--linha); border-radius:14px; box-shadow:var(--sombra);
+  padding:clamp(18px,2.4vw,28px)}
+.calc-form{display:grid; gap:18px}
+.calc-campo{border:0; margin:0; padding:0; display:grid; gap:7px; min-width:0}
+.calc-campo > label, .calc-campo > legend{font-weight:600; font-size:15px; color:var(--tinta); padding:0}
+.calc-campo small{font-size:13px; color:var(--tinta-3)}
+.calc-campo input[type=number], .calc-campo select{font:inherit; font-size:16px; padding:10px 12px; border-radius:10px;
+  border:1px solid var(--linha-forte); background:var(--papel); color:var(--tinta); width:100%; box-sizing:border-box}
+.calc-campo input:focus-visible, .calc-campo select:focus-visible, .calc-num button:focus-visible{outline:2px solid var(--verde); outline-offset:2px}
+.calc-num{display:grid; grid-template-columns:44px minmax(0,1fr) 44px; gap:8px}
+.calc-num input{text-align:center; font-variant-numeric:tabular-nums}
+.calc-num button{font:inherit; font-size:20px; border-radius:10px; border:1px solid var(--linha-forte); background:var(--folha-2);
+  color:var(--tinta); cursor:pointer}
+.calc-num button:hover{border-color:var(--verde); color:var(--verde)}
+.calc-chips{display:flex; flex-wrap:wrap; gap:8px}
+.calc-chips label{position:relative; cursor:pointer}
+.calc-chips input{position:absolute; opacity:0; inset:0; margin:0; cursor:pointer}
+.calc-chips span{display:inline-block; padding:8px 13px; border-radius:99px; border:1px solid var(--linha-forte);
+  font-size:14px; color:var(--tinta-2); background:var(--papel); transition:border-color .15s, background .15s, color .15s}
+.calc-chips input:checked + span{border-color:var(--verde); background:var(--verde-suave); color:var(--verde); font-weight:600}
+.calc-chips input:focus-visible + span{outline:2px solid var(--verde); outline-offset:2px}
+.calc-res{position:sticky; top:96px}
+.calc-rot{margin:0; font-size:14px; color:var(--tinta-2)}
+.calc-total{margin:4px 0 14px; font-family:Newsreader, Georgia, serif; font-weight:600; font-size:clamp(40px,6vw,58px);
+  line-height:1; color:var(--tinta); font-variant-numeric:tabular-nums}
+.calc-barra{display:flex; height:12px; border-radius:99px; overflow:hidden; background:var(--folha-2); gap:2px}
+.calc-barra span{display:block; height:100%; min-width:3px}
+.calc-leg{list-style:none; margin:12px 0 0; padding:0; display:grid; gap:6px}
+.calc-leg li{display:grid; grid-template-columns:12px minmax(0,1fr) auto; gap:9px; align-items:center; font-size:14px; color:var(--tinta-2)}
+.calc-leg i{width:12px; height:12px; border-radius:3px; display:block}
+.calc-leg b{font-variant-numeric:tabular-nums; color:var(--tinta)}
+.calc-ssd{display:grid; grid-template-columns:auto minmax(0,1fr); gap:12px; margin-top:20px; padding:14px 16px;
+  border-radius:12px; background:var(--verde-suave)}
+.calc-ssd-ico{color:var(--verde); padding-top:2px}
+.calc-ssd-v{margin:2px 0 4px; font-size:22px; color:var(--verde)}
+.calc-peq{margin:0; font-size:13px; color:var(--tinta-2); line-height:1.45}
+.calc-linhas{margin-top:14px; display:grid; gap:2px}
+.calc-linhas p{margin:0; display:flex; justify-content:space-between; gap:12px; padding:9px 0; border-top:1px solid var(--linha);
+  font-size:14.5px; color:var(--tinta-2)}
+.calc-linhas p:first-child{border-top:0}
+.calc-linhas b{color:var(--tinta); font-variant-numeric:tabular-nums; white-space:nowrap}
+.calc-aviso{margin:12px 0 0; padding:11px 13px; border-radius:10px; background:var(--ambar-suave); color:var(--ambar);
+  font-size:13.5px; line-height:1.5}
+.calc-tabela{overflow-x:auto; margin-top:18px; border:1px solid var(--linha); border-radius:12px; background:var(--folha)}
+.calc-tabela table{border-collapse:collapse; width:100%; min-width:640px; font-size:14.5px}
+.calc-tabela th, .calc-tabela td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--linha); vertical-align:top}
+.calc-tabela th{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--tinta-3); background:var(--folha-2)}
+.calc-tabela td:nth-child(2){white-space:nowrap; font-weight:600; color:var(--tinta); font-variant-numeric:tabular-nums}
+.calc-tabela tr:last-child td{border-bottom:0}
+@media (max-width:900px){ .calc{grid-template-columns:minmax(0,1fr)} .calc-res{position:static} }
+@media (prefers-reduced-motion: reduce){ .calc-chips span{transition:none} }
+.calc-linhas p[hidden], .calc-aviso[hidden]{display:none}
+
 /* o link da página em que você está */
 .topo-links a[aria-current="page"]{color:var(--verde); border-bottom-color:var(--verde)}
 .bloco[id]{scroll-margin-top:96px}
@@ -1008,6 +1065,9 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
 @media (prefers-reduced-motion: reduce){ .leitura, .leitura:hover{transition:none; transform:none} }
 </style>
 
+<style>:root{--azul:#1E4E9C; --azul-claro:#2C63BE; --azul-suave:#E2EAF7; --azul-fundo:#0B2149; --azul-fundo-2:#10306A; --sobre-azul:#DCE6F7}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6} }
+:root[data-theme="dark"]{--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6}</style>
 </head>
 <body>
 
@@ -1564,6 +1624,8 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
     <a href="/seguranca">Segurança e LGPD</a>
     <a href="/novidades">Novidades</a>
     <a href="/duvidas">Perguntas frequentes</a>
+    <a href="/clinica">Clínica</a>
+    <a href="/armazenamento">Quanto espaço preciso</a>
     <a href="/#planos">Planos</a>
     <a href="/baixar">Baixar o sistema</a>
     <a href="/entrar">Entrar</a>

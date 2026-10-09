@@ -424,6 +424,31 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 input:-webkit-autofill:focus{
   -webkit-box-shadow:0 0 0 1000px var(--papel) inset, 0 0 0 3px var(--verde-suave);
   box-shadow:0 0 0 1000px var(--papel) inset, 0 0 0 3px var(--verde-suave)}
+
+/* 3.0 — a Clínica na conta */
+[hidden]{display:none !important}
+.recado.ok.cli, .recado.cli{background:var(--azul-suave); border-color:var(--azul); color:var(--azul)}
+:root{--azul:#1E4E9C; --azul-claro:#2C63BE; --azul-suave:#E2EAF7}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D} }
+:root[data-theme="dark"]{--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D}
+.btn.azul{background:var(--azul); color:#fff; border-color:var(--azul)}
+.btn.azul:hover{background:var(--azul-claro); border-color:var(--azul-claro)}
+.cli-caixa{border:1px solid color-mix(in srgb, var(--azul) 38%, var(--linha)); border-radius:14px; padding:18px 20px;
+  background:linear-gradient(110deg, var(--azul-suave), var(--folha) 72%)}
+.cli-caixa h2{display:flex; align-items:center; gap:10px}
+.cli-caixa h2 img{width:28px; height:28px; border-radius:8px}
+.cli-caixa .acoes-cli{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px}
+.cod-testador{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; align-items:center}
+.cod-testador input{flex:1 1 180px; min-width:0; text-transform:uppercase; letter-spacing:.06em}
+.escolha-produto{display:inline-flex; gap:4px; padding:4px; border-radius:99px; border:1px solid var(--linha); background:var(--folha); margin:4px 0 14px}
+.escolha-produto button{font:inherit; font-size:14px; font-weight:600; border:0; border-radius:99px; padding:8px 16px; cursor:pointer; background:none; color:var(--tinta-2)}
+.escolha-produto button[aria-pressed="true"]{background:var(--verde); color:#fff}
+.escolha-produto button.cli[aria-pressed="true"]{background:var(--azul)}
+.tamanhos{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 12px}
+.tamanhos button{font:inherit; font-size:14px; border:1px solid var(--linha); background:var(--folha); color:var(--tinta-2); border-radius:10px; padding:8px 12px; cursor:pointer}
+.tamanhos button[aria-pressed="true"]{border-color:var(--azul); background:var(--azul-suave); color:var(--azul); font-weight:600}
+.planos.cli .plano:has(input:checked){border-color:var(--azul); box-shadow:0 0 0 1px var(--azul)}
+.selo-cli{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; color:var(--azul); background:var(--azul-suave); border-radius:99px; padding:4px 10px}
 </style>
 </head>
 <body>
@@ -535,10 +560,22 @@ input:-webkit-autofill:focus{
         </div>
       </div>
 
+      <div class="cli-caixa" id="clinicaCaixa" style="margin-top:16px" hidden>
+        <h2><img src="/img/favicon-clinica.png" alt="" width="28" height="28" />Meu Consultório App | Clínica</h2>
+        <div id="clinicaEstado"></div>
+        <div class="acoes-cli" id="clinicaAcoes"></div>
+        <form class="cod-testador" id="formTestador">
+          <label for="codTestador" style="flex-basis:100%;font-size:13.5px;color:var(--tinta-2)">Tem o código de testador do convite?</label>
+          <input id="codTestador" type="text" autocomplete="off" placeholder="CÓDIGO" />
+          <button class="btn sec" type="submit">Aplicar</button>
+        </form>
+      </div>
+
       <div class="caixa" style="margin-top:16px">
         <h2>Instalar o sistema</h2>
         <p style="margin-bottom:0">O programa do computador e o aplicativo do celular ficam na
-          <a href="/baixar">página de download</a>, com o passo a passo de instalação.</p>
+          <a href="/baixar">página de download</a>, com o passo a passo de instalação — e o programa da
+          Clínica, em azul, em <a href="/baixar#clinica">Baixar › Clínica</a>.</p>
       </div>
 
       <p style="margin-top:22px"><button class="btn sec" id="sair" type="button">Sair da conta</button></p>
@@ -610,6 +647,43 @@ const rotulos = {
   teste_expirado: ['teste_expirado', 'Teste encerrado'],
   cancelada: ['cancelada', 'Cancelada'],
 };
+
+/* 3.0: a Clínica na conta — teste de 30 dias, plano, código de testador */
+function pintarClinica(c) {
+  const cx = document.getElementById('clinicaCaixa');
+  if (!cx) return;
+  cx.hidden = false;
+  const k = c.clinica, est = document.getElementById('clinicaEstado'), ac = document.getElementById('clinicaAcoes');
+  const dia = (iso) => iso ? iso.slice(0, 10).split('-').reverse().join('/') : '';
+  let h = '';
+  if (c.situacao === 'vitalicia') h = linha('Clínica', 'Liberada (conta permanente)');
+  else if (k && k.teste) h = linha('Clínica', 'Teste até ' + dia(k.ate)) + linha('Dentistas no teste', 'até ' + k.dentistas);
+  else if (k) h = linha('Clínica', 'Plano ativo até ' + dia(k.ate)) + linha('Dentistas', 'até ' + k.dentistas);
+  else h = '<p style="margin:0 0 4px">Um programa próprio para clínicas: um acesso para cada pessoa da equipe, sala de espera ao vivo e repasse por profissional. De 2 a 8 dentistas, equipe ilimitada.</p>';
+  if (c.testador) h += '<p style="margin:10px 0 0"><span class="selo-cli">Testador · −5% para sempre</span></p>';
+  est.innerHTML = h;
+  ac.innerHTML = '';
+  const bt = (txt, cls, fn) => { const b = document.createElement(fn ? 'button' : 'a'); b.className = 'btn ' + cls; b.textContent = txt; if (fn) { b.type = 'button'; b.onclick = () => fn(b); } return b; };
+  if (!k && !c.testeClinicaUsado && c.situacao !== 'vitalicia') ac.appendChild(bt('Testar a Clínica por 30 dias', 'azul', async (b) => {
+    MCA.ocupado(b, true, 'Liberando…');
+    const rr = await MCA.chamar('/api/conta/clinica-teste', {});
+    MCA.ocupado(b, false);
+    MCA.aviso(recado, rr.ok ? rr.dados.recado : (rr.dados.erro || 'Não deu certo agora.'), rr.ok ? 'ok' : 'erro');
+    if (rr.ok && rr.dados.conta) pintarClinica(rr.dados.conta);
+  }));
+  const plano = bt(k && !k.teste ? 'Trocar o plano da Clínica' : 'Escolher um plano da Clínica', k ? 'azul' : 'sec'); plano.href = '/assinar#clinica'; ac.appendChild(plano);
+  const baixa = bt('Baixar o programa da Clínica', 'sec'); baixa.href = '/baixar#clinica'; ac.appendChild(baixa);
+  document.getElementById('formTestador').hidden = !!c.testador;
+}
+document.addEventListener('submit', async (e) => {
+  if (!e.target || e.target.id !== 'formTestador') return;
+  e.preventDefault();
+  const cod = document.getElementById('codTestador').value.trim();
+  if (!cod) return;
+  const rr = await MCA.chamar('/api/conta/testador', { codigo: cod });
+  MCA.aviso(recado, rr.ok ? rr.dados.recado : (rr.dados.erro || 'Não deu certo agora.'), rr.ok ? 'ok' : 'erro');
+  if (rr.ok && rr.dados.conta) pintarClinica(rr.dados.conta);
+});
 
 function linha(rotulo, valor) {
   return '<div class="linha-dado"><span>' + rotulo + '</span><b>' + valor + '</b></div>';
@@ -690,6 +764,7 @@ function linha(rotulo, valor) {
     MCA.aviso(recado, rr.dados.recado, 'ok');
   };
   document.getElementById('assinatura').appendChild(troca);
+  pintarClinica(c);
 
   DONO = { nome: c.nome, email: c.email };
 

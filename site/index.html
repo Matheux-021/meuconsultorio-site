@@ -976,6 +976,63 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
 @media (max-width:1180px){ .vitrine-cel .aparelho.i13{display:none} }
 @media (max-width:520px){ .vitrine-cel .aparelho{max-width:200px} }
 
+/* ============================================================
+   CALCULADORA DE ARMAZENAMENTO (/armazenamento)
+   ============================================================ */
+.calc{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(18px,3vw,32px); align-items:start}
+.calc-form, .calc-res{background:var(--folha); border:1px solid var(--linha); border-radius:14px; box-shadow:var(--sombra);
+  padding:clamp(18px,2.4vw,28px)}
+.calc-form{display:grid; gap:18px}
+.calc-campo{border:0; margin:0; padding:0; display:grid; gap:7px; min-width:0}
+.calc-campo > label, .calc-campo > legend{font-weight:600; font-size:15px; color:var(--tinta); padding:0}
+.calc-campo small{font-size:13px; color:var(--tinta-3)}
+.calc-campo input[type=number], .calc-campo select{font:inherit; font-size:16px; padding:10px 12px; border-radius:10px;
+  border:1px solid var(--linha-forte); background:var(--papel); color:var(--tinta); width:100%; box-sizing:border-box}
+.calc-campo input:focus-visible, .calc-campo select:focus-visible, .calc-num button:focus-visible{outline:2px solid var(--verde); outline-offset:2px}
+.calc-num{display:grid; grid-template-columns:44px minmax(0,1fr) 44px; gap:8px}
+.calc-num input{text-align:center; font-variant-numeric:tabular-nums}
+.calc-num button{font:inherit; font-size:20px; border-radius:10px; border:1px solid var(--linha-forte); background:var(--folha-2);
+  color:var(--tinta); cursor:pointer}
+.calc-num button:hover{border-color:var(--verde); color:var(--verde)}
+.calc-chips{display:flex; flex-wrap:wrap; gap:8px}
+.calc-chips label{position:relative; cursor:pointer}
+.calc-chips input{position:absolute; opacity:0; inset:0; margin:0; cursor:pointer}
+.calc-chips span{display:inline-block; padding:8px 13px; border-radius:99px; border:1px solid var(--linha-forte);
+  font-size:14px; color:var(--tinta-2); background:var(--papel); transition:border-color .15s, background .15s, color .15s}
+.calc-chips input:checked + span{border-color:var(--verde); background:var(--verde-suave); color:var(--verde); font-weight:600}
+.calc-chips input:focus-visible + span{outline:2px solid var(--verde); outline-offset:2px}
+.calc-res{position:sticky; top:96px}
+.calc-rot{margin:0; font-size:14px; color:var(--tinta-2)}
+.calc-total{margin:4px 0 14px; font-family:Newsreader, Georgia, serif; font-weight:600; font-size:clamp(40px,6vw,58px);
+  line-height:1; color:var(--tinta); font-variant-numeric:tabular-nums}
+.calc-barra{display:flex; height:12px; border-radius:99px; overflow:hidden; background:var(--folha-2); gap:2px}
+.calc-barra span{display:block; height:100%; min-width:3px}
+.calc-leg{list-style:none; margin:12px 0 0; padding:0; display:grid; gap:6px}
+.calc-leg li{display:grid; grid-template-columns:12px minmax(0,1fr) auto; gap:9px; align-items:center; font-size:14px; color:var(--tinta-2)}
+.calc-leg i{width:12px; height:12px; border-radius:3px; display:block}
+.calc-leg b{font-variant-numeric:tabular-nums; color:var(--tinta)}
+.calc-ssd{display:grid; grid-template-columns:auto minmax(0,1fr); gap:12px; margin-top:20px; padding:14px 16px;
+  border-radius:12px; background:var(--verde-suave)}
+.calc-ssd-ico{color:var(--verde); padding-top:2px}
+.calc-ssd-v{margin:2px 0 4px; font-size:22px; color:var(--verde)}
+.calc-peq{margin:0; font-size:13px; color:var(--tinta-2); line-height:1.45}
+.calc-linhas{margin-top:14px; display:grid; gap:2px}
+.calc-linhas p{margin:0; display:flex; justify-content:space-between; gap:12px; padding:9px 0; border-top:1px solid var(--linha);
+  font-size:14.5px; color:var(--tinta-2)}
+.calc-linhas p:first-child{border-top:0}
+.calc-linhas b{color:var(--tinta); font-variant-numeric:tabular-nums; white-space:nowrap}
+.calc-aviso{margin:12px 0 0; padding:11px 13px; border-radius:10px; background:var(--ambar-suave); color:var(--ambar);
+  font-size:13.5px; line-height:1.5}
+.calc-tabela{overflow-x:auto; margin-top:18px; border:1px solid var(--linha); border-radius:12px; background:var(--folha)}
+.calc-tabela table{border-collapse:collapse; width:100%; min-width:640px; font-size:14.5px}
+.calc-tabela th, .calc-tabela td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--linha); vertical-align:top}
+.calc-tabela th{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--tinta-3); background:var(--folha-2)}
+.calc-tabela td:nth-child(2){white-space:nowrap; font-weight:600; color:var(--tinta); font-variant-numeric:tabular-nums}
+.calc-tabela tr:last-child td{border-bottom:0}
+@media (max-width:900px){ .calc{grid-template-columns:minmax(0,1fr)} .calc-res{position:static} }
+@media (prefers-reduced-motion: reduce){ .calc-chips span{transition:none} }
+.calc-linhas p[hidden], .calc-aviso[hidden]{display:none}
+
 /* o link da página em que você está */
 .topo-links a[aria-current="page"]{color:var(--verde); border-bottom-color:var(--verde)}
 .bloco[id]{scroll-margin-top:96px}
@@ -1006,6 +1063,147 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
 .leitura span{font-size:14.5px; color:var(--tinta-2); line-height:1.5}
 .leitura i{font-style:normal; color:var(--verde); font-weight:600; font-size:14px; margin-top:auto; padding-top:8px}
 @media (prefers-reduced-motion: reduce){ .leitura, .leitura:hover{transition:none; transform:none} }
+
+/* ===================== 3.0 — o azul da Clínica, ao lado do verde =====================
+   Duas marcas de um produto só: o verde é o consultório (Solo), o azul é a
+   clínica. Elas se encontram no fundo — véus e partículas misturados — e se
+   separam onde o assunto é de uma só. */
+:root{--azul:#1E4E9C; --azul-claro:#2C63BE; --azul-suave:#E2EAF7; --azul-fundo:#0B2149; --azul-fundo-2:#10306A; --sobre-azul:#DCE6F7}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6} }
+:root[data-theme="dark"]{--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6}
+.campo .v2{background:radial-gradient(circle closest-side, var(--azul) 0%, color-mix(in srgb, var(--azul) 62%, transparent) 26%, color-mix(in srgb, var(--azul) 26%, transparent) 55%, color-mix(in srgb, var(--azul) 8%, transparent) 78%, transparent 100%)}
+
+/* a marca: "App" e "App | Clínica" pequenos, juntos */
+.marca-nome small .bar{opacity:.55; margin:0 .35em}
+.marca-nome small .cli{color:var(--azul)}
+
+/* ---- os dois programas, lado a lado ---- */
+.produto, .produto *{text-decoration:none !important}
+.selo-duda.cli{border-left-color:var(--azul)}
+.selo-duda.cli .selo-duda-marca{color:#fff}
+
+.dupla{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin:30px 0 0}
+.produto{--cor:var(--verde); --cor-suave:var(--verde-suave); position:relative; display:flex; flex-direction:column; gap:12px;
+  padding:22px 22px 20px; border-radius:18px; text-decoration:none; color:var(--tinta);
+  border:1px solid var(--linha); box-shadow:var(--sombra);
+  background:radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--cor) 16%, transparent), transparent 60%), var(--folha);
+  transition:border-color .2s ease, transform .2s ease}
+.produto.cli{--cor:var(--azul); --cor-suave:var(--azul-suave)}
+.produto .p-nome b{color:var(--cor)}
+.produto:hover{border-color:var(--cor); transform:translateY(-2px)}
+.produto:focus-visible{outline:2px solid var(--cor); outline-offset:3px}
+.produto .p-topo{display:flex; align-items:center; gap:12px}
+.produto .p-topo img{width:46px; height:46px; border-radius:12px; flex:none; box-shadow:0 6px 16px -8px color-mix(in srgb, var(--cor) 70%, transparent)}
+.produto .p-nome{display:flex; flex-direction:column; line-height:1.05}
+.produto .p-nome b{font-family:Newsreader, Georgia, serif; font-size:22px; font-weight:600}
+.produto .p-nome small{font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:10.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--cor); margin-top:5px}
+.produto p{margin:0; font-size:15px; line-height:1.55; color:var(--tinta-2)}
+.produto ul{margin:0; padding:0; list-style:none; display:grid; gap:6px}
+.produto li{font-size:14px; color:var(--tinta-2); padding-left:16px; position:relative}
+.produto li::before{content:""; position:absolute; left:0; top:.55em; width:6px; height:6px; border-radius:2px; background:var(--cor); opacity:.65}
+.produto .p-pe{display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-top:auto; padding-top:12px; border-top:1px solid var(--linha)}
+.produto .p-preco{font-size:13.5px; color:var(--tinta-3)}
+.produto .p-preco b{font-family:Newsreader, Georgia, serif; font-size:21px; color:var(--tinta); font-weight:600; font-variant-numeric:tabular-nums}
+.produto .p-ir{font-weight:600; font-size:14.5px; color:var(--cor); white-space:nowrap}
+.produto .p-novo{position:absolute; top:16px; right:16px; font-family:"IBM Plex Mono", monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--sobre-cheio); background:var(--azul); padding:4px 9px; border-radius:99px}
+@media (max-width:760px){ .dupla{grid-template-columns:minmax(0,1fr)} }
+
+/* ---- a faixa da Clínica: o verde escuro desce até virar azul ---- */
+.faixa.escuro.clinica{background:linear-gradient(180deg,
+  color-mix(in srgb, var(--verde-fundo) 94%, transparent) 0%,
+  color-mix(in srgb, color-mix(in srgb, var(--verde-fundo) 45%, var(--azul-fundo-2)) 94%, transparent) 14%,
+  color-mix(in srgb, var(--azul-fundo-2) 94%, transparent) 38%,
+  color-mix(in srgb, var(--azul-fundo) 94%, transparent) 100%)}
+.clinica .olho{color:#9FBDF0}
+.clinica .olho::after{background:rgba(159,189,240,.3)}
+.clinica .lista li::before{border-color:#9FBDF0}
+.clinica em{color:#F0C27F}
+.clinica .papeis{display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0}
+.clinica .papeis span{font-size:13px; color:var(--sobre-azul); border:1px solid rgba(211,224,246,.28); background:rgba(255,255,255,.05); border-radius:99px; padding:6px 12px}
+.clinica .tela{box-shadow:0 30px 70px -30px rgba(0,0,0,.75)}
+.clinica .grade-cli{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(24px,4vw,54px); align-items:center}
+.clinica .grade-cli + .grade-cli{margin-top:clamp(40px,6vw,74px)}
+.clinica .grade-cli.espelho > :first-child{order:2}
+@media (max-width:900px){ .clinica .grade-cli{grid-template-columns:minmax(0,1fr)} .clinica .grade-cli.espelho > :first-child{order:0} }
+.clinica .cartao{background:rgba(255,255,255,.05); border-color:rgba(211,224,246,.18)}
+.btn.azul{background:var(--azul); color:#fff}
+.btn.azul:hover{background:var(--azul-claro)}
+.clinica .btn.azul{background:#DCE6F7; color:#0B2149}
+.clinica .btn.azul:hover{background:#fff}
+
+/* ---- planos: Solo | Clínica ---- */
+.abas-planos{display:inline-flex; gap:4px; padding:4px; border-radius:99px; border:1px solid var(--linha); background:var(--folha); margin:6px 0 4px}
+.abas-planos button{font:inherit; font-size:14.5px; font-weight:600; border:0; border-radius:99px; padding:9px 18px; cursor:pointer; background:none; color:var(--tinta-2)}
+.abas-planos button[aria-selected="true"]{background:var(--verde); color:var(--sobre-cheio)}
+.abas-planos button.cli[aria-selected="true"]{background:var(--azul); color:#fff}
+.abas-planos button:focus-visible{outline:2px solid var(--azul); outline-offset:2px}
+.painel-planos[hidden], .planos[hidden], [hidden]{display:none !important}
+.pagina-clinica .abertura .subtitulo{max-width:40rem}
+.planos.cli .plano.destaque{border-color:var(--azul); box-shadow:0 0 0 1px var(--azul), var(--sombra)}
+.planos.cli .plano .fita{background:var(--azul)}
+.planos.cli .plano .btn.pri{background:var(--azul)}
+.plano .dentistas{font-family:"IBM Plex Mono", monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--azul); margin-top:2px}
+.plano .por-dentista{font-size:13px; color:var(--tinta-3); margin-top:2px}
+.plano .tst{font-size:13px; color:var(--azul); margin-top:6px; font-weight:600}
+.periodo-cli{display:flex; flex-wrap:wrap; gap:6px; margin:16px 0 0}
+.periodo-cli button{font:inherit; font-size:13.5px; border:1px solid var(--linha); background:var(--folha); color:var(--tinta-2); border-radius:99px; padding:6px 13px; cursor:pointer}
+.periodo-cli button[aria-pressed="true"]{border-color:var(--azul); color:var(--azul); background:var(--azul-suave); font-weight:600}
+.testadores{display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:16px; align-items:center; margin-top:22px;
+  border:1px solid color-mix(in srgb, var(--azul) 40%, var(--linha)); border-radius:16px; padding:18px 20px;
+  background:linear-gradient(100deg, var(--azul-suave), var(--folha) 70%)}
+.testadores .t-ico{width:44px; height:44px; border-radius:12px; display:grid; place-items:center; background:var(--azul); color:#fff; font-family:"IBM Plex Mono", monospace; font-size:13px; font-weight:600}
+.testadores b{display:block; font-size:16px; color:var(--tinta); margin-bottom:2px}
+.testadores span{font-size:14px; color:var(--tinta-2)}
+@media (max-width:760px){ .testadores{grid-template-columns:minmax(0,1fr)} }
+.orcamento{margin-top:18px; border:1px dashed color-mix(in srgb, var(--azul) 45%, var(--linha)); border-radius:16px; padding:20px; background:var(--folha)}
+.orcamento h3{margin-bottom:4px}
+.orcamento form{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-top:14px}
+.orcamento label{display:grid; gap:5px; font-size:13px; color:var(--tinta-2)}
+.orcamento input,.orcamento textarea{font:inherit; font-size:15px; padding:10px 12px; border-radius:10px; border:1px solid var(--linha-forte); background:var(--folha); color:var(--tinta); width:100%}
+.orcamento input:focus,.orcamento textarea:focus{outline:2px solid var(--azul); outline-offset:-1px; border-color:var(--azul)}
+.orcamento .cheio{grid-column:1 / -1}
+.orcamento .msg{font-size:14px; margin:0; align-self:center}
+.orcamento .msg.ok{color:var(--azul)}
+.orcamento .msg.erro{color:#B3261E}
+@media (max-width:760px){ .orcamento form{grid-template-columns:minmax(0,1fr)} }
+
+/* ---- a página da Clínica: o mesmo site, com o azul no lugar do verde ---- */
+body.pagina-clinica{--verde:var(--azul); --verde-claro:var(--azul-claro); --verde-suave:var(--azul-suave); --verde-fundo:var(--azul-fundo); --verde-fundo-2:var(--azul-fundo-2); --sobre-verde:var(--sobre-azul)}
+/* o papel da Clínica puxa para o azul, como o do Solo puxa para o verde */
+body.pagina-clinica{--papel:#F2F4F8; --folha-2:#E9EDF4; --linha:#D6DDE8; --linha-forte:#B5C1D3; --tinta:#0B1220; --tinta-2:#3D4A5E; --tinta-3:#5E6B80}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) body.pagina-clinica{--papel:#080D15; --folha:#0E1520; --folha-2:#141D2B; --linha:#222D3E; --linha-forte:#364458; --tinta:#E5EAF2; --tinta-2:#AEBACC; --tinta-3:#7D8A9F}
+}
+:root[data-theme="dark"] body.pagina-clinica{--papel:#080D15; --folha:#0E1520; --folha-2:#141D2B; --linha:#222D3E; --linha-forte:#364458; --tinta:#E5EAF2; --tinta-2:#AEBACC; --tinta-3:#7D8A9F}
+.papeis-cabeca{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(20px,4vw,54px); align-items:end; margin-bottom:8px}
+.papeis-cabeca .subtitulo{margin:0}
+.grade-srv{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(24px,4vw,54px); align-items:center}
+@media (max-width:900px){ .grade-srv{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:700px){
+  .tabela-papeis, .tabela-papeis tbody{display:block; width:100%}
+  .tabela-papeis thead{display:none}
+  .tabela-papeis tr{display:block; padding:14px 0; border-bottom:1px solid var(--linha)}
+  .tabela-papeis td{display:block; padding:3px 0 !important; border:0 !important}
+  .tabela-papeis td:first-child{font-size:17px; margin-bottom:4px}
+  .tabela-papeis td:nth-child(2)::before{content:"Vê: "; font-weight:700; color:var(--tinta)}
+  .tabela-papeis td:nth-child(3)::before{content:"Faz: "; font-weight:700; color:var(--tinta)}
+}
+@media (max-width:900px){ .papeis-cabeca{grid-template-columns:minmax(0,1fr)} }
+.pagina-clinica .escuro .olho{color:#9FBDF0}
+.pagina-clinica .escuro .lista li::before{border-color:#9FBDF0}
+.pagina-clinica .campo .v1{opacity:.26}
+.vem-do-solo{display:grid; grid-template-columns:auto minmax(0,1fr); gap:16px; align-items:start; border-radius:16px; padding:18px 20px; border:1px solid var(--linha);
+  background:linear-gradient(100deg, color-mix(in srgb, #0E6B5E 12%, var(--folha)), var(--folha) 65%)}
+.vem-do-solo img{width:44px; height:44px; border-radius:12px}
+.vem-do-solo b{display:block; margin-bottom:3px; color:var(--tinta)}
+.vem-do-solo p{margin:0; font-size:15px; color:var(--tinta-2)}
+.tabela-papeis{width:100%; border-collapse:collapse; font-size:14.5px; margin-top:18px}
+.tabela-papeis th,.tabela-papeis td{text-align:left; padding:11px 12px; border-bottom:1px solid var(--linha); vertical-align:top}
+.tabela-papeis th{font-family:"IBM Plex Mono", monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3); font-weight:500}
+.tabela-papeis td:first-child{font-weight:600; color:var(--tinta); white-space:nowrap}
+.tabela-papeis td{color:var(--tinta-2)}
+.rola-x{overflow-x:auto}
 </style>
 
 </head>
@@ -1026,6 +1224,7 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
       <span class="marca-nome"><b>Meu Consultório</b><small>App</small></span>
     </a>
     <nav class="topo-links" aria-label="Páginas do site">
+      <a href="/clinica" style="color:var(--azul)">Clínica</a>
       <a href="/recursos">Recursos</a>
       <a href="/seguranca">Segurança</a>
       <a href="#planos">Planos</a>
@@ -1066,23 +1265,42 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
         <a class="btn pri" href="/criar-conta">Testar 14 dias de graça</a>
         <a class="btn sec" href="#telas">Ver o sistema por dentro</a>
       </div>
-      <p class="sob-acoes">Não pedimos cartão para testar. Depois, a partir de R$&nbsp;59,50 por mês no plano anual.</p>
+      <p class="sob-acoes">Não pedimos cartão para testar. Depois, a partir de R$&nbsp;62,24 por mês no plano anual.</p>
 
       <!-- A Duda é a novidade da versão, e é o que diferencia o sistema hoje.
            Fica logo abaixo da dobra, com a ressalva junto: prometer assistente
            de IA e esconder o que ela não faz é o jeito de perder o cliente
            depois que ele testa. -->
-      <a class="selo-duda" href="/novidades">
-        <span class="selo-duda-marca" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/><path d="M5 20h14"/></svg>
+      <a class="selo-duda cli" href="/clinica">
+        <span class="selo-duda-marca" aria-hidden="true" style="background:var(--azul)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3.5 19c.8-3.2 3-5 5.5-5s4.7 1.8 5.5 5"/><path d="M14.8 14.6c.6-.4 1.4-.6 2.2-.6 2 0 3.6 1.5 4.2 4"/></svg>
         </span>
         <span>
-          <b>Novo na 2.10: o programa se atualiza sozinho.</b>
-          Baixa a versão nova mostrando a porcentagem e instala com um clique, em segundos — sem o
-          instalador do Windows. E, desde a 2.9, encaminhamentos e a voz neural da Duda.
+          <b>Novo: Meu Consultório App | Clínica.</b>
+          Um programa para a clínica inteira — um acesso para cada pessoa, sala de espera ao vivo e repasse por
+          profissional. E na 2.11 do Solo: a conta do paciente na ficha, agendado × confirmado e instrumentais.
         </span>
         <span class="selo-duda-ir" aria-hidden="true">→</span>
       </a>
+      <div class="dupla" role="list">
+        <a class="produto" role="listitem" href="#planos" data-aba="solo">
+          <div class="p-topo"><img src="img/favicon.png" alt="" width="46" height="46" />
+            <span class="p-nome"><b>Meu Consultório</b><small>App · para o consultório</small></span></div>
+          <p>Um dentista, o consultório inteiro: agenda, prontuário, odontograma, receituário, financeiro e o
+            aplicativo do celular. As fichas ficam no seu computador, cifradas pela sua senha.</p>
+          <div class="p-pe"><span class="p-preco">a partir de <b>R$ 62,24</b>/mês no anual</span>
+            <span class="p-ir">Ver o Solo →</span></div>
+        </a>
+        <a class="produto cli" role="listitem" href="/clinica">
+          <span class="p-novo">Novo</span>
+          <div class="p-topo"><img src="img/favicon-clinica.png" alt="" width="46" height="46" />
+            <span class="p-nome"><b>Meu Consultório</b><small>App | Clínica · para a equipe</small></span></div>
+          <p>Um acesso para cada pessoa — dentistas, recepção, ASB, financeiro e laboratório —, cada um vendo só
+            o que o papel permite. Sala de espera ao vivo, repasse por profissional e cada ficha com a sua chave.</p>
+          <div class="p-pe"><span class="p-preco">de 2 a 8 dentistas, a partir de <b>R$ 103,49</b>/mês</span>
+            <span class="p-ir">Conhecer a Clínica →</span></div>
+        </a>
+      </div>
 
       <div style="margin-top:clamp(38px,6vw,64px)">
         <figure class="tela aparece" style="margin:0">
@@ -1901,49 +2119,322 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
   </section>
 
   <!-- ============ planos ============ -->
+
+  <!-- ============ a Clínica (3.0) ============ -->
+  <section class="faixa escuro clinica" id="clinica">
+    <div class="centro">
+      <div class="grade-cli">
+        <div>
+          <p class="olho">Novo · Meu Consultório App | Clínica</p>
+          <h2>E quando o consultório vira <em>clínica?</em></h2>
+          <div class="prosa">
+            <p>A clínica tem um programa próprio, em azul, instalado ao lado do de sempre. O computador da
+              recepção vira o servidor; os outros se ligam a ele pela rede. Cada pessoa entra com a própria
+              senha — e só enxerga o que o papel dela permite.</p>
+            <p>Quem já usa o Meu Consultório App leva os pacientes junto, em um clique: vai o cofre cifrado,
+              do jeito que está, e ele abre do outro lado com a mesma senha.</p>
+          </div>
+          <div class="papeis" aria-label="Os papéis da equipe">
+            <span>Responsável</span><span>Dentista de produção</span><span>Dentista avaliador</span>
+            <span>Recepção</span><span>ASB</span><span>Financeiro</span><span>Laboratório</span>
+          </div>
+          <div class="acoes" style="margin-top:26px">
+            <a class="btn azul" href="/clinica">Conhecer a Clínica</a>
+            <a class="btn vazado" href="/criar-conta?clinica=1">Testar 30 dias</a>
+          </div>
+        </div>
+        <figure class="tela aparece" style="margin:0">
+          <div class="tela-topo" aria-hidden="true"><i></i><i></i><i></i><span>Sala de espera — Clínica</span></div>
+          <img loading="lazy" src="img/cli-sala.webp" width="1400" height="875" alt="Sala de espera ao vivo da Clínica: pacientes que chegaram, há quanto tempo esperam, para qual especialidade e o botão Atender." />
+        </figure>
+      </div>
+      <div class="grade-cli espelho">
+        <div>
+          <h3 style="color:#fff">Cada ficha com a sua chave. Cada repasse com a sua regra.</h3>
+          <ul class="lista">
+            <li>O dentista abre só os pacientes dele — e os que a recepção liberar para todos. A recepção vê agenda
+              e valores, nunca o prontuário. Quem sai da equipe perde as chaves na hora.</li>
+            <li>Sala de espera ao vivo: chegou, esperando, em atendimento, encaminhado, alta com revisão marcada.</li>
+            <li>Repasse configurável por profissional (% da produção, % de avaliação, por procedimento ou fixo),
+              conta corrente do dentista, salários e custos fixos.</li>
+            <li>Pedido de material com aviso grande para a ASB, estoque de instrumentais e o laboratório próprio com login.</li>
+          </ul>
+          <p style="margin-top:18px"><a href="/armazenamento" style="color:#9FBDF0">Quanto espaço o servidor vai precisar? Faça a conta →</a></p>
+        </div>
+        <figure class="tela aparece" style="margin:0">
+          <div class="tela-topo" aria-hidden="true"><i></i><i></i><i></i><span>Repasse do mês</span></div>
+          <img loading="lazy" src="img/cli-repasse.webp" width="1400" height="875" alt="Repasse do mês na Clínica: base líquida, regra de cada profissional e salários e custos fixos." />
+        </figure>
+      </div>
+    </div>
+  </section>
+
   <section class="faixa banda" id="planos">
     <div class="centro">
       <p class="olho">Planos</p>
-      <h2 style="max-width:20ch">Um preço só, com tudo dentro.</h2>
-      <p class="subtitulo">Não existe versão capada nem módulo cobrado à parte. Todo mundo tem o sistema
-        inteiro: agenda, prontuário, odontograma, receituário, atestados, financeiro, aplicativo do
-        celular e as atualizações. O que muda é só de quanto em quanto tempo você paga.</p>
+      <h2 style="max-width:24ch">Um preço só, com tudo dentro. Para o consultório ou para a clínica.</h2>
+      <p class="subtitulo">Não existe versão capada nem módulo cobrado à parte. No Solo, um dentista e o sistema
+        inteiro. Na Clínica, de 2 a 8 dentistas com a equipe ilimitada — recepção, ASB, financeiro e laboratório
+        não pagam. O que muda é só de quanto em quanto tempo você paga.</p>
 
+      <div class="abas-planos" role="tablist" aria-label="Escolha o programa">
+        <button type="button" role="tab" id="abaSolo" aria-selected="true" aria-controls="painelSolo" data-aba="solo">Solo · consultório</button>
+        <button type="button" role="tab" id="abaCli" class="cli" aria-selected="false" aria-controls="painelCli" data-aba="clinica">Clínica · equipe</button>
+      </div>
+
+      <div class="painel-planos" id="painelSolo" role="tabpanel" aria-labelledby="abaSolo">
       <div class="planos">
+
         <div class="plano">
+          
           <div class="nome">Mensal</div>
-          <div class="mes">R$ 84,99 <small>/mês</small></div>
-          <div class="total">R$ 84,99 cobrados a cada mês</div>
-          <div class="auto">Com cobrança automática: <b>R$ 82,44</b></div>
+          <div class="mes">R$ 88,90 <small>/mês</small></div>
+          <div class="total">R$ 88,90 cobrados a cada mês</div>
+          
+          <div class="auto">Com cobrança automática: <b>R$ 86,23</b></div>
           <a class="btn sec" href="/criar-conta">Começar o teste</a>
         </div>
 
         <div class="plano">
+          
           <div class="nome">Trimestral</div>
-          <div class="mes">R$ 68,00 <small>/mês</small></div>
-          <div class="total">R$ 203,99 a cada 3 meses</div>
-          <div class="economia">20% de desconto — economia de R$ 50,98</div>
-          <div class="auto">Com cobrança automática: <b>R$ 197,87</b></div>
+          <div class="mes">R$ 70,97 <small>/mês</small></div>
+          <div class="total">R$ 212,90 a cada 3 meses</div>
+          <div class="economia">20% de desconto — economia de R$ 53,80</div>
+          <div class="auto">Com cobrança automática: <b>R$ 206,51</b></div>
           <a class="btn sec" href="/criar-conta">Começar o teste</a>
         </div>
 
         <div class="plano">
+          
           <div class="nome">Semestral</div>
-          <div class="mes">R$ 63,83 <small>/mês</small></div>
-          <div class="total">R$ 382,99 a cada 6 meses</div>
-          <div class="economia">24% de desconto — economia de R$ 126,95</div>
-          <div class="auto">Com cobrança automática: <b>R$ 371,50</b></div>
+          <div class="mes">R$ 66,65 <small>/mês</small></div>
+          <div class="total">R$ 399,90 a cada 6 meses</div>
+          <div class="economia">25% de desconto — economia de R$ 133,50</div>
+          <div class="auto">Com cobrança automática: <b>R$ 387,90</b></div>
           <a class="btn sec" href="/criar-conta">Começar o teste</a>
         </div>
 
         <div class="plano destaque">
           <span class="fita">Melhor preço</span>
           <div class="nome">Anual</div>
-          <div class="mes">R$ 59,50 <small>/mês</small></div>
-          <div class="total">R$ 713,99 uma vez por ano</div>
-          <div class="economia">30% de desconto — economia de R$ 305,89</div>
-          <div class="auto">Com cobrança automática: <b>R$ 692,57</b></div>
+          <div class="mes">R$ 62,24 <small>/mês</small></div>
+          <div class="total">R$ 746,90 uma vez por ano</div>
+          <div class="economia">30% de desconto — economia de R$ 319,90</div>
+          <div class="auto">Com cobrança automática: <b>R$ 724,49</b></div>
           <a class="btn pri" href="/criar-conta">Começar o teste</a>
+        </div>
+      </div>
+      </div>
+
+      <div class="painel-planos" id="painelCli" role="tabpanel" aria-labelledby="abaCli" hidden>
+        <div class="periodo-cli" role="group" aria-label="Período da Clínica">
+          <button type="button" data-p="mensal" aria-pressed="false">Mensal</button>
+          <button type="button" data-p="trimestral" aria-pressed="false">Trimestral · −20%</button>
+          <button type="button" data-p="semestral" aria-pressed="false">Semestral · −25%</button>
+          <button type="button" data-p="anual" aria-pressed="true">Anual · −30%</button>
+        </div>
+<div class="planos cli" data-periodo="mensal" hidden>
+          <div class="plano">
+            
+            <div class="nome">Clínica 2</div>
+            <div class="dentistas">até 2 dentistas · equipe ilimitada</div>
+            <div class="mes">R$ 147,90 <small>/mês</small></div>
+            <div class="por-dentista">R$ 73,95 por dentista</div>
+            <div class="total">R$ 147,90 por mês</div>
+            <div class="tst">Testador: R$ 140,51/mês</div>
+            <div class="auto">Com cobrança automática: <b>R$ 143,46</b></div>
+            <a class="btn sec" href="/criar-conta?clinica=1">Testar 30 dias</a>
+          </div>
+          <div class="plano">
+            
+            <div class="nome">Clínica 3</div>
+            <div class="dentistas">até 3 dentistas · equipe ilimitada</div>
+            <div class="mes">R$ 177,90 <small>/mês</small></div>
+            <div class="por-dentista">R$ 59,30 por dentista</div>
+            <div class="total">R$ 177,90 por mês</div>
+            <div class="tst">Testador: R$ 169,01/mês</div>
+            <div class="auto">Com cobrança automática: <b>R$ 172,56</b></div>
+            <a class="btn sec" href="/criar-conta?clinica=1">Testar 30 dias</a>
+          </div>
+          <div class="plano destaque">
+            <span class="fita">O mais escolhido</span>
+            <div class="nome">Clínica 5</div>
+            <div class="dentistas">até 5 dentistas · equipe ilimitada</div>
+            <div class="mes">R$ 272,90 <small>/mês</small></div>
+            <div class="por-dentista">R$ 54,58 por dentista</div>
+            <div class="total">R$ 272,90 por mês</div>
+            <div class="tst">Testador: R$ 259,26/mês</div>
+            <div class="auto">Com cobrança automática: <b>R$ 264,71</b></div>
+            <a class="btn pri" href="/criar-conta?clinica=1">Testar 30 dias</a>
+          </div>
+          <div class="plano">
+            
+            <div class="nome">Clínica 8</div>
+            <div class="dentistas">até 8 dentistas · equipe ilimitada</div>
+            <div class="mes">R$ 366,90 <small>/mês</small></div>
+            <div class="por-dentista">R$ 45,86 por dentista</div>
+            <div class="total">R$ 366,90 por mês</div>
+            <div class="tst">Testador: R$ 348,56/mês</div>
+            <div class="auto">Com cobrança automática: <b>R$ 355,89</b></div>
+            <a class="btn sec" href="/criar-conta?clinica=1">Testar 30 dias</a>
+          </div></div>
+<div class="planos cli" data-periodo="trimestral" hidden>
+          <div class="plano">
+            
+            <div class="nome">Clínica 2</div>
+            <div class="dentistas">até 2 dentistas · equipe ilimitada</div>
+            <div class="mes">R$ 118,30 <small>/mês</small></div>
+            <div class="por-dentista">R$ 59,15 por dentista</div>
+            <div class="total">R$ 354,90 a cada 3 meses</div>
+            <div class="tst">Testador: R$ 112,39/mês</div>
+            <div class="auto">Com cobrança automática: <b>R$ 344,25</b></div>
+            <a class="btn sec" href="/criar-conta?clinica=1">Testar 30 dias</a>
+          </div>
+          <div class="plano">
+            
+            <div class="nome">Clínica 3</div>
+            <div class="dentistas">até 3 dentistas · equipe ilimitada</div>
+            <div class="mes">R$ 142,30 <small>/mês</small></div>
+            <div class="por-dentista">R$ 47,43 por dentista</div>
+            <div class="total">R$ 426,90 a cada 3 meses</div>
+            <div class="tst">Testador: R$ 135,19/mês</div>
+            <div class="auto">Com cobrança automática: <b>R$ 414,09</b></div>
+            <a class="btn sec" href="/criar-conta?clinica=1">Testar 30 dias</a>
+          </div>
+          <div class="plano destaque">
+            <span class="fita">O mais escolhido</span>
+            <div class="nome">Clínica 5</div>
+            <div class="dentistas">até 5 dentistas · equipe ilimitada</div>
+            <div class="mes">R$ 218,30 <small>/mês</small></div>
+            <div class="por-dentista">R$ 43,66 por dentista</div>
+            <div class="total">R$ 654,90 a cada 3 meses</div>
+            <div class="tst">Testador: R$ 207,39/mês</div>
+            <div class="auto">Com cobrança automática: <b>R$ 635,25</b></div>
+            <a class="btn pri" href="/criar-conta?clinica=1">Testar 30 dias</a>
+          </div>
+          <div class="plano">
+            
+            <div class="nome">Clínica 8</div>
+            <div class="dentistas">até 8 dentistas · equipe ilimitada</div>
+            <div class="mes">R$ 293,63 <small>/mês</small></div>
+            <div class="por-dentista">R$ 36,70 por dentista</div>
+            <div class="total">R$ 880,90 a cada 3 meses</div>
+            <div class="tst">Testador: R$ 278,95/mês</div>
+            <div class="auto">Com cobrança automática: <b>R$ 854,47</b></div>
+            <a class="btn sec" href="/criar-conta?clinica=1">Testar 30 dias</a>
+          </div></div>
+<div class="planos cli" data-periodo="semestral" hidden>
+          <div class="plano">
+            
+            <div class="nome">Clínica 2</div>
+            <div class="dentistas">até 2 dentistas · equipe ilimitada</div>
+            <div class="mes">R$ 110,98 <small>/mês</small></div>
+            <div class="por-dentista">R$ 55,49 por dentista</div>
+            <div class="total">R$ 665,90 a cada 6 meses</div>
+            <div class="tst">Testador: R$ 105,44/mês</div>
+            <div class="auto">Com cobrança automática: <b>R$ 645,92</b></div>
+            <a class="btn sec" href="/criar-conta?clinica=1">Testar 30 dias</a>
+          </div>
+          <div class="plano">
+            
+            <div class="nome">Clínica 3</div>
+            <div class="dentistas">até 3 dentistas · equipe ilimitada</div>
+            <div class="mes">R$ 133,48 <small>/mês</small></div>
+            <div class="por-dentista">R$ 44,49 por dentista</div>
+            <div class="total">R$ 800,90 a cada 6 meses</div>
+            <div class="tst">Testador: R$ 126,81/mês</div>
+            <div class="auto">Com cobrança automática: <b>R$ 776,87</b></div>
+            <a class="btn sec" href="/criar-conta?clinica=1">Testar 30 dias</a>
+          </div>
+          <div class="plano destaque">
+            <span class="fita">O mais escolhido</span>
+            <div class="nome">Clínica 5</div>
+            <div class="dentistas">até 5 dentistas · equipe ilimitada</div>
+            <div class="mes">R$ 204,65 <small>/mês</small></div>
+            <div class="por-dentista">R$ 40,93 por dentista</div>
+            <div class="total">R$ 1.227,90 a cada 6 meses</div>
+            <div class="tst">Testador: R$ 194,42/mês</div>
+            <div class="auto">Com cobrança automática: <b>R$ 1.191,06</b></div>
+            <a class="btn pri" href="/criar-conta?clinica=1">Testar 30 dias</a>
+          </div>
+          <div class="plano">
+            
+            <div class="nome">Clínica 8</div>
+            <div class="dentistas">até 8 dentistas · equipe ilimitada</div>
+            <div class="mes">R$ 275,15 <small>/mês</small></div>
+            <div class="por-dentista">R$ 34,39 por dentista</div>
+            <div class="total">R$ 1.650,90 a cada 6 meses</div>
+            <div class="tst">Testador: R$ 261,39/mês</div>
+            <div class="auto">Com cobrança automática: <b>R$ 1.601,37</b></div>
+            <a class="btn sec" href="/criar-conta?clinica=1">Testar 30 dias</a>
+          </div></div>
+<div class="planos cli" data-periodo="anual">
+          <div class="plano">
+            
+            <div class="nome">Clínica 2</div>
+            <div class="dentistas">até 2 dentistas · equipe ilimitada</div>
+            <div class="mes">R$ 103,49 <small>/mês</small></div>
+            <div class="por-dentista">R$ 51,75 por dentista</div>
+            <div class="total">R$ 1.241,90 uma vez por ano</div>
+            <div class="tst">Testador: R$ 98,32/mês</div>
+            <div class="auto">Com cobrança automática: <b>R$ 1.204,64</b></div>
+            <a class="btn sec" href="/criar-conta?clinica=1">Testar 30 dias</a>
+          </div>
+          <div class="plano">
+            
+            <div class="nome">Clínica 3</div>
+            <div class="dentistas">até 3 dentistas · equipe ilimitada</div>
+            <div class="mes">R$ 124,49 <small>/mês</small></div>
+            <div class="por-dentista">R$ 41,50 por dentista</div>
+            <div class="total">R$ 1.493,90 uma vez por ano</div>
+            <div class="tst">Testador: R$ 118,27/mês</div>
+            <div class="auto">Com cobrança automática: <b>R$ 1.449,08</b></div>
+            <a class="btn sec" href="/criar-conta?clinica=1">Testar 30 dias</a>
+          </div>
+          <div class="plano destaque">
+            <span class="fita">O mais escolhido</span>
+            <div class="nome">Clínica 5</div>
+            <div class="dentistas">até 5 dentistas · equipe ilimitada</div>
+            <div class="mes">R$ 190,99 <small>/mês</small></div>
+            <div class="por-dentista">R$ 38,20 por dentista</div>
+            <div class="total">R$ 2.291,90 uma vez por ano</div>
+            <div class="tst">Testador: R$ 181,44/mês</div>
+            <div class="auto">Com cobrança automática: <b>R$ 2.223,14</b></div>
+            <a class="btn pri" href="/criar-conta?clinica=1">Testar 30 dias</a>
+          </div>
+          <div class="plano">
+            
+            <div class="nome">Clínica 8</div>
+            <div class="dentistas">até 8 dentistas · equipe ilimitada</div>
+            <div class="mes">R$ 256,82 <small>/mês</small></div>
+            <div class="por-dentista">R$ 32,10 por dentista</div>
+            <div class="total">R$ 3.081,90 uma vez por ano</div>
+            <div class="tst">Testador: R$ 243,98/mês</div>
+            <div class="auto">Com cobrança automática: <b>R$ 2.989,44</b></div>
+            <a class="btn sec" href="/criar-conta?clinica=1">Testar 30 dias</a>
+          </div></div>
+        <div class="testadores">
+          <div class="t-ico" aria-hidden="true">−5%</div>
+          <div><b>Fase de testes da Clínica: 1º mês grátis e 5% a mais, para sempre.</b>
+            <span>Recebeu o código do convite? Use ao criar a conta (ou no seu perfil). O desconto de testador
+              soma com os de sempre e fica gravado na conta.</span></div>
+          <a class="btn azul" href="/criar-conta?clinica=1">Quero testar</a>
+        </div>
+        <div class="orcamento" id="orcamento">
+          <h3>Mais de 8 dentistas?</h3>
+          <p class="sob-acoes" style="margin:0">Fazemos um orçamento sob medida — e a implantação junto. Respondo em até 1 dia útil.</p>
+          <form id="formOrcamento" novalidate>
+            <label>Seu nome<input name="nome" autocomplete="name" required /></label>
+            <label>E-mail<input name="email" type="email" autocomplete="email" required /></label>
+            <label>WhatsApp<input name="telefone" type="tel" autocomplete="tel" /></label>
+            <label>Clínica<input name="clinica" autocomplete="organization" /></label>
+            <label>Quantos dentistas<input name="dentistas" type="number" min="9" value="9" inputmode="numeric" /></label>
+            <label>Cidade<input name="cidade" autocomplete="address-level2" /></label>
+            <label class="cheio">O que mais eu preciso saber<textarea name="mensagem" rows="2"></textarea></label>
+            <button class="btn azul" type="submit">Pedir orçamento</button>
+            <p class="msg" id="msgOrcamento" role="status"></p>
+          </form>
         </div>
       </div>
 
@@ -1954,8 +2445,10 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
 
       <div class="franco" style="margin-top:26px">
         <ul>
-          <li><b>14 dias para testar, sem cartão.</b> Você cria a conta, instala e usa o sistema
-            inteiro. Não pedimos dado de pagamento nenhum para começar.</li>
+          <li><b>14 dias para testar o Solo e 30 dias para testar a Clínica, sem cartão.</b> Você cria a
+            conta, instala e usa o sistema inteiro. Não pedimos dado de pagamento nenhum para começar.</li>
+          <li><b>Quem já assina o Solo mantém o preço</b> enquanto a assinatura estiver ativa. O preço novo vale
+            para assinaturas novas.</li>
           <li><b>A cobrança automática você liga e desliga quando quiser</b>, e ela vale só para
             cartão de crédito — Pix e boleto, pela regra dos meios de pagamento, não podem ser
             cobrados sozinhos.</li>
@@ -1983,7 +2476,7 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
       <p class="subtitulo">Prefiro que você saiba agora do que descubra depois de cadastrar cem pacientes.</p>
       <div class="franco">
         <ul>
-          <li><b>Um acesso por consultório.</b> Ainda não existem vários usuários com senhas diferentes — então, para clínica com vários profissionais, hoje ele não serve.</li>
+          <li><b>O Solo é um acesso por consultório.</b> Para clínica com vários profissionais, cada um com a própria senha, existe o <a href="/clinica">Meu Consultório App | Clínica</a> — um programa à parte, em azul.</li>
           <li><b>O aplicativo é Android.</b> No iPhone ainda não tem aplicativo.</li>
           <li><b>Não está na Play Store.</b> A instalação é pelo arquivo, com o aviso de "fonte desconhecida" que o Android dá para todo aplicativo de fora da loja.</li>
           <li><b>Não emite nota fiscal</b> e não conversa com convênio nem com TISS.</li>
@@ -2063,6 +2556,8 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
     <a href="/seguranca">Segurança e LGPD</a>
     <a href="/novidades">Novidades</a>
     <a href="/duvidas">Perguntas frequentes</a>
+    <a href="/clinica">Clínica</a>
+    <a href="/armazenamento">Quanto espaço preciso</a>
     <a href="/#planos">Planos</a>
     <a href="/baixar">Baixar o sistema</a>
     <a href="/entrar">Entrar</a>
@@ -2187,6 +2682,40 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
       if(v.getAttribute('src')){ v.classList.remove('tocando'); carregar(); if(visivel) v.play(); }
     }).observe(raiz, { attributes:true, attributeFilter:['data-theme'] });
   }catch(e){}
+})();
+</script>
+
+<script>
+/* Planos: Solo | Clínica, o período da Clínica e o pedido de orçamento */
+(function(){
+  var abas = document.querySelectorAll('.abas-planos [role="tab"]');
+  function abrir(qual){
+    abas.forEach(function(b){
+      var sim = b.getAttribute('data-aba') === qual;
+      b.setAttribute('aria-selected', sim ? 'true' : 'false');
+      var p = document.getElementById(b.getAttribute('aria-controls'));
+      if(p) p.hidden = !sim;
+    });
+  }
+  abas.forEach(function(b){ b.addEventListener('click', function(){ abrir(b.getAttribute('data-aba')); }); });
+  document.querySelectorAll('[data-aba="solo"].produto').forEach(function(a){ a.addEventListener('click', function(){ abrir('solo'); }); });
+  if(/clinica/.test(location.hash)) abrir('clinica');
+  var per = document.querySelectorAll('.periodo-cli button');
+  per.forEach(function(b){ b.addEventListener('click', function(){
+    per.forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    document.querySelectorAll('.planos.cli').forEach(function(g){ g.hidden = g.getAttribute('data-periodo') !== b.getAttribute('data-p'); });
+  }); });
+  var f = document.getElementById('formOrcamento'), msg = document.getElementById('msgOrcamento');
+  if(f) f.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var d = {}; new FormData(f).forEach(function(v, k){ d[k] = v; });
+    if(!d.nome || !/@/.test(d.email || '')){ msg.className = 'msg erro'; msg.textContent = 'Preencha o seu nome e o e-mail.'; return; }
+    msg.className = 'msg'; msg.textContent = 'Enviando…';
+    fetch('/api/orcamento-clinica', { method:'POST', headers:{ 'content-type':'application/json' }, body: JSON.stringify(d) })
+      .then(function(r){ return r.json().then(function(j){ return { ok:r.ok, j:j }; }); })
+      .then(function(x){ msg.className = 'msg ' + (x.ok ? 'ok' : 'erro'); msg.textContent = x.ok ? x.j.recado : (x.j.erro || 'Não consegui enviar.'); if(x.ok) f.reset(); })
+      .catch(function(){ msg.className = 'msg erro'; msg.textContent = 'Sem conexão agora. Tente de novo, ou fale pelo WhatsApp.'; });
+  });
 })();
 </script>
 </body>

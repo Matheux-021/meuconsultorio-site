@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Perguntas frequentes — Meu Consultório App</title>
-<meta name="description" content="Instalação, celular, senha, backup, planos, pagamento e o que acontece se a assinatura vencer: as dúvidas mais comuns sobre o Meu Consultório App." />
+<title>Quanto espaço preciso? — Meu Consultório App</title>
+<meta name="description" content="Calculadora de armazenamento: quanto espaço as fichas, fotos e radiografias do consultório vão ocupar, e qual SSD escolher para o computador que guarda as fichas." />
 <meta name="theme-color" content="#0E6B5E" />
 <!-- Google tag (gtag.js) — o mesmo das demais páginas do funil.
      A linha do page_location é acréscimo meu: por padrão o gtag manda o
@@ -28,8 +28,8 @@
 <link rel="apple-touch-icon" href="/img/favicon.png" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Meu Consultório App" />
-<meta property="og:title" content="Perguntas frequentes — Meu Consultório App" />
-<meta property="og:description" content="Instalação, celular, senha, backup, planos, pagamento e o que acontece se a assinatura vencer: as dúvidas mais comuns sobre o Meu Consultório App." />
+<meta property="og:title" content="Quanto espaço preciso? — Meu Consultório App" />
+<meta property="og:description" content="Calculadora de armazenamento: quanto espaço as fichas, fotos e radiografias do consultório vão ocupar, e qual SSD escolher para o computador que guarda as fichas." />
 <!-- o WhatsApp e o Facebook só montam a prévia do link com endereço absoluto:
      caminho relativo aqui faz o link chegar sem imagem no celular de quem recebe -->
 <meta property="og:image" content="https://meuconsultorioappodonto.com.br/img/capa-2.8.jpg" />
@@ -38,9 +38,9 @@
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="Meu Consultório App — sistema para consultório odontológico" />
-<meta property="og:url" content="https://meuconsultorioappodonto.com.br/duvidas" />
+<meta property="og:url" content="https://meuconsultorioappodonto.com.br/armazenamento" />
 <meta property="og:locale" content="pt_BR" />
-<link rel="canonical" href="https://meuconsultorioappodonto.com.br/duvidas" />
+<link rel="canonical" href="https://meuconsultorioappodonto.com.br/armazenamento" />
 <meta name="twitter:card" content="summary_large_image" />
 
 <script>
@@ -1068,8 +1068,31 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
 <style>:root{--azul:#1E4E9C; --azul-claro:#2C63BE; --azul-suave:#E2EAF7; --azul-fundo:#0B2149; --azul-fundo-2:#10306A; --sobre-azul:#DCE6F7}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6} }
 :root[data-theme="dark"]{--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6}</style>
+
+<style>
+/* ---- calculadora: Solo em verde, Clínica em azul ---- */
+.pagina-arm .abertura{background:
+  radial-gradient(640px 420px at 88% 30%, color-mix(in srgb, var(--azul) 16%, transparent), transparent 70%),
+  radial-gradient(560px 380px at 62% 85%, color-mix(in srgb, var(--verde) 14%, transparent), transparent 70%)}
+.pagina-arm .abertura h1 em{font-style:italic; background:linear-gradient(90deg, var(--verde), var(--azul)); -webkit-background-clip:text; background-clip:text; color:transparent; padding-right:.08em}
+.calc-res{overflow:hidden}
+.calc-res::before{content:""; position:absolute; left:0; right:0; top:0; height:3px; background:linear-gradient(90deg, var(--verde), var(--azul))}
+.calc-res{transition:border-color .35s}
+.calc.cli .calc-res{--verde:var(--azul); --verde-claro:var(--azul-claro); --verde-suave:var(--azul-suave); border-color:color-mix(in srgb, var(--azul) 35%, var(--linha))}
+.calc.cli .calc-res::before{background:linear-gradient(90deg, var(--azul), color-mix(in srgb, var(--azul) 55%, var(--verde)))}
+.calc-prod{display:flex; align-items:center; gap:12px; padding:0 0 16px; margin:0 0 16px; border-bottom:1px solid var(--linha)}
+.calc-prod img{width:40px; height:40px; border-radius:10px; flex:none}
+.calc-prod b{display:block; font-family:Newsreader, Georgia, serif; font-size:19px; font-weight:600; line-height:1.1; color:var(--verde)}
+.calc-prod small{display:block; font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3); margin-top:4px}
+.calc-prod a{margin-left:auto; font-size:13.5px; font-weight:600; color:var(--verde); white-space:nowrap}
+.calc-trilho{display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:12px}
+.calc-trilho span{font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; text-align:center; padding:7px 6px; border-radius:8px; border:1px solid var(--linha); color:var(--tinta-3)}
+.calc-trilho span.solo.ativo{border-color:#0E6B5E; background:color-mix(in srgb, #0E6B5E 12%, transparent); color:var(--tinta)}
+.calc-trilho span.cli.ativo{border-color:var(--azul); background:color-mix(in srgb, var(--azul) 13%, transparent); color:var(--tinta)}
+.pagina-arm .faixa.escuro.fecho-misto{background:linear-gradient(115deg, var(--verde-fundo) 0%, color-mix(in srgb, var(--verde-fundo) 50%, var(--azul-fundo)) 50%, var(--azul-fundo) 100%)}
+</style>
 </head>
-<body>
+<body class="pagina-arm">
 
 <!-- O CAMPO VIVO, ATRÁS DA PÁGINA INTEIRA.
      Ele morava dentro da primeira seção e acabava com ela: a página abria
@@ -1090,7 +1113,7 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
       <a href="/recursos">Recursos</a>
       <a href="/seguranca">Segurança</a>
       <a href="/#planos">Planos</a>
-      <a href="/duvidas" aria-current="page">Dúvidas</a>
+      <a href="/duvidas">Dúvidas</a>
     </nav>
     <div class="topo-acoes">
       <span class="tema" role="group" aria-label="Tema da página">
@@ -1109,154 +1132,265 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
 <div class="topo-sentinela" aria-hidden="true"></div>
 
 <main id="topo"><main id="topo">
-
   <section class="faixa abertura interna">
     <div class="centro">
-      <p class="olho">Perguntas frequentes</p>
-      <h1>Antes de você perguntar.</h1>
-      <p class="subtitulo">As perguntas que mais chegam pelo WhatsApp, respondidas do jeito que eu responderia lá.
-        Não achou a sua? <a href="https://wa.me/5521986624185" target="_blank" rel="noopener">Me chame</a>.</p>
+      <p class="olho">Quanto espaço preciso</p>
+      <h1>Quanto do seu computador as fichas <em>vão ocupar?</em></h1>
+      <p class="subtitulo">Diga quantos dentistas e quantos pacientes, e como você trabalha com fotos e exames.
+        Com 1 dentista a conta é do <b style="color:var(--verde)">Solo</b>; com 2 ou mais, do servidor da <b style="color:var(--azul)">Clínica</b>.
+        A conta mostra o espaço para hoje, para os próximos anos e o tamanho de SSD que eu recomendo.</p>
     </div>
   </section>
 
-  <section class="faixa" style="padding-top:clamp(12px,2vw,24px)">
+  <section class="faixa" id="calculadora" style="padding-top:clamp(12px,2vw,24px)">
     <div class="centro">
-      <div class="duvidas">
-        <nav class="duvidas-nav" aria-label="Assuntos">
-        <a class="some" href="#comecar">Começar</a>
-        <a class="some" href="#celular">Celular</a>
-        <a class="some" href="#dados">Dados, senha e backup</a>
-        <a class="some" href="#planos">Planos e pagamento</a>
-        <a class="some" href="#uso">No dia a dia</a>
-        </nav>
-        <div>
-        <section class="grupo-duvidas" id="comecar" aria-labelledby="t-comecar">
-          <h2 id="t-comecar">Começar</h2>
-          <details class="faq">
-            <summary>Preciso de cartão para testar?</summary>
-            <div class="resp"><p>Não. Você cria a conta com nome, e-mail, telefone e CPF ou CNPJ, instala e usa o sistema inteiro por <b>14 dias</b>. Nenhum dado de pagamento é pedido para começar.</p></div>
-          </details>
-          <details class="faq">
-            <summary>Em que computador ele roda?</summary>
-            <div class="resp"><p>Windows 10 ou 11, de 64 bits. O instalador tem cerca de 85 MB. Não precisa de computador novo: o programa foi testado com 700 pacientes e 9 mil consultas, e cada tela abre em centésimos de segundo.</p></div>
-          </details>
-          <details class="faq">
-            <summary>Quanto espaço no computador eu preciso?</summary>
-            <div class="resp"><p>Depende de quantos pacientes você tem e de quanto usa fotos e radiografias. A ficha em si é leve; o que ocupa espaço são as fotos e os exames originais. Faça a conta na <a href="/armazenamento">calculadora de armazenamento</a>: ela mostra o espaço para os próximos anos e o tamanho de SSD que eu recomendo.</p></div>
-          </details>
-          <details class="faq">
-            <summary>O Windows disse que o desenvolvedor é desconhecido. É seguro?</summary>
-            <div class="resp"><p>Esse aviso azul aparece para programas que ainda não compraram o certificado de assinatura da Microsoft — não quer dizer que o arquivo tenha problema. Clique em <b>Mais informações</b> e depois em <b>Executar assim mesmo</b>. O instalador só é baixado da sua área logada, em <a href="/baixar">Baixar o sistema</a>.</p></div>
-          </details>
-          <details class="faq">
-            <summary>Posso pedir para alguém instalar para mim?</summary>
-            <div class="resp"><p>Pode pedir para mim. Eu instalo de graça, pela <b>Assistência Rápida</b> do próprio Windows, enquanto você assiste: você vê tudo o que eu faço e encerra quando quiser. Eu nunca peço a sua senha — quem digita é você. Combine o horário pelo <a href="https://wa.me/5521986624185" target="_blank" rel="noopener">WhatsApp</a>.</p></div>
-          </details>
-          <details class="faq">
-            <summary>Dá para experimentar sem digitar pacientes de verdade?</summary>
-            <div class="resp"><p>Dá. Em Ajustes existe o <b>Carregar exemplo</b>: pacientes, consultas, tratamentos, laboratório e encaminhamentos inventados, para você mexer em tudo sem medo. Um roteiro de primeiro dia leva você pelo que precisa ser configurado — cabeçalho dos documentos, assinatura, tabela de preços.</p></div>
-          </details>
-        </section>
-        <section class="grupo-duvidas" id="celular" aria-labelledby="t-celular">
-          <h2 id="t-celular">Celular</h2>
-          <details class="faq">
-            <summary>Tem aplicativo para celular?</summary>
-            <div class="resp"><p>Para <b>Android</b> 8 ou mais novo, sim. No iPhone ainda não existe aplicativo.</p><p>O aplicativo não está na Play Store: a instalação é pelo arquivo, e o Android pede para liberar a instalação de <b>fonte desconhecida</b> — o mesmo aviso que ele dá para qualquer aplicativo de fora da loja.</p></div>
-          </details>
-          <details class="faq">
-            <summary>Como o celular enxerga as fichas do computador?</summary>
-            <div class="resp"><p>No computador, em <b>Ajustes → Vincular o celular</b>, aparece um código de oito dígitos. Você digita no celular uma vez, e daí em diante os dois se acertam sozinhos: o que muda de um lado aparece no outro, sem botão de sincronizar. Se os dois mexerem em coisas diferentes, as duas mudanças ficam — ficha por ficha.</p></div>
-          </details>
-          <details class="faq">
-            <summary>E fora do consultório?</summary>
-            <div class="resp"><p>Também funciona, por uma rede privada entre os seus dois aparelhos — sem abrir porta no roteador e sem as fichas passarem legíveis por servidor nenhum.</p></div>
-          </details>
-        </section>
-        <section class="grupo-duvidas" id="dados" aria-labelledby="t-dados">
-          <h2 id="t-dados">Dados, senha e backup</h2>
-          <details class="faq">
-            <summary>Onde ficam as fichas dos pacientes?</summary>
-            <div class="resp"><p>No seu computador, em <code>Documentos\Consultório</code>, <b>cifradas com AES-256</b>. A chave nasce da sua senha quando você entra e vive só na memória. Quem copiar a pasta leva um arquivo embaralhado. O desenho completo está em <a href="/seguranca">Segurança e LGPD</a>.</p></div>
-          </details>
-          <details class="faq">
-            <summary>Esqueci a senha. E agora?</summary>
-            <div class="resp"><p>A senha é uma só, mas ela faz dois trabalhos. A parte que <b>prova quem você é</b> você redefine aqui no site, pelo e-mail, como em qualquer serviço. A parte que <b>abre o cofre</b> não tem recuperação: o programa pede a senha anterior uma vez, para regravar o cofre com a nova.</p><p>Se você esqueceu a senha por completo e não tem backup, as fichas estão perdidas — para você e para qualquer outra pessoa, inclusive nós. Não existe chave-mestra. É por isso que o backup importa tanto.</p></div>
-          </details>
-          <details class="faq">
-            <summary>Como funciona o backup?</summary>
-            <div class="resp"><p>O programa gera um arquivo cifrado que você guarda onde quiser: HD externo, pen drive, a sua nuvem. Ele abre com a senha que valia quando foi feito.</p><p>E existe, em Ajustes, o <b>backup do cofre na nossa nuvem</b>: ligado, o computador manda sozinho o mesmo bloco cifrado, no máximo uma vez por dia. Guardamos uma caixa que não temos como abrir. Os dois vêm <b>desligados de fábrica</b> — quem liga é você.</p></div>
-          </details>
-          <details class="faq">
-            <summary>Preciso de internet para atender?</summary>
-            <div class="resp"><p>Não. Agenda, ficha, odontograma, receita e atestado funcionam com o link do consultório caído. O programa confirma a assinatura de tempos em tempos; sem internet, segue trabalhando por até três semanas antes de pedir uma nova confirmação. A Duda é a exceção: ela precisa de internet para responder.</p></div>
-          </details>
-          <details class="faq">
-            <summary>E a LGPD?</summary>
-            <div class="resp"><p>O controlador dos dados do paciente é o profissional, e o sistema foi feito para que ele não dependa de ninguém para cumprir a lei: as fichas não passam legíveis pelo nosso servidor, o encaminhamento sai com o mínimo de dados, a foto clínica só sai do prontuário com o termo de imagem assinado e o Registro guarda o que foi feito, com data e hora. Os detalhes estão em <a href="/seguranca#lgpd">LGPD na prática</a>.</p></div>
-          </details>
-        </section>
-        <section class="grupo-duvidas" id="planos" aria-labelledby="t-planos">
-          <h2 id="t-planos">Planos e pagamento</h2>
-          <details class="faq">
-            <summary>Quanto custa?</summary>
-            <div class="resp"><p>Um preço só, com tudo dentro — não existe módulo cobrado à parte. De <b>R$ 84,99</b> no mensal a <b>R$ 59,50 por mês</b> no anual (R$ 713,99 uma vez por ano). Os quatro planos estão na <a href="/#planos">página inicial</a>.</p></div>
-          </details>
-          <details class="faq">
-            <summary>Quais as formas de pagamento?</summary>
-            <div class="resp"><p>Pix, cartão de crédito e boleto. No cartão, você pode ligar a <b>cobrança automática</b>, que dá mais 3% de desconto e se desliga quando você quiser. Pix e boleto, pela regra dos meios de pagamento, não podem ser cobrados sozinhos.</p></div>
-          </details>
-          <details class="faq">
-            <summary>O que acontece se a assinatura vencer?</summary>
-            <div class="resp"><p><b>Nada é apagado.</b> O programa entra em modo leitura: você continua abrindo a agenda, lendo as fichas, imprimindo o que já emitiu e exportando o backup completo. O que trava é criar e editar. Pagou, as edições voltam na hora.</p></div>
-          </details>
-          <details class="faq">
-            <summary>E se eu me arrepender?</summary>
-            <div class="resp"><p>Você tem <b>sete dias</b> para desistir, mesmo que já tenha usado o sistema — é o direito de arrependimento. As condições completas estão no <a href="/contrato.pdf" target="_blank" rel="noopener">contrato de adesão</a>, que você lê antes de assinar.</p></div>
-          </details>
-          <details class="faq">
-            <summary>Serve para clínica com vários dentistas?</summary>
-            <div class="resp"><p>Sim — com o <b>Meu Consultório App | Clínica</b>, o programa da clínica, em azul. Cada pessoa tem o próprio acesso e a própria senha: dentistas, recepção, ASB, financeiro e laboratório, cada um vendo só o que o papel permite. O computador da recepção vira o servidor e os outros se ligam a ele pela rede.</p><p>Os planos vão de 2 a 8 dentistas, com a equipe ilimitada, e há 30 dias para testar. Acima de 8 dentistas, fazemos um orçamento. Veja a <a href="/clinica">página da Clínica</a>. O sistema ainda não emite nota fiscal e não conversa com convênio nem com TISS.</p></div>
-          </details>
-          <details class="faq">
-            <summary>Já uso o Solo. Como passo para a Clínica?</summary>
-            <div class="resp"><p>Mude o plano no site (Perfil › Plano) — ou comece o teste de 30 dias da Clínica. No programa, em <b>Ajustes</b>, aparece <b>Transformar em clínica</b>: ele baixa o programa da Clínica e pergunta se você quer levar os pacientes. Vai a cópia do cofre <b>cifrado, do jeito que está</b>, e ela abre na Clínica com a mesma senha. O Solo continua intacto.</p></div>
-          </details>
-        </section>
-        <section class="grupo-duvidas" id="uso" aria-labelledby="t-uso">
-          <h2 id="t-uso">No dia a dia</h2>
-          <details class="faq">
-            <summary>Como o programa se atualiza?</summary>
-            <div class="resp"><p>A partir da versão 2.10, <b>sozinho</b>: quando sai versão nova, ele baixa mostrando a porcentagem e oferece <b>Instalar agora</b>. Em poucos segundos reabre já atualizado, sem as telas do instalador. As fichas ficam fora do programa e não são tocadas.</p><p>Quem está numa versão anterior à 2.10 atualiza uma vez pelo instalador, rodando por cima do que já está instalado. O instalador também continua disponível para quem preferir sempre esse caminho.</p></div>
-          </details>
-          <details class="faq">
-            <summary>O que a Duda faz, e o que ela vê?</summary>
-            <div class="resp"><p>A Duda responde sobre o programa e a rotina do consultório, lê a sua agenda, o laboratório e o financeiro para responder, escreve a evolução a partir das suas anotações e redige mensagem para o paciente. Perguntada sobre odontologia, responde como um livro-texto responderia a um colega.</p><p>Antes de a pergunta sair do computador, cada paciente vira um apelido — [P1], [P2] — e o programa recoloca o nome na resposta, na sua tela. CPF, telefone, endereço, anamnese e evolução nunca vão. Ela não examina ninguém: não recebe radiografia nem foto, e o que ela escreve nasce como rascunho para você aprovar.</p></div>
-          </details>
-          <details class="faq">
-            <summary>Os documentos saem com o meu nome e CRO?</summary>
-            <div class="resp"><p>Saem. Receita, atestado, encaminhamento, orçamento e termos levam o seu cabeçalho — nome, CRO, endereço e telefone — e a sua assinatura, cadastrada uma vez. Imprimem em A4, viram PDF ou vão pelo WhatsApp.</p></div>
-          </details>
-          <details class="faq">
-            <summary>Como falo com o suporte?</summary>
-            <div class="resp"><p>Direto comigo, pelo <a href="https://wa.me/5521986624185" target="_blank" rel="noopener">WhatsApp (21) 98662-4185</a>, ou por <a href="mailto:contato@meuconsultorioappodonto.com.br">contato@meuconsultorioappodonto.com.br</a>. Sou dentista, fiz o sistema para o meu consultório e uso todo dia.</p></div>
-          </details>
-        </section>
+      <div class="calc">
+        <form class="calc-form" id="calcForm" onsubmit="return false" aria-label="Dados do consultório">
+          <div class="calc-campo">
+            <label for="cDentistas">Dentistas</label>
+            <div class="calc-num">
+              <button type="button" data-passo="-1" data-alvo="cDentistas" aria-label="Menos um dentista">−</button>
+              <input id="cDentistas" type="number" inputmode="numeric" min="1" max="30" value="1" />
+              <button type="button" data-passo="1" data-alvo="cDentistas" aria-label="Mais um dentista">+</button>
+            </div>
+            <small>Se você atende sozinho, deixe 1.</small>
+            <div class="calc-trilho" aria-hidden="true"><span class="solo ativo" id="tSolo">Solo · 1 dentista</span><span class="cli" id="tCli">Clínica · 2 a 8</span></div>
+          </div>
+          <div class="calc-campo">
+            <label for="cPacientes">Pacientes no cadastro</label>
+            <input id="cPacientes" type="number" inputmode="numeric" min="0" max="100000" step="50" value="800" />
+            <small>Todos, inclusive os que não voltam há tempo.</small>
+          </div>
+          <div class="calc-campo">
+            <label for="cAnos">Pensar em quantos anos?</label>
+            <select id="cAnos">
+              <option value="1">1 ano</option>
+              <option value="3">3 anos</option>
+              <option value="5" selected>5 anos</option>
+              <option value="10">10 anos</option>
+              <option value="20">20 anos (o prontuário é guardado por 20)</option>
+            </select>
+          </div>
+          <fieldset class="calc-campo">
+            <legend>Fotos clínicas</legend>
+            <div class="calc-chips" data-grupo="fotos">
+              <label><input type="radio" name="fotos" value="0" /> <span>Não tiro</span></label>
+              <label><input type="radio" name="fotos" value="1" checked /> <span>Algumas</span></label>
+              <label><input type="radio" name="fotos" value="4" /> <span>Documento casos</span></label>
+              <label><input type="radio" name="fotos" value="10" /> <span>Ortodontia / estética</span></label>
+            </div>
+            <small id="cFotosDica">Cerca de 1 foto por paciente por ano.</small>
+          </fieldset>
+          <fieldset class="calc-campo">
+            <legend>As fotos são tiradas com</legend>
+            <div class="calc-chips" data-grupo="camera">
+              <label><input type="radio" name="camera" value="3.5" checked /> <span>Celular</span></label>
+              <label><input type="radio" name="camera" value="8" /> <span>Câmera profissional</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="calc-campo">
+            <legend>Radiografias, exames e PDFs anexados</legend>
+            <div class="calc-chips" data-grupo="exames">
+              <label><input type="radio" name="exames" value="0.5" /> <span>Poucos</span></label>
+              <label><input type="radio" name="exames" value="1.5" checked /> <span>Normal</span></label>
+              <label><input type="radio" name="exames" value="3" /> <span>Muitos</span></label>
+            </div>
+            <small id="cExamesDica">Cerca de 1 a 2 por paciente por ano.</small>
+          </fieldset>
+        </form>
+
+        <div class="calc-res" aria-live="polite">
+          <div class="calc-prod" id="rProd">
+            <img id="rProdImg" src="/img/favicon.png" alt="" width="40" height="40" />
+            <span><b id="rProdNome">Meu Consultório App</b><small id="rProdOnde">Solo · o computador do consultório</small></span>
+            <a id="rProdLink" href="/#planos">Ver o Solo →</a>
+          </div>
+          <p class="calc-rot">Espaço que o sistema vai ocupar em <b id="rAnosTxt">5 anos</b></p>
+          <p class="calc-total"><span id="rTotal">—</span></p>
+          <div class="calc-barra" id="rBarra" role="img" aria-label="Divisão do espaço"></div>
+          <ul class="calc-leg" id="rLeg"></ul>
+
+          <div class="calc-ssd">
+            <span class="calc-ssd-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h4M7 14h2M15 10v4M18 10v4"/></svg>
+            </span>
+            <div>
+              <p class="calc-rot">Disco recomendado para o computador que guarda as fichas</p>
+              <p class="calc-ssd-v"><b id="rSsd">SSD de 256 GB</b></p>
+              <p class="calc-peq" id="rSsdPorque"></p>
+            </div>
+          </div>
+
+          <div class="calc-linhas">
+            <p><span>Cresce por ano</span><b id="rAno">—</b></p>
+            <p><span>Backup externo (HD/SSD ou nuvem), no mínimo</span><b id="rBackup">—</b></p>
+            <p id="rOutrosLinha" hidden><span>Em cada outro computador do consultório</span><b id="rOutros">—</b></p>
+          </div>
+          <p class="calc-aviso" id="rAviso" hidden></p>
+        </div>
+      </div>
+      <p class="legenda" style="margin-top:14px">É uma estimativa pela média: a foto de cada câmera, o tamanho de cada
+        radiografia e o quanto se escreve em cada ficha mudam de consultório para consultório. A conta está
+        explicada logo abaixo.</p>
+    </div>
+  </section>
+
+  <section class="faixa banda" id="ssd">
+    <div class="centro">
+      <div class="bloco">
+        <div class="texto">
+          <p class="olho">Por que SSD</p>
+          <h2>Disco sólido: sem peça girando, menos coisa para quebrar.</h2>
+          <div class="prosa">
+            <p>O HD comum guarda os dados num disco que gira e numa agulha que se move. Um esbarrão com o
+              computador ligado, uma queda de energia na hora errada ou só o desgaste dos anos, e ele pode parar
+              de ler — levando o que estiver lá. O <b>SSD</b> não tem nada se mexendo: aguenta melhor pancada e
+              vibração, e ainda abre o sistema e as fotos bem mais rápido.</p>
+            <p>Para as fichas do consultório, com fotos e radiografias que crescem todo ano, vale escolher SSD e
+              deixar pelo menos <b>um quarto do disco livre</b>: SSD cheio fica lento e se desgasta mais.</p>
+          </div>
+          <p class="nota ambar"><b>SSD não substitui backup.</b> Ele quebra menos, mas quebra — e quando quebra,
+            costuma ser de uma vez, sem aviso. O que protege as fichas de verdade é o backup completo: cifrado,
+            num HD externo ou na nuvem, longe do computador. O programa lembra você de fazer.</p>
+        </div>
+        <div class="texto">
+          <ul class="lista">
+            <li>Prefira SSD <b>NVMe</b> (o pequeno, que encaixa direto na placa) ou SATA — os dois servem.</li>
+            <li>Notebook com HD comum? Trocar por SSD costuma ser barato e é o melhor upgrade que existe.</li>
+            <li>O backup externo pode ser HD comum: ele fica guardado, parado, a maior parte do tempo.</li>
+            <li>Faça o <b>Backup completo</b> (em Ajustes) pelo menos uma vez por semana e guarde fora do consultório
+              uma vez por mês.</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="faixa escuro">
+  <section class="faixa" id="conta">
+    <div class="centro">
+      <p class="olho">Como a conta é feita</p>
+      <h2>Os números por trás da calculadora.</h2>
+      <div class="calc-tabela" role="region" aria-label="Premissas da calculadora" tabindex="0">
+        <table>
+          <thead><tr><th>O quê</th><th>Quanto ocupa</th><th>De onde vem</th></tr></thead>
+          <tbody>
+            <tr><td>Programa + voz da Duda</td><td>0,5 GB, uma vez</td><td>Instalação e a voz neural baixada uma vez (cerca de 140 MB).</td></tr>
+            <tr><td>Ficha e histórico de cada paciente</td><td>15 KB + 25 KB por ano</td><td>Cadastro, anamnese, odontograma, consultas, evolução, financeiro e documentos assinados.</td></tr>
+            <tr><td>Miniatura de cada foto e de cada exame</td><td>35 KB e 25 KB</td><td>Ficam dentro do cofre, para aparecer no celular e no computador.</td></tr>
+            <tr><td>Cifragem do cofre</td><td>+35%</td><td>O cofre é gravado cifrado (AES-256), o que aumenta um pouco o tamanho.</td></tr>
+            <tr><td>Cópias automáticas do cofre</td><td>40 × o cofre</td><td>O programa guarda as 40 últimas versões das fichas, para voltar atrás se algo der errado.</td></tr>
+            <tr><td>Foto clínica original</td><td>3,5 MB (celular) · 8 MB (câmera)</td><td>Guardada inteira, cifrada.</td></tr>
+            <tr><td>Radiografia, exame ou PDF</td><td>1,5 MB em média</td><td>Panorâmica pesa mais; periapical e PDF, menos.</td></tr>
+            <tr><td>Disco recomendado</td><td>(total × 1,5 + 60 GB) com 25% livre</td><td>Folga para crescer, o Windows e as atualizações, e o quarto livre que o SSD precisa.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="legenda" style="margin-top:14px">Dúvidas sobre backup, troca de computador e senha estão em
+        <a href="/duvidas">Perguntas frequentes</a>.</p>
+    </div>
+  </section>
+
+  <script>
+  (function(){
+    var $ = function(id){ return document.getElementById(id); };
+    var F = document.getElementById("calcForm");
+    var DICA_FOTOS = { "0":"Sem fotos clínicas.", "1":"Cerca de 1 foto por paciente por ano.",
+      "4":"Cerca de 4 fotos por paciente por ano: antes, durante e depois de alguns casos.",
+      "10":"Cerca de 10 fotos por paciente por ano: documentação completa e acompanhamento." };
+    var DICA_EXAMES = { "0.5":"Cerca de 1 a cada 2 anos por paciente.", "1.5":"Cerca de 1 a 2 por paciente por ano.",
+      "3":"Cerca de 3 por paciente por ano." };
+    function valor(nome){ var e = F.querySelector('input[name="'+nome+'"]:checked'); return e ? parseFloat(e.value) : 0; }
+    function num(id, min, max){ var v = parseInt($(id).value, 10); if(isNaN(v)) v = min; return Math.max(min, Math.min(max, v)); }
+    function fmt(gb){
+      if(gb < 1) return Math.max(1, Math.round(gb * 1024)) + " MB";
+      if(gb < 10) return gb.toFixed(1).replace(".", ",") + " GB";
+      if(gb < 1000) return Math.round(gb) + " GB";
+      return (gb / 1000).toFixed(1).replace(".", ",") + " TB";
+    }
+    function tamanho(gb, lista){
+      for(var i = 0; i < lista.length; i++) if(lista[i] >= gb) return lista[i];
+      return lista[lista.length - 1];
+    }
+    function rotulo(gb){ return gb >= 1000 ? (gb / 1000) + " TB" : gb + " GB"; }
+    var KB = 1 / (1024 * 1024), MB = 1 / 1024;
+    function calcular(){
+      var d = num("cDentistas", 1, 30), p = num("cPacientes", 0, 100000), a = parseInt($("cAnos").value, 10) || 5;
+      var fotosAno = valor("fotos"), mbFoto = valor("camera"), examesAno = valor("exames");
+      var fotos = p * a * fotosAno, exames = p * a * examesAno;
+      var dados = p * (15 + 25 * a) * KB;
+      var minis = (fotos * 35 + exames * 0.6 * 25) * KB;
+      var cofre = (dados + minis) * 1.35;
+      var copias = cofre * 40;
+      var originais = fotos * mbFoto * MB + exames * 1.5 * MB;
+      var programa = 0.5;
+      var total = programa + cofre + copias + originais;
+      var porAno = a ? (total - programa) / a : 0;
+      var precisa = (total * 1.5 + 60) / 0.75;
+      var ssd = tamanho(precisa, [256, 512, 1000, 2000, 4000]);
+      var backup = tamanho((cofre + originais) * 1.25, [64, 128, 256, 512, 1000, 2000, 4000]);
+
+      $("rAnosTxt").textContent = a + (a === 1 ? " ano" : " anos");
+      $("rTotal").textContent = fmt(total);
+      $("rAno").textContent = "+ " + fmt(porAno);
+      $("rSsd").textContent = (precisa > 4000 ? "Mais de " : "SSD de ") + rotulo(ssd);
+      $("rSsdPorque").textContent = "O sistema ocupa " + fmt(total) + "; com folga para crescer, o Windows e um quarto do disco livre, o ideal é ter pelo menos " + fmt(precisa) + ".";
+      $("rBackup").textContent = rotulo(backup);
+
+      var partes = [
+        { n:"Fotos e exames originais", v:originais, c:"var(--verde)" },
+        { n:"Cópias automáticas do cofre (40)", v:copias, c:"color-mix(in srgb, var(--verde) 42%, var(--folha-2))" },
+        { n:"Fichas e histórico (cofre)", v:cofre, c:"var(--ambar)" },
+        { n:"Programa e voz da Duda", v:programa, c:"var(--tinta-3)" }
+      ];
+      var barra = "", leg = "";
+      partes.forEach(function(x){
+        var pct = total ? x.v / total * 100 : 0;
+        if(pct > 0.4) barra += '<span style="width:' + pct.toFixed(2) + '%;background:' + x.c + '"></span>';
+        leg += '<li><i style="background:' + x.c + '"></i><span>' + x.n + '</span><b>' + fmt(x.v) + '</b></li>';
+      });
+      $("rBarra").innerHTML = barra; $("rLeg").innerHTML = leg;
+
+      $("rOutrosLinha").hidden = d < 2;
+      var cli = d >= 2, calcEl = document.querySelector(".calc");
+      if (calcEl) calcEl.classList.toggle("cli", cli);
+      $("tSolo").classList.toggle("ativo", !cli); $("tCli").classList.toggle("ativo", cli);
+      $("rProdImg").src = cli ? "/img/favicon-clinica.png" : "/img/favicon.png";
+      $("rProdNome").textContent = cli ? "Meu Consultório App | Clínica" : "Meu Consultório App";
+      $("rProdOnde").textContent = cli ? (d > 8 ? "Mais de 8 dentistas · orçamento sob medida" : "Clínica · o servidor da recepção") : "Solo · o computador do consultório";
+      $("rProdLink").textContent = cli ? "Ver a Clínica →" : "Ver o Solo →";
+      $("rProdLink").href = cli ? "/clinica#planos" : "/#planos";
+      $("rOutros").textContent = fmt(programa + cofre * 2);
+      var aviso = "";
+      if(d >= 7) aviso = "Com " + d + " dentistas, o computador que guarda as fichas recebe fotos e exames de todos ao mesmo tempo e o espaço acaba mais rápido do que parece. Acompanhe o espaço livre todo mês" + (precisa * 1.5 > 4000 ? " e reserve um disco só para as fichas." : " e prefira já um SSD de " + rotulo(tamanho(precisa * 1.5, [512, 1000, 2000, 4000])) + ".");
+      else if(d >= 2) aviso = "Com " + d + " dentistas, o lugar é o Meu Consultório App | Clínica: as fichas de todos ficam no computador da recepção, que vira o servidor — os números acima valem para ele.";
+      $("rAviso").textContent = aviso; $("rAviso").hidden = !aviso;
+      $("cFotosDica").textContent = DICA_FOTOS[String(fotosAno)] || "";
+      $("cExamesDica").textContent = DICA_EXAMES[String(examesAno)] || "";
+    }
+    F.addEventListener("input", calcular);
+    F.addEventListener("change", calcular);
+    F.addEventListener("click", function(e){
+      var b = e.target.closest && e.target.closest("[data-passo]");
+      if(!b) return;
+      var alvo = $(b.getAttribute("data-alvo"));
+      alvo.value = Math.max(1, Math.min(30, (parseInt(alvo.value, 10) || 1) + parseInt(b.getAttribute("data-passo"), 10)));
+      calcular();
+    });
+    calcular();
+  })();
+  </script>
+
+  <section class="faixa escuro fecho-misto">
     <div class="centro fecho" style="max-width:760px">
-      <h2 style="font-size:clamp(28px,4.2vw,42px)">A melhor resposta é testar.</h2>
-      <p style="font-size:18px; margin:0; max-width:36rem">Catorze dias, o sistema inteiro, sem cartão. E, se preferir, eu instalo com você pela Assistência Rápida do Windows.</p>
+      <h2 style="font-size:clamp(28px,4.2vw,42px)">Pronto para instalar?</h2>
+      <p style="font-size:18px; margin:0; max-width:36rem">O programa roda em qualquer Windows 10 ou 11 de 64 bits. Crie a conta, instale e use por 14 dias, sem cartão.</p>
       <div class="acoes">
-        <a class="btn claro" href="/criar-conta">Testar 14 dias de graça</a>
+        <a class="btn claro" href="/criar-conta">Testar o Solo · 14 dias</a>
+        <a class="btn claro" href="/criar-conta?clinica=1" style="background:#DCE6F7; color:#0B2149">Testar a Clínica · 30 dias</a>
         <a class="btn vazado" href="https://wa.me/5521986624185?text=Oi%2C%20Matheus.%20Vi%20o%20site%20do%20Meu%20Consult%C3%B3rio%20App%20e%20tenho%20uma%20d%C3%BAvida." target="_blank" rel="noopener">Perguntar no WhatsApp</a>
       </div>
     </div>
   </section>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Preciso de cartão para testar?", "acceptedAnswer": {"@type": "Answer", "text": "Não. Você cria a conta com nome, e-mail, telefone e CPF ou CNPJ, instala e usa o sistema inteiro por 14 dias. Nenhum dado de pagamento é pedido para começar."}}, {"@type": "Question", "name": "Em que computador ele roda?", "acceptedAnswer": {"@type": "Answer", "text": "Windows 10 ou 11, de 64 bits. O instalador tem cerca de 85 MB. Não precisa de computador novo: o programa foi testado com 700 pacientes e 9 mil consultas, e cada tela abre em centésimos de segundo."}}, {"@type": "Question", "name": "Quanto espaço no computador eu preciso?", "acceptedAnswer": {"@type": "Answer", "text": "Depende de quantos pacientes você tem e de quanto usa fotos e radiografias. A ficha em si é leve; o que ocupa espaço são as fotos e os exames originais. Faça a conta na calculadora de armazenamento: ela mostra o espaço para os próximos anos e o tamanho de SSD que eu recomendo."}}, {"@type": "Question", "name": "O Windows disse que o desenvolvedor é desconhecido. É seguro?", "acceptedAnswer": {"@type": "Answer", "text": "Esse aviso azul aparece para programas que ainda não compraram o certificado de assinatura da Microsoft — não quer dizer que o arquivo tenha problema. Clique em Mais informações e depois em Executar assim mesmo. O instalador só é baixado da sua área logada, em Baixar o sistema."}}, {"@type": "Question", "name": "Posso pedir para alguém instalar para mim?", "acceptedAnswer": {"@type": "Answer", "text": "Pode pedir para mim. Eu instalo de graça, pela Assistência Rápida do próprio Windows, enquanto você assiste: você vê tudo o que eu faço e encerra quando quiser. Eu nunca peço a sua senha — quem digita é você. Combine o horário pelo WhatsApp."}}, {"@type": "Question", "name": "Dá para experimentar sem digitar pacientes de verdade?", "acceptedAnswer": {"@type": "Answer", "text": "Dá. Em Ajustes existe o Carregar exemplo: pacientes, consultas, tratamentos, laboratório e encaminhamentos inventados, para você mexer em tudo sem medo. Um roteiro de primeiro dia leva você pelo que precisa ser configurado — cabeçalho dos documentos, assinatura, tabela de preços."}}, {"@type": "Question", "name": "Tem aplicativo para celular?", "acceptedAnswer": {"@type": "Answer", "text": "Para Android 8 ou mais novo, sim. No iPhone ainda não existe aplicativo.O aplicativo não está na Play Store: a instalação é pelo arquivo, e o Android pede para liberar a instalação de fonte desconhecida — o mesmo aviso que ele dá para qualquer aplicativo de fora da loja."}}, {"@type": "Question", "name": "Como o celular enxerga as fichas do computador?", "acceptedAnswer": {"@type": "Answer", "text": "No computador, em Ajustes → Vincular o celular, aparece um código de oito dígitos. Você digita no celular uma vez, e daí em diante os dois se acertam sozinhos: o que muda de um lado aparece no outro, sem botão de sincronizar. Se os dois mexerem em coisas diferentes, as duas mudanças ficam — ficha por ficha."}}, {"@type": "Question", "name": "E fora do consultório?", "acceptedAnswer": {"@type": "Answer", "text": "Também funciona, por uma rede privada entre os seus dois aparelhos — sem abrir porta no roteador e sem as fichas passarem legíveis por servidor nenhum."}}, {"@type": "Question", "name": "Onde ficam as fichas dos pacientes?", "acceptedAnswer": {"@type": "Answer", "text": "No seu computador, em Documentos\\Consultório, cifradas com AES-256. A chave nasce da sua senha quando você entra e vive só na memória. Quem copiar a pasta leva um arquivo embaralhado. O desenho completo está em Segurança e LGPD."}}, {"@type": "Question", "name": "Esqueci a senha. E agora?", "acceptedAnswer": {"@type": "Answer", "text": "A senha é uma só, mas ela faz dois trabalhos. A parte que prova quem você é você redefine aqui no site, pelo e-mail, como em qualquer serviço. A parte que abre o cofre não tem recuperação: o programa pede a senha anterior uma vez, para regravar o cofre com a nova.Se você esqueceu a senha por completo e não tem backup, as fichas estão perdidas — para você e para qualquer outra pessoa, inclusive nós. Não existe chave-mestra. É por isso que o backup importa tanto."}}, {"@type": "Question", "name": "Como funciona o backup?", "acceptedAnswer": {"@type": "Answer", "text": "O programa gera um arquivo cifrado que você guarda onde quiser: HD externo, pen drive, a sua nuvem. Ele abre com a senha que valia quando foi feito.E existe, em Ajustes, o backup do cofre na nossa nuvem: ligado, o computador manda sozinho o mesmo bloco cifrado, no máximo uma vez por dia. Guardamos uma caixa que não temos como abrir. Os dois vêm desligados de fábrica — quem liga é você."}}, {"@type": "Question", "name": "Preciso de internet para atender?", "acceptedAnswer": {"@type": "Answer", "text": "Não. Agenda, ficha, odontograma, receita e atestado funcionam com o link do consultório caído. O programa confirma a assinatura de tempos em tempos; sem internet, segue trabalhando por até três semanas antes de pedir uma nova confirmação. A Duda é a exceção: ela precisa de internet para responder."}}, {"@type": "Question", "name": "E a LGPD?", "acceptedAnswer": {"@type": "Answer", "text": "O controlador dos dados do paciente é o profissional, e o sistema foi feito para que ele não dependa de ninguém para cumprir a lei: as fichas não passam legíveis pelo nosso servidor, o encaminhamento sai com o mínimo de dados, a foto clínica só sai do prontuário com o termo de imagem assinado e o Registro guarda o que foi feito, com data e hora. Os detalhes estão em LGPD na prática."}}, {"@type": "Question", "name": "Quanto custa?", "acceptedAnswer": {"@type": "Answer", "text": "Um preço só, com tudo dentro — não existe módulo cobrado à parte. De R$ 84,99 no mensal a R$ 59,50 por mês no anual (R$ 713,99 uma vez por ano). Os quatro planos estão na página inicial."}}, {"@type": "Question", "name": "Quais as formas de pagamento?", "acceptedAnswer": {"@type": "Answer", "text": "Pix, cartão de crédito e boleto. No cartão, você pode ligar a cobrança automática, que dá mais 3% de desconto e se desliga quando você quiser. Pix e boleto, pela regra dos meios de pagamento, não podem ser cobrados sozinhos."}}, {"@type": "Question", "name": "O que acontece se a assinatura vencer?", "acceptedAnswer": {"@type": "Answer", "text": "Nada é apagado. O programa entra em modo leitura: você continua abrindo a agenda, lendo as fichas, imprimindo o que já emitiu e exportando o backup completo. O que trava é criar e editar. Pagou, as edições voltam na hora."}}, {"@type": "Question", "name": "E se eu me arrepender?", "acceptedAnswer": {"@type": "Answer", "text": "Você tem sete dias para desistir, mesmo que já tenha usado o sistema — é o direito de arrependimento. As condições completas estão no contrato de adesão, que você lê antes de assinar."}}, {"@type": "Question", "name": "Serve para clínica com vários dentistas?", "acceptedAnswer": {"@type": "Answer", "text": "Sim — com o Meu Consultório App | Clínica, o programa da clínica, em azul. Cada pessoa tem o próprio acesso e a própria senha: dentistas, recepção, ASB, financeiro e laboratório, cada um vendo só o que o papel permite. O computador da recepção vira o servidor e os outros se ligam a ele pela rede.Os planos vão de 2 a 8 dentistas, com a equipe ilimitada, e há 30 dias para testar. Acima de 8 dentistas, fazemos um orçamento. Veja a página da Clínica. O sistema ainda não emite nota fiscal e não conversa com convênio nem com TISS."}}, {"@type": "Question", "name": "Já uso o Solo. Como passo para a Clínica?", "acceptedAnswer": {"@type": "Answer", "text": "Mude o plano no site (Perfil › Plano) — ou comece o teste de 30 dias da Clínica. No programa, em Ajustes, aparece Transformar em clínica: ele baixa o programa da Clínica e pergunta se você quer levar os pacientes. Vai a cópia do cofre cifrado, do jeito que está, e ela abre na Clínica com a mesma senha. O Solo continua intacto."}}, {"@type": "Question", "name": "Como o programa se atualiza?", "acceptedAnswer": {"@type": "Answer", "text": "A partir da versão 2.10, sozinho: quando sai versão nova, ele baixa mostrando a porcentagem e oferece Instalar agora. Em poucos segundos reabre já atualizado, sem as telas do instalador. As fichas ficam fora do programa e não são tocadas.Quem está numa versão anterior à 2.10 atualiza uma vez pelo instalador, rodando por cima do que já está instalado. O instalador também continua disponível para quem preferir sempre esse caminho."}}, {"@type": "Question", "name": "O que a Duda faz, e o que ela vê?", "acceptedAnswer": {"@type": "Answer", "text": "A Duda responde sobre o programa e a rotina do consultório, lê a sua agenda, o laboratório e o financeiro para responder, escreve a evolução a partir das suas anotações e redige mensagem para o paciente. Perguntada sobre odontologia, responde como um livro-texto responderia a um colega.Antes de a pergunta sair do computador, cada paciente vira um apelido — [P1], [P2] — e o programa recoloca o nome na resposta, na sua tela. CPF, telefone, endereço, anamnese e evolução nunca vão. Ela não examina ninguém: não recebe radiografia nem foto, e o que ela escreve nasce como rascunho para você aprovar."}}, {"@type": "Question", "name": "Os documentos saem com o meu nome e CRO?", "acceptedAnswer": {"@type": "Answer", "text": "Saem. Receita, atestado, encaminhamento, orçamento e termos levam o seu cabeçalho — nome, CRO, endereço e telefone — e a sua assinatura, cadastrada uma vez. Imprimem em A4, viram PDF ou vão pelo WhatsApp."}}, {"@type": "Question", "name": "Como falo com o suporte?", "acceptedAnswer": {"@type": "Answer", "text": "Direto comigo, pelo WhatsApp (21) 98662-4185, ou por contato@meuconsultorioappodonto.com.br. Sou dentista, fiz o sistema para o meu consultório e uso todo dia."}}]}</script>
 </main>
 
 <footer>

@@ -486,6 +486,31 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 input:-webkit-autofill:focus{
   -webkit-box-shadow:0 0 0 1000px var(--papel) inset, 0 0 0 3px var(--verde-suave);
   box-shadow:0 0 0 1000px var(--papel) inset, 0 0 0 3px var(--verde-suave)}
+
+/* 3.0 — a Clínica na conta */
+[hidden]{display:none !important}
+.recado.ok.cli, .recado.cli{background:var(--azul-suave); border-color:var(--azul); color:var(--azul)}
+:root{--azul:#1E4E9C; --azul-claro:#2C63BE; --azul-suave:#E2EAF7}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D} }
+:root[data-theme="dark"]{--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D}
+.btn.azul{background:var(--azul); color:#fff; border-color:var(--azul)}
+.btn.azul:hover{background:var(--azul-claro); border-color:var(--azul-claro)}
+.cli-caixa{border:1px solid color-mix(in srgb, var(--azul) 38%, var(--linha)); border-radius:14px; padding:18px 20px;
+  background:linear-gradient(110deg, var(--azul-suave), var(--folha) 72%)}
+.cli-caixa h2{display:flex; align-items:center; gap:10px}
+.cli-caixa h2 img{width:28px; height:28px; border-radius:8px}
+.cli-caixa .acoes-cli{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px}
+.cod-testador{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; align-items:center}
+.cod-testador input{flex:1 1 180px; min-width:0; text-transform:uppercase; letter-spacing:.06em}
+.escolha-produto{display:inline-flex; gap:4px; padding:4px; border-radius:99px; border:1px solid var(--linha); background:var(--folha); margin:4px 0 14px}
+.escolha-produto button{font:inherit; font-size:14px; font-weight:600; border:0; border-radius:99px; padding:8px 16px; cursor:pointer; background:none; color:var(--tinta-2)}
+.escolha-produto button[aria-pressed="true"]{background:var(--verde); color:#fff}
+.escolha-produto button.cli[aria-pressed="true"]{background:var(--azul)}
+.tamanhos{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 12px}
+.tamanhos button{font:inherit; font-size:14px; border:1px solid var(--linha); background:var(--folha); color:var(--tinta-2); border-radius:10px; padding:8px 12px; cursor:pointer}
+.tamanhos button[aria-pressed="true"]{border-color:var(--azul); background:var(--azul-suave); color:var(--azul); font-weight:600}
+.planos.cli .plano:has(input:checked){border-color:var(--azul); box-shadow:0 0 0 1px var(--azul)}
+.selo-cli{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; color:var(--azul); background:var(--azul-suave); border-radius:99px; padding:4px 10px}
 </style>
 </head>
 <body>
@@ -561,6 +586,21 @@ input:-webkit-autofill:focus{
         </div>
 
         <p class="mini" style="margin:16px 0 0" id="rodapeVersao">—</p>
+      </div>
+
+      <div class="cli-caixa" id="clinica" style="margin-top:16px">
+        <div class="baixar">
+          <div class="ico" style="background:var(--azul);color:#fff;border-color:var(--azul)">EXE</div>
+          <div class="txt">
+            <h3>Meu Consultório App | Clínica — Windows</h3>
+            <p>O programa da clínica, em azul, instalado ao lado do de sempre. Instale primeiro no computador da
+              recepção (ele vira o servidor) e entre com esta conta. Se este computador já tem o Solo, a primeira tela
+              oferece trazer os seus pacientes.</p>
+            <p class="mini" id="pesoCli">Windows 10 ou 11, 64 bits · cerca de 85 MB · precisa do plano Clínica ou do teste de 30 dias</p>
+          </div>
+          <a class="btn azul" id="linkCli" href="/baixar/clinica" rel="noopener">Baixar</a>
+        </div>
+        <p class="mini" style="margin:12px 0 0" id="rodapeCli"></p>
       </div>
 
       <div class="caixa" style="margin-top:16px">
@@ -770,6 +810,19 @@ Promise.all([
   MCA.aviso(recado, 'Não consegui carregar a página agora. Recarregue em instantes.');
   document.getElementById('fechado').hidden = false;
 });
+</script>
+<script>
+/* a Clínica: versão e situação da conta */
+Promise.all([MCA.chamar('/api/baixar'), MCA.chamar('/api/conta/eu')]).then(([arq, eu]) => {
+  const k = arq.ok && arq.dados && arq.dados.clinica;
+  const rod = document.getElementById('rodapeCli'), link = document.getElementById('linkCli');
+  if (!rod || !link) return;
+  if (k && k.exe) { link.href = '/baixar/clinica'; link.setAttribute('download', ''); rod.textContent = 'Versão ' + k.versao + ' da Clínica.'; }
+  else { link.href = 'https://github.com/Matheux-021/Consultorio-clinica/releases/latest'; link.removeAttribute('download'); rod.textContent = 'O botão leva à página de arquivos da Clínica no GitHub.'; }
+  const c = eu.ok && eu.dados.conta;
+  if (c && !c.clinica && c.situacao !== 'vitalicia') rod.innerHTML += ' Sua conta ainda não tem a Clínica: <a href="/perfil">comece o teste de 30 dias no perfil</a>.';
+  if (/clinica/.test(location.hash)) { const el = document.getElementById('clinica'); if (el) el.scrollIntoView({ block: 'center' }); }
+}).catch(() => {});
 </script>
 </body>
 </html>

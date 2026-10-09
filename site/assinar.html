@@ -486,6 +486,31 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 input:-webkit-autofill:focus{
   -webkit-box-shadow:0 0 0 1000px var(--papel) inset, 0 0 0 3px var(--verde-suave);
   box-shadow:0 0 0 1000px var(--papel) inset, 0 0 0 3px var(--verde-suave)}
+
+/* 3.0 — a Clínica na conta */
+[hidden]{display:none !important}
+.recado.ok.cli, .recado.cli{background:var(--azul-suave); border-color:var(--azul); color:var(--azul)}
+:root{--azul:#1E4E9C; --azul-claro:#2C63BE; --azul-suave:#E2EAF7}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D} }
+:root[data-theme="dark"]{--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D}
+.btn.azul{background:var(--azul); color:#fff; border-color:var(--azul)}
+.btn.azul:hover{background:var(--azul-claro); border-color:var(--azul-claro)}
+.cli-caixa{border:1px solid color-mix(in srgb, var(--azul) 38%, var(--linha)); border-radius:14px; padding:18px 20px;
+  background:linear-gradient(110deg, var(--azul-suave), var(--folha) 72%)}
+.cli-caixa h2{display:flex; align-items:center; gap:10px}
+.cli-caixa h2 img{width:28px; height:28px; border-radius:8px}
+.cli-caixa .acoes-cli{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px}
+.cod-testador{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; align-items:center}
+.cod-testador input{flex:1 1 180px; min-width:0; text-transform:uppercase; letter-spacing:.06em}
+.escolha-produto{display:inline-flex; gap:4px; padding:4px; border-radius:99px; border:1px solid var(--linha); background:var(--folha); margin:4px 0 14px}
+.escolha-produto button{font:inherit; font-size:14px; font-weight:600; border:0; border-radius:99px; padding:8px 16px; cursor:pointer; background:none; color:var(--tinta-2)}
+.escolha-produto button[aria-pressed="true"]{background:var(--verde); color:#fff}
+.escolha-produto button.cli[aria-pressed="true"]{background:var(--azul)}
+.tamanhos{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 12px}
+.tamanhos button{font:inherit; font-size:14px; border:1px solid var(--linha); background:var(--folha); color:var(--tinta-2); border-radius:10px; padding:8px 12px; cursor:pointer}
+.tamanhos button[aria-pressed="true"]{border-color:var(--azul); background:var(--azul-suave); color:var(--azul); font-weight:600}
+.planos.cli .plano:has(input:checked){border-color:var(--azul); box-shadow:0 0 0 1px var(--azul)}
+.selo-cli{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; color:var(--azul); background:var(--azul-suave); border-radius:99px; padding:4px 10px}
 </style>
 </head>
 <body>
@@ -513,7 +538,19 @@ input:-webkit-autofill:focus{
     <div class="caixa">
       <p class="rot">Assinatura</p>
       <h1>Escolher meu plano</h1>
-      <p class="sub">Todos os planos têm o sistema inteiro. Muda só de quanto em quanto tempo você paga.</p>
+      <p class="sub">Todos os planos têm o sistema inteiro. Muda só de quanto em quanto tempo você paga — e, na
+        Clínica, quantos dentistas a equipe tem.</p>
+      <div class="escolha-produto" role="group" aria-label="Programa">
+        <button type="button" data-prod="solo" aria-pressed="true">Solo · consultório</button>
+        <button type="button" data-prod="clinica" class="cli" aria-pressed="false">Clínica · equipe</button>
+      </div>
+      <div class="tamanhos" id="tamanhos" role="group" aria-label="Quantos dentistas" hidden>
+        <button type="button" data-n="2" aria-pressed="false">Até 2 dentistas</button>
+        <button type="button" data-n="3" aria-pressed="false">Até 3</button>
+        <button type="button" data-n="5" aria-pressed="true">Até 5</button>
+        <button type="button" data-n="8" aria-pressed="false">Até 8</button>
+        <a class="btn sec" href="/#orcamento" style="padding:8px 12px">Mais de 8: orçamento</a>
+      </div>
       <p class="recado" id="recado" hidden></p>
 
       <form id="forma">
@@ -629,32 +666,59 @@ const total = document.getElementById('total');
 const botao = document.getElementById('enviar');
 let planos = [];
 
+let PROD = /clinica/.test(location.hash) ? 'clinica' : 'solo', TAM = 5, CLI = [], EU = null;
+function precoFinal(p, auto) {
+  let v = p.valor;
+  if (PROD === 'clinica' && EU && EU.testador && p.valorTestador) v = p.valorTestador;
+  if (auto) v = Math.round((v * 0.97 + 1e-9) * 100) / 100;
+  return v;
+}
+const reais = (v) => 'R$ ' + v.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 function pintarTotal() {
   const escolhido = document.querySelector('input[name=plano]:checked');
   if (!escolhido) { total.hidden = true; return; }
   const p = planos.find((x) => x.id === escolhido.value);
+  if (!p) { total.hidden = true; return; }
   const auto = document.getElementById('automatica').checked;
+  const v = precoFinal(p, auto);
   total.hidden = false;
+  total.classList.toggle('cli', PROD === 'clinica');
   total.className = 'recado ok';
-  total.innerHTML = 'Plano <b>' + p.nome + '</b> — ' +
-    (auto ? '<b>' + p.valorAutoTexto + '</b> (com os 3% da cobrança automática)'
-          : '<b>' + p.valorTexto + '</b>') +
+  total.innerHTML = 'Plano <b>' + p.nome + '</b> — <b>' + reais(v) + '</b>' +
+    (auto ? ' (com os 3% da cobrança automática)' : '') +
+    (PROD === 'clinica' && EU && EU.testador ? ' · com o desconto de testador' : '') +
     ' a cada ' + (p.meses === 1 ? 'mês' : p.meses + ' meses') + '.';
 }
-
-(async () => {
-  const r = await MCA.chamar('/api/planos');
-  planos = r.dados.planos;
-  document.getElementById('planos').innerHTML = planos.map((p, i) => `
+function desenharPlanos() {
+  const lista = PROD === 'clinica' ? ((CLI.find((x) => x.dentistas === TAM) || {}).periodos || []) : SOLO;
+  planos = lista;
+  const el = document.getElementById('planos');
+  el.className = 'planos' + (PROD === 'clinica' ? ' cli' : '');
+  el.innerHTML = lista.map((p) => `
     <label class="plano">
-      <input type="radio" name="plano" value="${p.id}" ${p.id === 'anual' ? 'checked' : ''} />
+      <input type="radio" name="plano" value="${p.id}" ${p.periodo === 'anual' ? 'checked' : ''} />
       <div class="nome">${p.nome}</div>
-      <div class="mes">${p.porMesTexto} <small>/mês</small></div>
-      <div class="tot">${p.valorTexto} a cada ${p.meses === 1 ? 'mês' : p.meses + ' meses'}</div>
+      <div class="mes">${reais(precoFinal(p, false) / p.meses)} <small>/mês</small></div>
+      <div class="tot">${reais(precoFinal(p, false))} a cada ${p.meses === 1 ? 'mês' : p.meses + ' meses'}</div>
       ${p.desconto ? '<div class="eco">' + p.desconto + '% de desconto</div>' : ''}
     </label>`).join('');
   document.querySelectorAll('input[name=plano]').forEach((i) => i.addEventListener('change', pintarTotal));
+  document.getElementById('tamanhos').hidden = PROD !== 'clinica';
+  document.querySelectorAll('.escolha-produto button').forEach((b) => b.setAttribute('aria-pressed', b.getAttribute('data-prod') === PROD ? 'true' : 'false'));
+  document.querySelectorAll('.tamanhos button').forEach((b) => b.setAttribute('aria-pressed', Number(b.getAttribute('data-n')) === TAM ? 'true' : 'false'));
+  const bt = document.getElementById('enviar');
+  bt.classList.toggle('azul', PROD === 'clinica'); bt.classList.toggle('pri', PROD !== 'clinica');
   pintarTotal();
+}
+document.querySelectorAll('.escolha-produto button').forEach((b) => b.addEventListener('click', () => { PROD = b.getAttribute('data-prod'); desenharPlanos(); }));
+document.querySelectorAll('.tamanhos button').forEach((b) => b.addEventListener('click', () => { TAM = Number(b.getAttribute('data-n')); desenharPlanos(); }));
+let SOLO = [];
+(async () => {
+  const [r, eu] = await Promise.all([MCA.chamar('/api/planos'), MCA.chamar('/api/conta/eu')]);
+  SOLO = r.dados.planos; CLI = r.dados.clinica || [];
+  EU = eu.ok ? eu.dados.conta : null;
+  if (EU && EU.clinica && !/solo/.test(location.hash)) { PROD = 'clinica'; if (!EU.clinica.teste && EU.clinica.dentistas) TAM = Math.min(8, EU.clinica.dentistas); }
+  desenharPlanos();
 })();
 
 document.getElementById('automatica').addEventListener('change', pintarTotal);

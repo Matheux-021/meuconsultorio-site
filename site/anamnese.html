@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="referrer" content="no-referrer" />
+<title>Ficha de saúde</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'" />
+<!--
+  A ÚNICA PÁGINA DESTE SISTEMA QUE UM ESTRANHO ABRE.
+
+  Quem chega aqui é o paciente, pelo link que o consultório mandou no WhatsApp,
+  no telefone dele. Então esta página foi escrita com quatro regras que não
+  valem para o resto do sistema:
+
+  1. ELA NÃO ENTREGA NADA. Não sabe o nome de quem vai responder, não lista
+     paciente, não fala com cofre nenhum. O que ela recebe do servidor é a
+     lista de perguntas — igual para todo mundo — e uma chave pública.
+
+  2. AS RESPOSTAS SAEM FECHADAS DAQUI. Antes de subir, o que foi digitado é
+     cifrado no próprio telefone do paciente, para a chave pública do convite.
+     A chave que abre mora dentro do cofre do dentista, atrás da senha dele.
+     O servidor que guarda no meio do caminho não tem como ler — é a mesma
+     promessa que vale para as fichas.
+
+  3. UMA VEZ SÓ. Ao enviar, acabou: o convite morre e a anamnese entra na
+     ficha sem poder ser alterada, nem por quem preencheu, nem por quem tiver
+     o link depois.
+
+  4. NADA VEM DE FORA. Sem biblioteca, sem fonte remota, sem imagem de outro
+     domínio — e a política acima, no cabeçalho, recusa por escrito qualquer
+     tentativa: `default-src 'none'` e `connect-src 'self'`. Numa página que
+     manipula resposta de saúde de gente, o código que roda tem que ser só o
+     que está escrito neste arquivo.
+
+  POR QUE ELA MUDOU DE CASA
+  Na 2.4.0 este formulário era servido pelo computador do consultório, e o
+  link tinha IP, porta e um aviso de certificado que a mensagem precisava
+  pedir para o paciente ignorar — o formato exato de um golpe. Agora ele vem
+  do domínio do consultório, com cadeado de verdade, e funciona fora do Wi-Fi
+  da recepção. O que trafega continua lacrado do mesmo jeito.
+-->
+<style>
+  :root{
+    --tinta:#10231f; --fraca:#5b7570; --fundo:#f4f7f5; --papel:#ffffff;
+    --borda:#dde6e2; --marca:#0f7a63; --marca-forte:#0b5c4a; --erro:#a4302a;
+    --raio:14px;
+    color-scheme: light;
+  }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--fundo); color:var(--tinta);
+    font:16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    padding:0 0 40px;
+  }
+  .topo{
+    background:var(--marca); color:#fff; padding:22px 20px calc(22px + env(safe-area-inset-top));
+    padding-top:calc(22px + env(safe-area-inset-top));
+  }
+  .topo h1{ margin:0; font-size:20px; font-weight:600; letter-spacing:-.01em; }
+  .topo p{ margin:6px 0 0; font-size:14px; opacity:.9; }
+  .caixa{ max-width:640px; margin:0 auto; padding:0 16px; }
+  .aviso{
+    background:#fff; border:1px solid var(--borda); border-radius:var(--raio);
+    padding:14px 16px; margin:16px 0; font-size:14px; color:var(--fraca);
+  }
+  .aviso b{ color:var(--tinta); }
+  section{
+    background:var(--papel); border:1px solid var(--borda); border-radius:var(--raio);
+    padding:4px 16px 16px; margin:0 0 14px;
+  }
+  section h2{ font-size:13px; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--marca-forte); margin:18px 0 4px; }
+  .campo{ padding:12px 0; border-top:1px solid var(--borda); }
+  .campo:first-of-type{ border-top:0; }
+  .campo > label, .campo .rot{ display:block; font-size:15px; margin:0 0 8px; }
+  input[type=text], textarea, select{
+    width:100%; font:inherit; color:inherit; background:#fbfdfc;
+    border:1px solid var(--borda); border-radius:10px; padding:11px 12px;
+  }
+  textarea{ min-height:86px; resize:vertical; }
+  input:focus, textarea:focus, select:focus{ outline:2px solid var(--marca); outline-offset:1px; }
+  .sn{ display:flex; gap:8px; }
+  .sn button{
+    flex:1; font:inherit; padding:11px 8px; border-radius:10px; cursor:pointer;
+    border:1px solid var(--borda); background:#fbfdfc; color:var(--fraca);
+  }
+  .sn button[aria-pressed=true]{
+    background:var(--marca); border-color:var(--marca); color:#fff; font-weight:600;
+  }
+  .detalhe{ margin-top:8px; }
+  /* visível para leitor de tela, invisível na página */
+  .so-leitor{ position:absolute; width:1px; height:1px; margin:-1px; padding:0;
+    overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+  .marcas{ display:flex; flex-wrap:wrap; gap:8px; }
+  .marcas button{
+    font:inherit; font-size:14px; padding:9px 13px; border-radius:999px; cursor:pointer;
+    border:1px solid var(--borda); background:#fbfdfc; color:var(--fraca);
+  }
+  .marcas button[aria-pressed=true]{
+    background:var(--marca); border-color:var(--marca); color:#fff;
+  }
+  .enviar{
+    width:100%; font:inherit; font-size:17px; font-weight:600; padding:15px;
+    border:0; border-radius:12px; background:var(--marca); color:#fff; cursor:pointer;
+  }
+  .enviar[disabled]{ opacity:.55; cursor:default; }
+  /* ---- a assinatura do paciente, no telefone dele ---- */
+  .quadro{
+    border:1px dashed var(--borda); border-radius:12px; background:#fff;
+    height:190px; touch-action:none; display:block; width:100%;
+  }
+  .quadro-linha{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-top:8px; font-size:13.5px; color:var(--fraca);
+  }
+  .limpar{
+    font:inherit; font-size:14px; padding:7px 14px; border-radius:9px; cursor:pointer;
+    border:1px solid var(--borda); background:#fbfdfc; color:var(--marca-forte);
+  }
+  .declaro{
+    display:flex; gap:11px; align-items:flex-start; margin:14px 0 4px;
+    font-size:15px; line-height:1.45; cursor:pointer;
+  }
+  .declaro input{ width:22px; height:22px; margin:2px 0 0; flex:0 0 auto; accent-color:var(--marca); }
+  .recado{ margin:12px 0; font-size:14px; text-align:center; min-height:20px; }
+  .recado.ruim{ color:var(--erro); }
+  .fim{ text-align:center; padding:56px 20px; }
+  .fim .marca{ font-size:46px; line-height:1; }
+  .fim h2{ margin:14px 0 6px; font-size:21px; }
+  .fim p{ margin:0; color:var(--fraca); }
+  .rodape{ font-size:12.5px; color:var(--fraca); text-align:center; margin:18px 0 0; }
+</style>
+<style>:root{--azul:#1E4E9C; --azul-claro:#2C63BE; --azul-suave:#E2EAF7; --azul-fundo:#0B2149; --azul-fundo-2:#10306A; --sobre-azul:#DCE6F7}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6} }
+:root[data-theme="dark"]{--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6}</style>
+</head>
+<body>
+<div id="tela"></div>
+<script>
+(function(){
+  "use strict";
+  var tela = document.getElementById("tela");
+  /* O código vem do próprio endereço: /a/K7M2Q9. Ele foi para o CAMINHO e não
+     para um #hash de propósito — hash não sobrevive a um link colado de um
+     jeito estranho, e o WhatsApp encurta o que mostra na bolha. Curto assim
+     também dá para ditar na recepção sem soletrar. */
+  var conv = (location.pathname.match(/\/a\/([0-9A-Za-z]{4,20})/) || [])[1] || "";
+  if(!conv) conv = (location.hash.match(/[#&]c=([A-Za-z0-9_\-]+)/) || [])[1] || "";
+  conv = conv.toUpperCase();
+  var CAMPOS = null, PUB = null, TITULO = "Ficha de saúde", CLINICA = "";
+  var RESP = {};
+
+  function esc(s){
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+      return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c];
+    });
+  }
+  function b64(buf){
+    var b = new Uint8Array(buf), s = "";
+    for(var i=0;i<b.length;i++) s += String.fromCharCode(b[i]);
+    return btoa(s);
+  }
+  function bytes(s){
+    var b = atob(String(s).replace(/-/g,"+").replace(/_/g,"/"));
+    var u = new Uint8Array(b.length);
+    for(var i=0;i<b.length;i++) u[i] = b.charCodeAt(i);
+    return u;
+  }
+  function aviso(texto, ruim){
+    var el = document.getElementById("recado");
+    if(!el) return;
+    el.textContent = texto || "";
+    el.className = "recado" + (ruim ? " ruim" : "");
+  }
+  function porta(titulo, texto){
+    tela.innerHTML = '<div class="topo"><div class="caixa"><h1>' + esc(titulo) + '</h1></div></div>'
+      + '<div class="caixa"><div class="aviso">' + esc(texto) + '</div></div>';
+  }
+
+  if(!conv){
+    porta("Link incompleto",
+      "Faltou o código do convite. Abra o link exatamente como ele chegou na sua "
+      + "conversa, sem cortar nada — ou peça outro na recepção.");
+    return;
+  }
+  if(!(window.crypto && window.crypto.subtle)){
+    porta("Navegador antigo",
+      "Este navegador não tem o recurso de segurança que protege as suas respostas. "
+      + "Tente pelo Chrome ou pelo Safari, ou preencha na recepção.");
+    return;
+  }
+
+  fetch("/api/anamnese/formulario?c=" + encodeURIComponent(conv), { cache:"no-store" })
+    .then(function(r){
+      return r.json().then(function(o){
+        if(!r.ok) throw new Error(o && o.erro ? o.erro : "Não consegui abrir o formulário.");
+        return o;
+      });
+    })
+    .then(function(o){
+      CAMPOS = o.campos; PUB = (o.publica && o.publica.pub) || o.pub;
+      TITULO = o.titulo || "Ficha de saúde"; CLINICA = o.clinica || "";
+      if(!PUB) throw new Error("Convite incompleto. Peça outro na recepção.");
+      desenhar();
+    })
+    .catch(function(e){
+      porta("Não deu para abrir",
+        (e && e.message) ? e.message
+          : "Não consegui carregar agora. Confira a sua internet e tente de novo.");
+    });
+
+  /* ------------------------------ a tela ------------------------------ */
+  function desenhar(){
+    var h = '<div class="topo"><div class="caixa">'
+          + '<h1>' + esc(CLINICA || TITULO) + '</h1>'
+          + '<p>Ficha de saúde — leva uns três minutos</p></div></div>';
+    h += '<div class="caixa">';
+    h += '<div class="aviso">Estas respostas vão direto para a sua ficha no consultório, '
+       + '<b>fechadas neste telefone</b>. Depois de enviar elas não podem mais ser alteradas, '
+       + 'então confira antes. Se tiver dúvida em alguma pergunta, deixe em branco e fale com '
+       + 'o dentista.</div>';
+
+    CAMPOS.forEach(function(sec, si){
+      h += '<section><h2>' + esc(sec.sec) + '</h2>';
+      (sec.campos || []).forEach(function(c, ci){
+        var id = "c" + si + "_" + ci;
+        h += '<div class="campo">';
+        if(c.tipo === "sn"){
+          h += '<span class="rot">' + esc(c.rot) + '</span>'
+             + '<div class="sn" data-k="' + esc(c.k) + '">'
+             + '<button type="button" data-v="sim" aria-pressed="false">Sim</button>'
+             + '<button type="button" data-v="nao" aria-pressed="false">Não</button>'
+             + '<button type="button" data-v="nsei" aria-pressed="false">Não sei</button>'
+             + '</div>'
+          /* o campo de detalhe tinha só o placeholder para se explicar, e
+             placeholder some quando a pessoa começa a digitar — e leitor de
+             tela não o anuncia como nome do campo. O rótulo abaixo fica
+             escondido dos olhos e presente para quem ouve a página. */
+             + '<div class="detalhe">'
+             + '<label class="so-leitor" for="' + id + '_d">' + esc(c.rot)
+             + ' — se sim, conte um pouco</label>'
+             + '<input type="text" id="' + id + '_d" '
+             + 'data-det="' + esc(c.k) + '" placeholder="Se sim, conte um pouco" /></div>';
+        } else if(c.tipo === "area"){
+          h += '<label for="' + id + '">' + esc(c.rot) + '</label>'
+             + '<textarea id="' + id + '" data-k="' + esc(c.k) + '"></textarea>';
+        } else if(c.tipo === "marcas"){
+          h += '<span class="rot">' + esc(c.rot) + '</span>'
+             + '<div class="marcas" data-marcas="' + esc(c.k) + '">';
+          (c.opcoes || []).forEach(function(op){
+            h += '<button type="button" data-v="' + esc(op) + '" aria-pressed="false">'
+               + esc(op) + '</button>';
+          });
+          h += '</div>';
+        } else if(c.tipo === "escolha"){
+          h += '<label for="' + id + '">' + esc(c.rot) + '</label>'
+             + '<select id="' + id + '" data-k="' + esc(c.k) + '"><option value="">—</option>';
+          (c.opcoes || []).forEach(function(op){
+            h += '<option value="' + esc(op) + '">' + esc(op) + '</option>';
+          });
+          h += '</select>';
+        } else {
+          h += '<label for="' + id + '">' + esc(c.rot) + '</label>'
+             + '<input type="text" id="' + id + '" data-k="' + esc(c.k) + '" />';
+        }
+        h += '</div>';
+      });
+      h += '</section>';
+    });
+
+    /* ---- a assinatura ----
+       Sem ela isto não é um documento: é um formulário. O que o paciente
+       declara sobre a própria saúde só vale se ele assinar embaixo, e é o
+       mesmo que ele faria no papel da prancheta. Assina aqui, agora; o
+       dentista assina depois, no atendimento. */
+    h += '<section><h2>Sua assinatura</h2>';
+    h += '<div class="campo">'
+       + '<label for="assNome">Seu nome completo</label>'
+       + '<input type="text" id="assNome" autocomplete="name" '
+       + 'placeholder="como está no seu documento" /></div>';
+    h += '<div class="campo">'
+       + '<span class="rot">Assine com o dedo no quadro abaixo</span>'
+       + '<canvas id="assQuadro" class="quadro"></canvas>'
+       + '<div class="quadro-linha"><span>Se ficar torto, é só limpar e assinar de novo.</span>'
+       + '<button type="button" class="limpar" id="btLimpar">Limpar</button></div>'
+       + '</div>';
+    h += '<label class="declaro"><input type="checkbox" id="assDeclaro" />'
+       + '<span>Declaro que li as perguntas e que as respostas acima são verdadeiras, '
+       + 'e que informei tudo o que sei sobre a minha saúde.</span></label>';
+    h += '</section>';
+
+    h += '<div class="recado" id="recado"></div>';
+    h += '<button class="enviar" id="btEnviar" type="button">Assinar e enviar</button>';
+    h += '<p class="rodape">As respostas e a sua assinatura são fechadas aqui no seu telefone '
+       + 'e só o seu dentista consegue abrir.</p>';
+    h += '</div>';
+    tela.innerHTML = h;
+
+    /* sim / não / não sei */
+    Array.prototype.forEach.call(document.querySelectorAll(".sn"), function(g){
+      g.addEventListener("click", function(ev){
+        var b = ev.target.closest("button");
+        if(!b) return;
+        Array.prototype.forEach.call(g.querySelectorAll("button"), function(x){
+          x.setAttribute("aria-pressed", String(x === b));
+        });
+      });
+    });
+    /* marcadores de várias escolhas */
+    Array.prototype.forEach.call(document.querySelectorAll("[data-marcas]"), function(g){
+      g.addEventListener("click", function(ev){
+        var b = ev.target.closest("button");
+        if(!b) return;
+        b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") === "true" ? "false" : "true");
+      });
+    });
+    montarQuadro();
+    document.getElementById("btLimpar").addEventListener("click", function(){
+      if(PRANCHETA) PRANCHETA.limpar();
+    });
+    document.getElementById("btEnviar").addEventListener("click", enviar);
+  }
+
+  /* A prancheta. É a mesma ideia da que o dentista usa no computador: desenha
+     com o dedo, reduz antes de guardar (a assinatura viaja junto do documento
+     a cada gravação, então não pode ser um PNG enorme). */
+  var PRANCHETA = null;
+  function montarQuadro(){
+    var c = document.getElementById("assQuadro");
+    if(!c) return;
+    var ctx = c.getContext("2d");
+    var razao = window.devicePixelRatio || 1;
+    var larg = c.clientWidth || 340, alt = c.clientHeight || 190;
+    c.width = larg * razao; c.height = alt * razao;
+    ctx.scale(razao, razao);
+    ctx.lineWidth = 2.4; ctx.lineCap = "round"; ctx.lineJoin = "round";
+    ctx.strokeStyle = "#101010";
+    var desenhando = false, temTraco = false, ux = 0, uy = 0;
+    function ponto(ev){
+      var r = c.getBoundingClientRect();
+      var t = (ev.touches && ev.touches[0]) ? ev.touches[0] : ev;
+      return { x: t.clientX - r.left, y: t.clientY - r.top };
+    }
+    function comecar(ev){
+      ev.preventDefault(); desenhando = true;
+      var p = ponto(ev); ux = p.x; uy = p.y;
+      ctx.beginPath(); ctx.moveTo(ux, uy); ctx.lineTo(ux + 0.1, uy + 0.1); ctx.stroke();
+      temTraco = true;
+    }
+    function mover(ev){
+      if(!desenhando) return;
+      ev.preventDefault();
+      var p = ponto(ev);
+      ctx.beginPath(); ctx.moveTo(ux, uy); ctx.lineTo(p.x, p.y); ctx.stroke();
+      ux = p.x; uy = p.y;
+    }
+    function parar(){ desenhando = false; }
+    c.addEventListener("mousedown", comecar);
+    c.addEventListener("mousemove", mover);
+    window.addEventListener("mouseup", parar);
+    c.addEventListener("touchstart", comecar, { passive:false });
+    c.addEventListener("touchmove", mover, { passive:false });
+    c.addEventListener("touchend", parar);
+    PRANCHETA = {
+      limpar: function(){ ctx.clearRect(0, 0, c.width, c.height); temTraco = false; },
+      vazio: function(){ return !temTraco; },
+      imagem: function(){
+        try{
+          var s = Math.min(1, 600 / c.width);
+          if(s >= 1) return c.toDataURL("image/png");
+          var alvo = document.createElement("canvas");
+          alvo.width = Math.round(c.width * s);
+          alvo.height = Math.round(c.height * s);
+          alvo.getContext("2d").drawImage(c, 0, 0, alvo.width, alvo.height);
+          return alvo.toDataURL("image/png");
+        }catch(e){ return null; }
+      }
+    };
+  }
+
+  function colher(){
+    var r = {};
+    Array.prototype.forEach.call(document.querySelectorAll("[data-k]"), function(el){
+      if(el.classList.contains("sn")){
+        var m = el.querySelector('button[aria-pressed="true"]');
+        if(m) r[el.getAttribute("data-k")] = m.getAttribute("data-v");
+      } else {
+        var v = String(el.value || "").trim();
+        if(v) r[el.getAttribute("data-k")] = v;
+      }
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-det]"), function(el){
+      var v = String(el.value || "").trim();
+      if(v) r[el.getAttribute("data-det") + "Det"] = v;
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-marcas]"), function(g){
+      var lista = [];
+      Array.prototype.forEach.call(g.querySelectorAll('button[aria-pressed="true"]'), function(b){
+        lista.push(b.getAttribute("data-v"));
+      });
+      r[g.getAttribute("data-marcas")] = lista;
+    });
+    return r;
+  }
+
+  /* ---- fechar as respostas para a chave do dentista ----
+     ECDH P-256: nasce um par aqui, junta-se com a chave pública do convite, e
+     o segredo que sai dessa junção vira a chave AES que fecha o pacote. A
+     chave pública deste telefone vai junto, para o outro lado refazer a mesma
+     conta. O que sobe é só isso — quem interceptar leva bytes. */
+  function fechar(obj){
+    var claro = new TextEncoder().encode(JSON.stringify(obj));
+    var alheia = null;
+    return crypto.subtle.importKey("raw", bytes(PUB), { name:"ECDH", namedCurve:"P-256" }, false, [])
+      .then(function(k){
+        alheia = k;
+        return crypto.subtle.generateKey({ name:"ECDH", namedCurve:"P-256" }, true, ["deriveKey"]);
+      })
+      .then(function(meu){
+        return crypto.subtle.deriveKey(
+          { name:"ECDH", public: alheia }, meu.privateKey,
+          { name:"AES-GCM", length:256 }, false, ["encrypt"]
+        ).then(function(chave){
+          var iv = crypto.getRandomValues(new Uint8Array(12));
+          return crypto.subtle.encrypt({ name:"AES-GCM", iv: iv }, chave, claro)
+            .then(function(ct){
+              return crypto.subtle.exportKey("raw", meu.publicKey).then(function(pub){
+                return { pub: b64(pub), iv: b64(iv), ct: b64(ct) };
+              });
+            });
+        });
+      });
+  }
+
+  function enviar(){
+    var bt = document.getElementById("btEnviar");
+    var respostas = colher();
+    if(!Object.keys(respostas).length){
+      aviso("Responda pelo menos alguma coisa antes de enviar.", true);
+      return;
+    }
+    var nome = String((document.getElementById("assNome") || {}).value || "").trim();
+    var declarou = !!(document.getElementById("assDeclaro") || {}).checked;
+    /* As três travas da assinatura. Documento sem assinatura não fecha nada —
+       nem aqui, nem na ficha do dentista. */
+    if(nome.length < 3){
+      aviso("Escreva o seu nome completo antes de assinar.", true);
+      (document.getElementById("assNome") || {}).focus &&
+        document.getElementById("assNome").focus();
+      return;
+    }
+    if(!declarou){
+      aviso("Marque a declaração acima do botão para poder assinar.", true);
+      return;
+    }
+    if(!PRANCHETA || PRANCHETA.vazio()){
+      aviso("Assine no quadro com o dedo antes de enviar.", true);
+      var q = document.getElementById("assQuadro");
+      if(q) q.scrollIntoView({ block:"center" });
+      return;
+    }
+    var img = PRANCHETA.imagem();
+    if(!img){ aviso("Não consegui capturar a sua assinatura. Tente de novo.", true); return; }
+
+    bt.disabled = true;
+    aviso("Fechando as suas respostas…", false);
+    fechar({
+      respostas: respostas,
+      assinatura: { img: img, nome: nome, ts: new Date().toISOString() }
+    }).then(function(sacola){
+      aviso("Enviando…", false);
+      /* A sacola sobe como TEXTO, num campo só. O servidor guarda essa
+         string do jeito que ela chega e não tem por que olhar dentro — nem
+         conseguiria: o que está ali é AES-GCM fechado para uma chave que
+         nunca passou por ele. */
+      return fetch("/api/anamnese/responder", {
+        method:"POST", cache:"no-store",
+        headers:{ "content-type":"application/json" },
+        body: JSON.stringify({ codigo: conv, sacola: JSON.stringify(sacola) })
+      });
+    }).then(function(r){
+      return r.json().catch(function(){ return {}; }).then(function(o){
+        if(!r.ok) throw new Error(o.erro || "O consultório não recebeu. Tente de novo.");
+        pronto();
+      });
+    }).catch(function(e){
+      bt.disabled = false;
+      aviso((e && e.message) ? e.message
+        : "Não consegui enviar. Confira a sua internet e tente de novo.", true);
+    });
+  }
+
+  function pronto(){
+    tela.innerHTML = '<div class="topo"><div class="caixa"><h1>' + esc(TITULO) + '</h1></div></div>'
+      + '<div class="caixa"><div class="fim">'
+      + '<div class="marca">✓</div>'
+      + '<h2>Recebemos, obrigado!</h2>'
+      + '<p>As suas respostas e a sua assinatura já estão na sua ficha. Pode guardar o '
+      + 'telefone — o dentista chama você daqui a pouco.</p>'
+      + '</div></div>';
+  }
+})();
+</script>
+</body>
+</html>

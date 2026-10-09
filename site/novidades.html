@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Novidades — Meu Consultório App</title>
-<meta name="description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 2.10.3." />
+<meta name="description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 3.0.0." />
 <meta name="theme-color" content="#0E6B5E" />
 <!-- Google tag (gtag.js) — o mesmo das demais páginas do funil.
      A linha do page_location é acréscimo meu: por padrão o gtag manda o
@@ -29,7 +29,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Meu Consultório App" />
 <meta property="og:title" content="Novidades — Meu Consultório App" />
-<meta property="og:description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 2.10.3." />
+<meta property="og:description" content="O que mudou em cada versão do Meu Consultório App, da 1.3.0 à 3.0.0." />
 <!-- o WhatsApp e o Facebook só montam a prévia do link com endereço absoluto:
      caminho relativo aqui faz o link chegar sem imagem no celular de quem recebe -->
 <meta property="og:image" content="https://meuconsultorioappodonto.com.br/img/capa-2.8.jpg" />
@@ -976,6 +976,63 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
 @media (max-width:1180px){ .vitrine-cel .aparelho.i13{display:none} }
 @media (max-width:520px){ .vitrine-cel .aparelho{max-width:200px} }
 
+/* ============================================================
+   CALCULADORA DE ARMAZENAMENTO (/armazenamento)
+   ============================================================ */
+.calc{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(18px,3vw,32px); align-items:start}
+.calc-form, .calc-res{background:var(--folha); border:1px solid var(--linha); border-radius:14px; box-shadow:var(--sombra);
+  padding:clamp(18px,2.4vw,28px)}
+.calc-form{display:grid; gap:18px}
+.calc-campo{border:0; margin:0; padding:0; display:grid; gap:7px; min-width:0}
+.calc-campo > label, .calc-campo > legend{font-weight:600; font-size:15px; color:var(--tinta); padding:0}
+.calc-campo small{font-size:13px; color:var(--tinta-3)}
+.calc-campo input[type=number], .calc-campo select{font:inherit; font-size:16px; padding:10px 12px; border-radius:10px;
+  border:1px solid var(--linha-forte); background:var(--papel); color:var(--tinta); width:100%; box-sizing:border-box}
+.calc-campo input:focus-visible, .calc-campo select:focus-visible, .calc-num button:focus-visible{outline:2px solid var(--verde); outline-offset:2px}
+.calc-num{display:grid; grid-template-columns:44px minmax(0,1fr) 44px; gap:8px}
+.calc-num input{text-align:center; font-variant-numeric:tabular-nums}
+.calc-num button{font:inherit; font-size:20px; border-radius:10px; border:1px solid var(--linha-forte); background:var(--folha-2);
+  color:var(--tinta); cursor:pointer}
+.calc-num button:hover{border-color:var(--verde); color:var(--verde)}
+.calc-chips{display:flex; flex-wrap:wrap; gap:8px}
+.calc-chips label{position:relative; cursor:pointer}
+.calc-chips input{position:absolute; opacity:0; inset:0; margin:0; cursor:pointer}
+.calc-chips span{display:inline-block; padding:8px 13px; border-radius:99px; border:1px solid var(--linha-forte);
+  font-size:14px; color:var(--tinta-2); background:var(--papel); transition:border-color .15s, background .15s, color .15s}
+.calc-chips input:checked + span{border-color:var(--verde); background:var(--verde-suave); color:var(--verde); font-weight:600}
+.calc-chips input:focus-visible + span{outline:2px solid var(--verde); outline-offset:2px}
+.calc-res{position:sticky; top:96px}
+.calc-rot{margin:0; font-size:14px; color:var(--tinta-2)}
+.calc-total{margin:4px 0 14px; font-family:Newsreader, Georgia, serif; font-weight:600; font-size:clamp(40px,6vw,58px);
+  line-height:1; color:var(--tinta); font-variant-numeric:tabular-nums}
+.calc-barra{display:flex; height:12px; border-radius:99px; overflow:hidden; background:var(--folha-2); gap:2px}
+.calc-barra span{display:block; height:100%; min-width:3px}
+.calc-leg{list-style:none; margin:12px 0 0; padding:0; display:grid; gap:6px}
+.calc-leg li{display:grid; grid-template-columns:12px minmax(0,1fr) auto; gap:9px; align-items:center; font-size:14px; color:var(--tinta-2)}
+.calc-leg i{width:12px; height:12px; border-radius:3px; display:block}
+.calc-leg b{font-variant-numeric:tabular-nums; color:var(--tinta)}
+.calc-ssd{display:grid; grid-template-columns:auto minmax(0,1fr); gap:12px; margin-top:20px; padding:14px 16px;
+  border-radius:12px; background:var(--verde-suave)}
+.calc-ssd-ico{color:var(--verde); padding-top:2px}
+.calc-ssd-v{margin:2px 0 4px; font-size:22px; color:var(--verde)}
+.calc-peq{margin:0; font-size:13px; color:var(--tinta-2); line-height:1.45}
+.calc-linhas{margin-top:14px; display:grid; gap:2px}
+.calc-linhas p{margin:0; display:flex; justify-content:space-between; gap:12px; padding:9px 0; border-top:1px solid var(--linha);
+  font-size:14.5px; color:var(--tinta-2)}
+.calc-linhas p:first-child{border-top:0}
+.calc-linhas b{color:var(--tinta); font-variant-numeric:tabular-nums; white-space:nowrap}
+.calc-aviso{margin:12px 0 0; padding:11px 13px; border-radius:10px; background:var(--ambar-suave); color:var(--ambar);
+  font-size:13.5px; line-height:1.5}
+.calc-tabela{overflow-x:auto; margin-top:18px; border:1px solid var(--linha); border-radius:12px; background:var(--folha)}
+.calc-tabela table{border-collapse:collapse; width:100%; min-width:640px; font-size:14.5px}
+.calc-tabela th, .calc-tabela td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--linha); vertical-align:top}
+.calc-tabela th{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--tinta-3); background:var(--folha-2)}
+.calc-tabela td:nth-child(2){white-space:nowrap; font-weight:600; color:var(--tinta); font-variant-numeric:tabular-nums}
+.calc-tabela tr:last-child td{border-bottom:0}
+@media (max-width:900px){ .calc{grid-template-columns:minmax(0,1fr)} .calc-res{position:static} }
+@media (prefers-reduced-motion: reduce){ .calc-chips span{transition:none} }
+.calc-linhas p[hidden], .calc-aviso[hidden]{display:none}
+
 /* o link da página em que você está */
 .topo-links a[aria-current="page"]{color:var(--verde); border-bottom-color:var(--verde)}
 .bloco[id]{scroll-margin-top:96px}
@@ -1008,6 +1065,9 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
 @media (prefers-reduced-motion: reduce){ .leitura, .leitura:hover{transition:none; transform:none} }
 </style>
 
+<style>:root{--azul:#1E4E9C; --azul-claro:#2C63BE; --azul-suave:#E2EAF7; --azul-fundo:#0B2149; --azul-fundo-2:#10306A; --sobre-azul:#DCE6F7}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6} }
+:root[data-theme="dark"]{--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6}</style>
 </head>
 <body>
 
@@ -1026,6 +1086,7 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
       <span class="marca-nome"><b>Meu Consultório</b><small>App</small></span>
     </a>
     <nav class="topo-links" aria-label="Páginas do site">
+      <a href="/clinica" style="color:var(--azul)">Clínica</a>
       <a href="/recursos">Recursos</a>
       <a href="/seguranca">Segurança</a>
       <a href="/#planos">Planos</a>
@@ -1061,8 +1122,31 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
   <section class="faixa" style="padding-top:clamp(12px,2vw,24px)">
     <div class="centro">
       <div class="versoes">
+      <article class="versao" id="v3-0-0">
+        <div class="versao-num">3.0.0<small>versão atual</small></div>
+        <ul>
+          <li><b>Nasce o Meu Consultório App | Clínica</b> — um programa próprio para clínicas, em azul, instalado ao lado do Solo. Um acesso para cada pessoa: responsável, dentistas de produção, dentistas avaliadores, recepção, ASB, financeiro e laboratório, cada um vendo só o que o papel permite.</li>
+          <li><b>Cada ficha com a sua chave.</b> O dentista abre só os pacientes dele (e os que a recepção liberar para todos); a recepção vê agenda e valores, nunca o prontuário. Quem sai da equipe perde as chaves na hora.</li>
+          <li><b>O computador da recepção vira o servidor</b> e os outros se ligam a ele pela rede, com um código de 8 dígitos. Servidor desligado: os outros continuam lendo e voltam a gravar sozinhos quando ele volta.</li>
+          <li><b>Sala de espera ao vivo</b>, do “Chegou” ao “Concluído”: quem chega aparece para todos os dentistas, o primeiro a clicar em Atender fica com o paciente, e finalizar exige retorno marcado, encaminhamento ou alta com revisão.</li>
+          <li><b>Repasse configurável por profissional</b> (% da produção, % de avaliação conforme o paciente paga, por procedimento ou fixo), a conta corrente de cada dentista, salários e custos fixos lançados todo mês.</li>
+          <li><b>Pedidos de material</b> com aviso grande para a ASB, estoque de instrumentais e esterilização, e o laboratório próprio com login.</li>
+          <li><b>Quem já usa o Solo leva os pacientes em um clique</b>: vai o cofre cifrado, do jeito que está, e ele abre na Clínica com a mesma senha.</li>
+        </ul>
+      </article>
+      <article class="versao" id="v2-11-0">
+        <div class="versao-num">2.11.0</div>
+        <ul>
+          <li><b>A conta do paciente na ficha.</b> Pago, já feito, saldo e o que falta do plano, lado a lado. O pagamento entra na conta e cada procedimento feito abate do saldo; a consulta avulsa, paga na hora, fica de fora.</li>
+          <li><b>Agendado ou confirmado.</b> A agenda separa quem só marcou de quem confirmou, com a aba <b>Confirmar</b> e a mensagem pronta para o WhatsApp.</li>
+          <li><b>Instrumentais e esterilização no Estoque:</b> em uso, contaminado, em limpeza, na autoclave e disponível, com o ciclo de autoclave e o indicador anotados e o aviso de esterilização vencida.</li>
+          <li><b>Acabamento em todas as telas:</b> botões da mesma altura, ícones quadrados e alinhados, colunas de valor à direita e o celular mais arrumado.</li>
+          <li><b>O exemplo ficou completo:</b> “Carregar exemplo” agora enche todas as telas — semana na agenda, retornos para chamar, contas com saldo, fotos de antes e depois desenhadas e radiografias de exemplo.</li>
+          <li><b>Tem mais dentistas com você?</b> Em Ajustes, o cartão da Clínica instala o novo programa e leva os seus pacientes.</li>
+        </ul>
+      </article>
       <article class="versao" id="v2-10-3">
-        <div class="versao-num">2.10.3<small>versão atual</small></div>
+        <div class="versao-num">2.10.3</div>
         <ul>
           <li><b>A chave das fichas não fica mais legível no computador.</b> Com o programa aberto, a chave do cofre fica guardada para a senha não ser pedida a cada tela. Essa cópia ia parar numa pasta interna do programa, legível, e continuava lá depois de fechar. Agora ela vai lacrada com um segredo que só existe enquanto o programa está aberto: fechou, o lacre não abre mais, e na próxima vez a senha é pedida. A pasta antiga é apagada ao abrir.</li>
           <li><b>“Lembrar minha senha neste aparelho” ficou mais seguro.</b> A senha lembrada passa a ser cifrada pelo próprio Windows, presa à sua conta do Windows. Quem já usava não precisa fazer nada: na primeira abertura ela é cifrada e, na seguinte, a cópia antiga é apagada.</li>
@@ -1086,6 +1170,10 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
           <li><b>Correção:</b> na tela da Duda, as palavras em negrito do texto de boas-vindas quebravam a linha no meio da frase.</li>
         </ul>
       </article>
+      </div>
+      <details class="versoes-antigas">
+        <summary>Versões anteriores — da 1.3.0 à 2.10.0</summary>
+        <div class="versoes">
       <article class="versao" id="v2-10-0">
         <div class="versao-num">2.10.0</div>
         <ul>
@@ -1110,10 +1198,6 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
           <li><b>Exemplo:</b> a paciente de demonstração agora é Maria Eduarda de Oliveira, e o exemplo traz três encaminhamentos.</li>
         </ul>
       </article>
-      </div>
-      <details class="versoes-antigas">
-        <summary>Versões anteriores — da 1.3.0 à 2.8.6</summary>
-        <div class="versoes">
       <article class="versao" id="v2-8-6">
         <div class="versao-num">2.8.6</div>
         <ul>
@@ -1423,6 +1507,8 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
     <a href="/seguranca">Segurança e LGPD</a>
     <a href="/novidades">Novidades</a>
     <a href="/duvidas">Perguntas frequentes</a>
+    <a href="/clinica">Clínica</a>
+    <a href="/armazenamento">Quanto espaço preciso</a>
     <a href="/#planos">Planos</a>
     <a href="/baixar">Baixar o sistema</a>
     <a href="/entrar">Entrar</a>

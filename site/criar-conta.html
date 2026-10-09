@@ -486,6 +486,31 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 input:-webkit-autofill:focus{
   -webkit-box-shadow:0 0 0 1000px var(--papel) inset, 0 0 0 3px var(--verde-suave);
   box-shadow:0 0 0 1000px var(--papel) inset, 0 0 0 3px var(--verde-suave)}
+
+/* 3.0 — a Clínica na conta */
+[hidden]{display:none !important}
+.recado.ok.cli, .recado.cli{background:var(--azul-suave); border-color:var(--azul); color:var(--azul)}
+:root{--azul:#1E4E9C; --azul-claro:#2C63BE; --azul-suave:#E2EAF7}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D} }
+:root[data-theme="dark"]{--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D}
+.btn.azul{background:var(--azul); color:#fff; border-color:var(--azul)}
+.btn.azul:hover{background:var(--azul-claro); border-color:var(--azul-claro)}
+.cli-caixa{border:1px solid color-mix(in srgb, var(--azul) 38%, var(--linha)); border-radius:14px; padding:18px 20px;
+  background:linear-gradient(110deg, var(--azul-suave), var(--folha) 72%)}
+.cli-caixa h2{display:flex; align-items:center; gap:10px}
+.cli-caixa h2 img{width:28px; height:28px; border-radius:8px}
+.cli-caixa .acoes-cli{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px}
+.cod-testador{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; align-items:center}
+.cod-testador input{flex:1 1 180px; min-width:0; text-transform:uppercase; letter-spacing:.06em}
+.escolha-produto{display:inline-flex; gap:4px; padding:4px; border-radius:99px; border:1px solid var(--linha); background:var(--folha); margin:4px 0 14px}
+.escolha-produto button{font:inherit; font-size:14px; font-weight:600; border:0; border-radius:99px; padding:8px 16px; cursor:pointer; background:none; color:var(--tinta-2)}
+.escolha-produto button[aria-pressed="true"]{background:var(--verde); color:#fff}
+.escolha-produto button.cli[aria-pressed="true"]{background:var(--azul)}
+.tamanhos{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 12px}
+.tamanhos button{font:inherit; font-size:14px; border:1px solid var(--linha); background:var(--folha); color:var(--tinta-2); border-radius:10px; padding:8px 12px; cursor:pointer}
+.tamanhos button[aria-pressed="true"]{border-color:var(--azul); background:var(--azul-suave); color:var(--azul); font-weight:600}
+.planos.cli .plano:has(input:checked){border-color:var(--azul); box-shadow:0 0 0 1px var(--azul)}
+.selo-cli{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; color:var(--azul); background:var(--azul-suave); border-radius:99px; padding:4px 10px}
 </style>
 </head>
 <body>
@@ -515,6 +540,12 @@ input:-webkit-autofill:focus{
       <h1>Criar conta</h1>
       <p class="sub">14 dias com o sistema inteiro. Não pedimos cartão.</p>
       <p class="recado" id="recado" hidden></p>
+      <div class="cli-caixa" id="vemClinica" hidden style="margin:0 0 16px">
+        <p style="margin:0"><span class="selo-cli">Clínica · 30 dias</span></p>
+        <p style="margin:8px 0 0;font-size:15px">Esta conta já nasce com o <b>teste de 30 dias da Clínica</b> — o
+          programa da clínica, em azul, com um acesso para cada pessoa da equipe. Depois de criar, baixe o programa
+          da Clínica e entre com esta conta.</p>
+      </div>
       <form id="forma" novalidate>
         <div class="campo">
           <label for="nome">Nome completo</label>
@@ -555,6 +586,11 @@ input:-webkit-autofill:focus{
         </label>
         <p class="dica" id="avisoContrato" style="margin:6px 0 0" hidden></p>
 
+        <div class="campo" id="campoTestador">
+          <label for="codigoTestador">Código de testador da Clínica <span style="color:var(--tinta-3);font-weight:400">(opcional)</span></label>
+          <input id="codigoTestador" name="codigoTestador" type="text" autocomplete="off" style="text-transform:uppercase" />
+          <p class="dica" style="margin:6px 0 0">Veio do convite? Com ele, a Clínica tem o 1º mês grátis e 5% a mais de desconto, para sempre.</p>
+        </div>
         <button class="btn pri bloco" id="enviar" type="submit">Criar minha conta</button>
       </form>
       <p class="rodape-form" style="margin-bottom:0">Já tem conta? <a href="/entrar">Entrar</a></p>
@@ -745,7 +781,8 @@ f.onsubmit = async (e) => {
   try {
     const derivada = await MCA.derivar(senha, email);
     const r = await MCA.chamar('/api/conta/criar',
-      { nome, email, documento, telefone, senha: derivada, aceite: true });
+      { nome, email, documento, telefone, senha: derivada, aceite: true,
+        clinica: VEM_CLINICA, codigoTestador: (document.getElementById('codigoTestador') || {}).value || '' });
     if (r.ok) {
       /* A ÚNICA CONVERSÃO PRINCIPAL DO SITE, e ela dispara aqui porque é aqui
          que a conta passou a existir de verdade — o servidor respondeu ok.
@@ -883,6 +920,19 @@ window.addEventListener('beforeunload', (e) => {
   const mostrando = !document.getElementById('passo-codigo').hidden;
   if (mostrando && !document.getElementById('guardei').checked) { e.preventDefault(); e.returnValue = ''; }
 });
+</script>
+<script>
+var VEM_CLINICA = /(^|[?&])clinica=1/.test(location.search) || /(^|[?&])c=/.test(location.search);
+(function(){
+  var q = new URLSearchParams(location.search), cod = q.get('c') || q.get('codigo');
+  if (VEM_CLINICA) {
+    var v = document.getElementById('vemClinica'); if (v) v.hidden = false;
+    var rot = document.querySelector('.cartao-conta .rot, main .rot'); if (rot && /14 dias/.test(rot.textContent)) rot.textContent = 'Clínica · 30 dias · sem cartão';
+    var sub = document.querySelector('main .sub'); if (sub && /14 dias/.test(sub.textContent)) sub.textContent = '30 dias com a Clínica inteira, para toda a equipe. Não pedimos cartão.';
+    var b = document.getElementById('enviar'); if (b) { b.classList.add('azul'); b.classList.remove('pri'); b.textContent = 'Criar minha conta e testar a Clínica'; }
+  }
+  if (cod) { var i = document.getElementById('codigoTestador'); if (i) i.value = cod.toUpperCase(); }
+})();
 </script>
 </body>
 </html>
