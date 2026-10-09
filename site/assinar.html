@@ -512,14 +512,58 @@ input:-webkit-autofill:focus{
 .planos.cli .plano:has(input:checked){border-color:var(--azul); box-shadow:0 0 0 1px var(--azul)}
 .selo-cli{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; color:var(--azul); background:var(--azul-suave); border-radius:99px; padding:4px 10px}
 </style>
+<style>
+
+/* 3.2 — o mesmo céu da página inicial: verde de um lado, azul do outro */
+.campo .v2, .ceu .v2{background:radial-gradient(circle closest-side, var(--azul) 0%, color-mix(in srgb, var(--azul) 62%, transparent) 26%, color-mix(in srgb, var(--azul) 26%, transparent) 55%, color-mix(in srgb, var(--azul) 8%, transparent) 78%, transparent 100%)}
+
+</style>
+<style>
+
+:root{--azul:#1E4E9C; --azul-claro:#2C63BE; --azul-suave:#E2EAF7; --azul-fundo:#0B2149; --azul-fundo-2:#10306A; --sobre-azul:#DCE6F7; --verde-solo:#0E6B5E}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6; --verde-solo:#4FBFA6} }
+:root[data-theme="dark"]{--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6; --verde-solo:#4FBFA6}
+body.pagina-clinica{--verde:var(--azul); --verde-claro:var(--azul-claro); --verde-suave:var(--azul-suave); --verde-fundo:var(--azul-fundo); --verde-fundo-2:var(--azul-fundo-2); --sobre-verde:var(--sobre-azul)}
+body.pagina-clinica{--papel:#F2F4F8; --folha-2:#E9EDF4; --linha:#D6DDE8; --linha-forte:#B5C1D3; --tinta:#0B1220; --tinta-2:#3D4A5E; --tinta-3:#5E6B80}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) body.pagina-clinica{--papel:#080D15; --folha:#0E1520; --folha-2:#141D2B; --linha:#222D3E; --linha-forte:#364458; --tinta:#E5EAF2; --tinta-2:#AEBACC; --tinta-3:#7D8A9F}
+}
+:root[data-theme="dark"] body.pagina-clinica{--papel:#080D15; --folha:#0E1520; --folha-2:#141D2B; --linha:#222D3E; --linha-forte:#364458; --tinta:#E5EAF2; --tinta-2:#AEBACC; --tinta-3:#7D8A9F}
+body.pagina-clinica .btn.pri, body.pagina-clinica .btn-pri{color:#fff}
+:root[data-theme="dark"] body.pagina-clinica .btn.pri{color:#071630}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) body.pagina-clinica .btn.pri{color:#071630} }
+body.pagina-clinica .ceu .v1{background:radial-gradient(circle closest-side, var(--azul) 0%, color-mix(in srgb, var(--azul) 62%, transparent) 26%, color-mix(in srgb, var(--azul) 26%, transparent) 55%, color-mix(in srgb, var(--azul) 8%, transparent) 78%, transparent 100%)}
+body.pagina-clinica .ceu .v2{background:radial-gradient(circle closest-side, var(--azul-claro) 0%, color-mix(in srgb, var(--azul-claro) 62%, transparent) 26%, color-mix(in srgb, var(--azul-claro) 26%, transparent) 55%, color-mix(in srgb, var(--azul-claro) 8%, transparent) 78%, transparent 100%); opacity:.28}
+#campoTestador{margin-top:16px}
+.marca .cli-marca{display:none}
+body.pagina-clinica .marca .solo-marca{display:none}
+body.pagina-clinica .marca .cli-marca{display:inline}
+
+</style>
 </head>
 <body>
+<script>
+/* 3.2 — veio pela Clínica? a página já nasce azul (sem piscar verde antes) */
+(function(){ try{
+  var q = location.search, ss = sessionStorage.getItem('produto');
+  if(/[?&]clinica=1/.test(q) || /[?&]c=/.test(q)) sessionStorage.setItem('produto', 'clinica');
+  if(/[?&]solo=1/.test(q)) sessionStorage.setItem('produto', 'solo');
+  if(sessionStorage.getItem('produto') === 'clinica') document.body.classList.add('pagina-clinica');
+}catch(e){} })();
+window.mcaPintarClinica = function(sim){
+  document.body.classList.toggle('pagina-clinica', !!sim);
+  try{ sessionStorage.setItem('produto', sim ? 'clinica' : 'solo'); }catch(e){}
+  var img = document.querySelector('.marca-selo img'); if(img) img.src = sim ? '/img/favicon-clinica.png' : '/img/favicon.png';
+  var ic = document.querySelector('link[rel="icon"]'); if(ic) ic.href = sim ? '/img/favicon-clinica.png' : '/img/favicon.png';
+};
+if(document.body.classList.contains('pagina-clinica')) document.addEventListener('DOMContentLoaded', function(){ window.mcaPintarClinica(document.body.classList.contains('pagina-clinica')); });
+</script>
 <div class="ceu" aria-hidden="true">
   <div class="veu v1"></div><div class="veu v2"></div><div class="veu v3"></div>
 </div>
 <header class="topo">
   <div class="topo-in">
-    <a class="marca" href="/" aria-label="Meu Consultório App — início"><span class="marca-selo"><img src="/img/favicon.png" alt="" width="40" height="40" /></span><span class="marca-nome"><b>Meu Consultório</b><small>App</small></span></a>
+    <a class="marca" href="/" aria-label="Meu Consultório App — início"><span class="marca-selo"><img src="/img/favicon.png" alt="" width="40" height="40" /></span><span class="marca-nome"><b>Meu Consultório</b><small><span class="solo-marca">App</span><span class="cli-marca">App | Clínica</span></small></span></a>
     <nav><a href="/perfil">Meu perfil</a>
       <span class="tema" role="group" aria-label="Tema da página">
         <button type="button" data-tema="light" aria-pressed="false" title="Tema claro" aria-label="Tema claro">
@@ -707,6 +751,7 @@ function desenharPlanos() {
   document.querySelectorAll('.escolha-produto button').forEach((b) => b.setAttribute('aria-pressed', b.getAttribute('data-prod') === PROD ? 'true' : 'false'));
   document.querySelectorAll('.tamanhos button').forEach((b) => b.setAttribute('aria-pressed', Number(b.getAttribute('data-n')) === TAM ? 'true' : 'false'));
   const bt = document.getElementById('enviar');
+  if (window.mcaPintarClinica) window.mcaPintarClinica(PROD === 'clinica');
   bt.classList.toggle('azul', PROD === 'clinica'); bt.classList.toggle('pri', PROD !== 'clinica');
   pintarTotal();
 }

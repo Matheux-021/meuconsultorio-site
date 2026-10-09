@@ -1206,6 +1206,166 @@ body.pagina-clinica{--papel:#F2F4F8; --folha-2:#E9EDF4; --linha:#D6DDE8; --linha
 .rola-x{overflow-x:auto}
 </style>
 
+<style>
+
+/* 3.2 — a faixa escura deixa o fundo passar mais e some mais devagar */
+.faixa.escuro::before{--esfuma:clamp(56px,8vw,130px);
+  background:linear-gradient(170deg,
+    color-mix(in srgb, var(--verde-fundo-2) 80%, transparent),
+    color-mix(in srgb, var(--verde-fundo) 82%, transparent))}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .faixa.escuro::before, :root:not([data-theme="light"]) .faixa.duda-palco::before{--esfuma:clamp(90px,13vw,220px)} }
+:root[data-theme="dark"] .faixa.escuro::before, :root[data-theme="dark"] .faixa.duda-palco::before{--esfuma:clamp(90px,13vw,220px)}
+/* as faixas claras também chegam e saem esfumadas: nada de linha dura */
+.faixa.banda{background:linear-gradient(180deg, transparent 0,
+  color-mix(in srgb, var(--folha-2) 92%, transparent) clamp(70px,9vw,150px),
+  color-mix(in srgb, var(--folha-2) 92%, transparent) calc(100% - clamp(70px,9vw,150px)), transparent 100%)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .faixa.escuro::before{
+  background:linear-gradient(170deg,
+    color-mix(in srgb, var(--verde-fundo-2) 58%, transparent),
+    color-mix(in srgb, var(--verde-fundo) 62%, transparent))} }
+:root[data-theme="dark"] .faixa.escuro::before{
+  background:linear-gradient(170deg,
+    color-mix(in srgb, var(--verde-fundo-2) 58%, transparent),
+    color-mix(in srgb, var(--verde-fundo) 62%, transparent))}
+/* a última faixa da página vai inteira até o rodapé: sem esfumar embaixo,
+   e cheia o bastante para o véu azul do fundo não aparecer no canto */
+main > section.faixa.escuro:last-of-type::before{
+  background:linear-gradient(180deg,
+    color-mix(in srgb, var(--verde-fundo-2) 88%, transparent),
+    color-mix(in srgb, var(--verde-fundo) 97%, transparent) 70%, var(--verde-fundo) 100%);
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0, rgba(0,0,0,.55) calc(var(--esfuma) * .45), #000 var(--esfuma));
+          mask-image:linear-gradient(to bottom, transparent 0, rgba(0,0,0,.55) calc(var(--esfuma) * .45), #000 var(--esfuma))}
+
+</style>
+<style>
+
+/* 3.2 — a faixa da Clínica: a cor vai para trás, e o azul se desfaz no fundo
+   em cima e embaixo, como as outras faixas — sem linha dura no fim */
+.faixa.escuro.clinica{background:none}
+.faixa.escuro.clinica::before{background:linear-gradient(180deg,
+  color-mix(in srgb, var(--verde-fundo) 70%, transparent) 0%,
+  color-mix(in srgb, color-mix(in srgb, var(--verde-fundo) 45%, var(--azul-fundo-2)) 76%, transparent) 22%,
+  color-mix(in srgb, var(--azul-fundo-2) 82%, transparent) 50%,
+  color-mix(in srgb, var(--azul-fundo) 80%, transparent) 100%)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .faixa.escuro.clinica::before{background:linear-gradient(180deg,
+  color-mix(in srgb, var(--verde-fundo) 62%, transparent) 0%,
+  color-mix(in srgb, color-mix(in srgb, var(--verde-fundo) 40%, var(--azul-fundo-2)) 74%, transparent) 22%,
+  color-mix(in srgb, var(--azul-fundo-2) 84%, transparent) 52%,
+  color-mix(in srgb, var(--azul-fundo) 82%, transparent) 100%)} }
+:root[data-theme="dark"] .faixa.escuro.clinica::before{background:linear-gradient(180deg,
+  color-mix(in srgb, var(--verde-fundo) 62%, transparent) 0%,
+  color-mix(in srgb, color-mix(in srgb, var(--verde-fundo) 40%, var(--azul-fundo-2)) 74%, transparent) 22%,
+  color-mix(in srgb, var(--azul-fundo-2) 84%, transparent) 52%,
+  color-mix(in srgb, var(--azul-fundo) 82%, transparent) 100%)}
+
+</style>
+<style>
+
+/* ===== 3.2 — o palco da Duda ===== */
+.faixa.duda-palco{position:relative; isolation:isolate; color:#E6F0EE; padding-top:clamp(90px,12vw,170px); padding-bottom:clamp(90px,12vw,170px)}
+.faixa.duda-palco::before{content:""; position:absolute; inset:0; z-index:-1; pointer-events:none; --esfuma:clamp(56px,8vw,130px);
+  background:
+    radial-gradient(55% 60% at 12% 28%, rgba(79,191,166,.30), transparent 70%),
+    radial-gradient(50% 60% at 90% 62%, rgba(108,155,230,.32), transparent 70%),
+    radial-gradient(30% 35% at 60% 8%, rgba(231,188,123,.14), transparent 70%),
+    linear-gradient(160deg, rgba(5,36,31,.94), rgba(8,20,44,.95));
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0, rgba(0,0,0,.55) calc(var(--esfuma) * .45), #000 var(--esfuma), #000 calc(100% - var(--esfuma)), rgba(0,0,0,.55) calc(100% - var(--esfuma) * .45), transparent 100%);
+          mask-image:linear-gradient(to bottom, transparent 0, rgba(0,0,0,.55) calc(var(--esfuma) * .45), #000 var(--esfuma), #000 calc(100% - var(--esfuma)), rgba(0,0,0,.55) calc(100% - var(--esfuma) * .45), transparent 100%)}
+.duda-palco .olho{color:#9FE3D2}
+.duda-palco .olho::after{background:linear-gradient(90deg, rgba(143,217,200,.5), rgba(159,189,240,.5))}
+.duda-palco h2{color:#fff; font-size:clamp(34px,5.2vw,60px); line-height:1.02; max-width:16ch; margin:10px 0 0}
+.duda-palco h2 em{font-style:italic; font-weight:500; background:linear-gradient(90deg,#8FD9C8,#9FBDF0 70%); -webkit-background-clip:text; background-clip:text; color:transparent; padding-right:.06em}
+.duda-palco .subtitulo{color:rgba(230,240,238,.84); max-width:36rem; margin:18px 0 0}
+.duda-topo{display:grid; grid-template-columns:auto minmax(0,1fr); gap:clamp(22px,4vw,48px); align-items:center}
+@media (max-width:700px){ .duda-topo{grid-template-columns:minmax(0,1fr)} }
+.duda-selo{display:inline-flex; align-items:center; gap:8px; margin-top:18px; font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:11.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:#F3D7AA; border:1px solid rgba(231,188,123,.45); background:rgba(231,188,123,.1); padding:7px 12px; border-radius:99px}
+
+/* o orbe: três luzes girando devagar em volta de um núcleo — a "presença" dela */
+.duda-orbe{position:relative; width:clamp(120px,15vw,176px); aspect-ratio:1; border-radius:50%; flex:none}
+.duda-orbe i{position:absolute; inset:0; border-radius:50%; mix-blend-mode:screen; animation:dudaGira 14s linear infinite}
+.duda-orbe i:nth-child(1){background:radial-gradient(circle at 30% 35%, rgba(79,191,166,.95), rgba(79,191,166,0) 58%)}
+.duda-orbe i:nth-child(2){background:radial-gradient(circle at 70% 40%, rgba(108,155,230,.95), rgba(108,155,230,0) 58%); animation-duration:19s; animation-direction:reverse}
+.duda-orbe i:nth-child(3){background:radial-gradient(circle at 50% 75%, rgba(231,188,123,.6), rgba(231,188,123,0) 55%); animation-duration:23s}
+.duda-orbe .duda-nucleo{position:absolute; inset:24%; border-radius:50%; background:radial-gradient(circle at 40% 35%, #fff, rgba(220,240,236,.75) 40%, rgba(160,200,230,.15) 75%, transparent);
+  box-shadow:0 0 60px 12px rgba(143,217,200,.25), 0 0 90px 30px rgba(108,155,230,.18); animation:dudaRespira 4.5s ease-in-out infinite}
+.duda-orbe::after{content:""; position:absolute; inset:-14%; border-radius:50%; border:1px solid rgba(255,255,255,.12); animation:dudaRespira 4.5s ease-in-out infinite reverse}
+@keyframes dudaGira{to{transform:rotate(360deg)}}
+@keyframes dudaRespira{0%,100%{transform:scale(.94); opacity:.85} 50%{transform:scale(1.04); opacity:1}}
+
+.duda-grade{display:grid; grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr); gap:clamp(20px,3.4vw,40px); margin-top:clamp(36px,5vw,60px); align-items:start}
+@media (max-width:900px){ .duda-grade{grid-template-columns:minmax(0,1fr)} }
+
+/* a conversa */
+.duda-chat{border-radius:20px; background:rgba(255,255,255,.055); border:1px solid rgba(255,255,255,.13); box-shadow:0 40px 90px -40px rgba(0,0,0,.8); overflow:hidden}
+.duda-chat-topo{display:flex; align-items:center; gap:12px; padding:14px 18px; border-bottom:1px solid rgba(255,255,255,.1)}
+.duda-chat-topo .mini-orbe{width:30px; height:30px; border-radius:50%; background:conic-gradient(from 120deg, #4FBFA6, #7FA6E6, #E7BC7B, #4FBFA6); animation:dudaGira 8s linear infinite; box-shadow:0 0 18px rgba(127,166,230,.45)}
+.duda-chat-topo b{display:block; color:#fff; font-size:15px}
+.duda-chat-topo small{display:flex; align-items:center; gap:6px; font-size:12px; color:rgba(230,240,238,.7)}
+.duda-chat-topo small::before{content:""; width:7px; height:7px; border-radius:50%; background:#4FBFA6; box-shadow:0 0 8px #4FBFA6}
+.duda-abas{display:flex; gap:6px; flex-wrap:wrap; padding:12px 18px 0}
+.duda-abas button{font:inherit; font-size:12.5px; font-weight:600; color:rgba(230,240,238,.75); background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:99px; padding:6px 12px; cursor:pointer}
+.duda-abas button[aria-selected="true"]{color:#06221D; background:linear-gradient(90deg,#8FD9C8,#9FBDF0); border-color:transparent}
+.duda-abas button:focus-visible{outline:2px solid #9FBDF0; outline-offset:2px}
+.duda-msgs{display:flex; flex-direction:column; gap:12px; padding:18px; min-height:330px}
+.duda-msg{max-width:88%; padding:12px 15px; border-radius:16px; font-size:15px; line-height:1.55; opacity:0; transform:translateY(8px); transition:opacity .45s ease, transform .45s ease}
+.duda-msg.vis{opacity:1; transform:none}
+.duda-msg.voce{align-self:flex-end; background:rgba(255,255,255,.12); color:#fff; border-bottom-right-radius:5px; font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:13.5px}
+.duda-msg.ela{align-self:flex-start; background:linear-gradient(135deg, rgba(79,191,166,.2), rgba(108,155,230,.2)); border:1px solid rgba(159,189,240,.25); color:#EEF5F3; border-bottom-left-radius:5px}
+.duda-msg .tarja{display:inline-block; margin-top:9px; font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:11px; letter-spacing:.06em; color:#F3D7AA; background:rgba(231,188,123,.12); border:1px solid rgba(231,188,123,.35); border-radius:99px; padding:3px 9px}
+.duda-msg .pac{background:rgba(231,188,123,.22); color:#F6DDB5; border-radius:5px; padding:0 5px}
+.duda-pontos{align-self:flex-start; display:none; gap:5px; padding:12px 15px; border-radius:16px; background:rgba(255,255,255,.07)}
+.duda-pontos.vis{display:flex}
+.duda-pontos i{width:7px; height:7px; border-radius:50%; background:#9FBDF0; animation:dudaPonto 1.1s ease-in-out infinite}
+.duda-pontos i:nth-child(2){animation-delay:.15s; background:#8FD9C8} .duda-pontos i:nth-child(3){animation-delay:.3s}
+@keyframes dudaPonto{0%,100%{opacity:.3; transform:translateY(0)} 50%{opacity:1; transform:translateY(-3px)}}
+
+/* os poderes dela */
+.duda-poderes{display:grid; grid-template-columns:minmax(0,1fr); gap:12px}
+.duda-poder{display:grid; grid-template-columns:auto minmax(0,1fr); gap:14px; align-items:start; padding:16px 18px; border-radius:16px;
+  background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.1)}
+.duda-poder .ico{width:38px; height:38px; border-radius:11px; display:grid; place-items:center; color:#06221D; background:linear-gradient(135deg,#8FD9C8,#9FBDF0)}
+.duda-poder h3{margin:0 0 4px; color:#fff; font-size:17px; font-family:Newsreader, Georgia, serif; font-weight:600}
+.duda-poder p{margin:0; font-size:14.5px; line-height:1.55; color:rgba(230,240,238,.8)}
+.duda-palco .miuda{margin:clamp(26px,4vw,40px) 0 0; max-width:62rem; font-size:13.5px; line-height:1.6; color:rgba(230,240,238,.62)}
+@media (prefers-reduced-motion: reduce){ .duda-orbe i, .duda-orbe .duda-nucleo, .duda-orbe::after, .duda-chat-topo .mini-orbe, .duda-pontos i{animation:none} .duda-msg{transition:none} }
+
+/* o selo da Duda no menu */
+.topo-links a.link-duda{background:linear-gradient(90deg, var(--verde), var(--azul)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:600}
+
+</style>
+<style>
+
+/* ===== 3.2 — a calculadora curta ===== */
+.mini-calc{display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:clamp(22px,4vw,54px); align-items:center}
+@media (max-width:900px){ .mini-calc{grid-template-columns:minmax(0,1fr)} }
+.mc-cartao{position:relative; border-radius:18px; padding:22px; box-shadow:var(--sombra); border:1.5px solid transparent;
+  background:linear-gradient(var(--folha), var(--folha)) padding-box, linear-gradient(120deg, var(--verde-solo, #0E6B5E), var(--azul)) border-box}
+.mc-form{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:12px 14px}
+.mc-form label{display:block; font-size:13.5px; font-weight:600; color:var(--tinta); margin-bottom:6px}
+.mc-form input, .mc-form select{width:100%; padding:10px 12px; font:inherit; font-size:15px; color:var(--tinta); background:var(--papel); border:1px solid var(--linha-forte); border-radius:10px}
+.mc-form input:focus, .mc-form select:focus{outline:none; border-color:var(--azul); box-shadow:0 0 0 3px var(--azul-suave)}
+.mc-form .inteiro{grid-column:1/-1}
+.mc-chips{display:flex; flex-wrap:wrap; gap:6px}
+.mc-chips label{margin:0; font-weight:500; font-size:13.5px; cursor:pointer}
+.mc-chips input{position:absolute; opacity:0; pointer-events:none}
+.mc-chips span{display:inline-block; padding:7px 12px; border-radius:99px; border:1px solid var(--linha-forte); color:var(--tinta-2); background:var(--folha)}
+.mc-chips input:checked + span{border-color:var(--azul); color:var(--tinta); background:color-mix(in srgb, var(--azul) 12%, var(--folha)); font-weight:600}
+.mc-chips input:focus-visible + span{outline:2px solid var(--azul); outline-offset:2px}
+.mc-res{margin-top:18px; padding-top:16px; border-top:1px solid var(--linha); display:grid; grid-template-columns:auto minmax(0,1fr); gap:6px 18px; align-items:end}
+.mc-total{font-family:Newsreader, Georgia, serif; font-size:clamp(40px,5vw,54px); font-weight:600; line-height:1; color:var(--tinta); font-variant-numeric:tabular-nums}
+.mc-rot{font-size:13px; color:var(--tinta-3)}
+.mc-ssd{justify-self:end; text-align:right}
+.mc-ssd b{display:block; font-size:18px; background:linear-gradient(90deg, var(--verde-solo, #0E6B5E), var(--azul)); -webkit-background-clip:text; background-clip:text; color:transparent}
+.mc-barra{grid-column:1/-1; height:8px; border-radius:99px; background:var(--folha-2); overflow:hidden; display:flex; margin-top:8px}
+.mc-barra span{display:block; height:100%}
+.mc-ir{display:inline-flex; align-items:center; gap:6px; margin-top:16px; font-weight:600}
+@media (max-width:480px){ .mc-form{grid-template-columns:minmax(0,1fr)} .mc-res{grid-template-columns:minmax(0,1fr)} .mc-ssd{justify-self:start; text-align:left} }
+
+:root{--verde-solo:#0E6B5E}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--verde-solo:#4FBFA6} }
+:root[data-theme="dark"]{--verde-solo:#4FBFA6}
+</style>
 </head>
 <body>
 
@@ -1225,6 +1385,7 @@ body.pagina-clinica{--papel:#F2F4F8; --folha-2:#E9EDF4; --linha:#D6DDE8; --linha
     </a>
     <nav class="topo-links" aria-label="Páginas do site">
       <a href="/clinica" style="color:var(--azul)">Clínica</a>
+      <a href="#duda" class="link-duda">Duda</a>
       <a href="/recursos">Recursos</a>
       <a href="/seguranca">Segurança</a>
       <a href="#planos">Planos</a>
@@ -1596,42 +1757,41 @@ body.pagina-clinica{--papel:#F2F4F8; --folha-2:#E9EDF4; --linha:#D6DDE8; --linha
   </section>
 
   <!-- ============ Duda ============ -->
-  <section class="faixa" id="duda">
+  <section class="faixa duda-palco" id="duda" aria-labelledby="dudaTitulo">
     <div class="centro">
-      <div class="bloco">
-        <div class="texto">
-          <p class="olho">Duda · assistente de IA</p>
-          <h2>Uma assistente que aprende o jeito da sua casa.</h2>
-          <div class="prosa">
-            <p>A <b>Duda</b> responde sobre o programa e sobre a rotina do consultório, transforma
-              as suas anotações telegráficas em evolução escrita, redige mensagem para o paciente e
-              explica um procedimento em linguagem que ele entende.</p>
-            <p><b>E ela aprende o que você ensinar.</b> Convênios que você atende, os seus
-              protocolos, prazos, valores, o jeito da casa: você escreve uma vez, fica guardado no
-              seu cofre e vale para todas as respostas seguintes. Ela não aprende sozinha com as
-              conversas — nenhuma assistente dessas aprende, por mais que digam que sim —, e por
-              isso o que ela sabe do seu consultório é exatamente o que você escreveu.</p>
-            <p><b>O nome do paciente não sai daqui.</b> Antes de qualquer coisa viajar, nome, CPF,
-              telefone, e-mail e endereço são retirados do texto <b>no seu computador</b> — e
-              recolocados na resposta. Você vê, e pode editar, o texto exato que vai sair. Antes de
-              cada envio.</p>
-            <p><b>E ela fala.</b> No computador, com uma voz neural que roda dentro do programa; no
-              celular, com a voz do Android que funciona sem internet. O que ela diz não sai do aparelho
-              para ser falado.</p>
-            <p class="miuda">Perguntada sobre odontologia, a Duda responde — técnica,
-              instrumental, material, dose de referência —, como um livro-texto responderia a um
-              colega. O que ela não tem é o seu paciente: não examina boca, não recebe radiografia
-              nem foto. O exame, o diagnóstico, a decisão e a responsabilidade são do
-              cirurgião-dentista, e o que ela escreve nasce como rascunho para você aprovar.</p>
-          </div>
-        </div>
-        <div class="arte">
-          <figure class="tela aparece" style="margin:0">
-            <div class="tela-topo" aria-hidden="true"><i></i><i></i><i></i><span>Duda — assistente de IA</span></div>
-            <img loading="lazy" src="img/duda.webp" width="1400" height="630" alt="Tela da Duda: o dentista pergunta como ser avisado quando o anestésico estiver acabando e ela responde explicando onde cadastrar o nível mínimo." />
-          </figure>
+      <div class="duda-topo">
+        <div class="duda-orbe" aria-hidden="true"><i></i><i></i><i></i><span class="duda-nucleo"></span></div>
+        <div>
+          <p class="olho">Duda · a assistente de IA do Meu Consultório</p>
+          <h2 id="dudaTitulo">Ela escreve, explica, lembra <em>— e fala.</em></h2>
+          <p class="subtitulo">A Duda conhece o programa inteiro e a rotina de um consultório. Transforma a sua anotação
+            telegráfica em evolução escrita, prepara a mensagem para o paciente e aprende o jeito da sua casa — sem que o
+            nome de paciente nenhum saia do seu computador.</p>
+          <span class="duda-selo">Incluída em todos os planos · Solo e Clínica</span>
         </div>
       </div>
+      <div class="duda-grade">
+        <div class="duda-chat aparece">
+          <div class="duda-chat-topo"><span class="mini-orbe" aria-hidden="true"></span><div><b>Duda</b><small>pronta, no seu computador</small></div></div>
+          <div class="duda-abas" role="tablist" aria-label="Exemplos de conversa">
+            <button role="tab" aria-selected="true" data-cena="0">Evolução</button>
+            <button role="tab" aria-selected="false" data-cena="1">Mensagem ao paciente</button>
+            <button role="tab" aria-selected="false" data-cena="2">Dúvida do programa</button>
+            <button role="tab" aria-selected="false" data-cena="3">Ensinar</button>
+          </div>
+          <div class="duda-msgs" id="dudaMsgs" aria-live="polite"></div>
+        </div>
+        <div class="duda-poderes">
+          <div class="duda-poder aparece"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><div><h3>Escreve por você</h3><p>A anotação rápida vira evolução bem escrita; o pedido vira mensagem para o paciente; o procedimento vira explicação que ele entende.</p></div></div>
+          <div class="duda-poder aparece"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M9 7h7M9 11h5"/></svg></span><div><h3>Aprende o jeito da casa</h3><p>Convênios, protocolos, prazos e valores: você escreve uma vez, fica no seu cofre e vale para todas as respostas seguintes.</p></div></div>
+          <div class="duda-poder aparece"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span><div><h3>O nome do paciente não sai daqui</h3><p>Nome, CPF, telefone, e-mail e endereço saem do texto no seu computador antes de qualquer envio — e voltam na resposta. Você vê o que vai sair.</p></div></div>
+          <div class="duda-poder aparece"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg></span><div><h3>E ela fala</h3><p>Uma voz neural que roda dentro do programa, no computador; no celular, a voz do Android, que funciona sem internet.</p></div></div>
+        </div>
+      </div>
+      <p class="miuda">Perguntada sobre odontologia, a Duda responde — técnica, instrumental, material, dose de referência —, como
+        um livro-texto responderia a um colega. O que ela não tem é o seu paciente: não examina boca, não recebe radiografia
+        nem foto. O exame, o diagnóstico, a decisão e a responsabilidade são do cirurgião-dentista, e o que ela escreve nasce
+        como rascunho para você aprovar.</p>
     </div>
   </section>
 
@@ -2121,6 +2281,37 @@ body.pagina-clinica{--papel:#F2F4F8; --folha-2:#E9EDF4; --linha:#D6DDE8; --linha
   <!-- ============ planos ============ -->
 
   <!-- ============ a Clínica (3.0) ============ -->
+  <section class="faixa" id="espaco">
+    <div class="centro mini-calc">
+      <div>
+        <p class="olho">Quanto espaço preciso</p>
+        <h2>Quanto do computador as fichas vão ocupar?</h2>
+        <div class="prosa"><p>Fichas cifradas são pequenas; quem ocupa espaço são as fotos e as radiografias. Mude os números e veja
+          na hora — no consultório ou no servidor da clínica.</p></div>
+        <a class="mc-ir" href="/armazenamento" id="mcLinkTexto">Abrir a calculadora completa →</a>
+      </div>
+      <div class="mc-cartao aparece">
+        <form class="mc-form" id="mcForm" onsubmit="return false" aria-label="Calculadora rápida de espaço">
+          <div><label for="mcPac">Pacientes no cadastro</label><input id="mcPac" type="number" min="0" max="100000" step="50" value="800" inputmode="numeric" /></div>
+          <div><label for="mcAnos">Pensar em</label><select id="mcAnos"><option value="1">1 ano</option><option value="3">3 anos</option><option value="5" selected>5 anos</option><option value="10">10 anos</option></select></div>
+          <div class="inteiro"><label>Fotos clínicas</label>
+            <div class="mc-chips" role="radiogroup" aria-label="Fotos clínicas">
+              <label><input type="radio" name="mcFotos" value="0" /><span>Não tiro</span></label>
+              <label><input type="radio" name="mcFotos" value="1" checked /><span>Algumas</span></label>
+              <label><input type="radio" name="mcFotos" value="4" /><span>Documento casos</span></label>
+              <label><input type="radio" name="mcFotos" value="10" /><span>Orto / estética</span></label>
+            </div></div>
+        </form>
+        <div class="mc-res" aria-live="polite">
+          <div><div class="mc-rot">O sistema vai ocupar</div><div class="mc-total" id="mcTotal">—</div></div>
+          <div class="mc-ssd"><span class="mc-rot">Disco recomendado</span><b id="mcSsd">—</b></div>
+          <div class="mc-barra" id="mcBarra" aria-hidden="true"></div>
+        </div>
+        <a class="btn sec mc-ir" href="/armazenamento" id="mcLink">Ver a conta completa, com backup e crescimento por ano →</a>
+      </div>
+    </div>
+  </section>
+
   <section class="faixa escuro clinica" id="clinica">
     <div class="centro">
       <div class="grade-cli">
@@ -2716,6 +2907,73 @@ body.pagina-clinica{--papel:#F2F4F8; --folha-2:#E9EDF4; --linha:#D6DDE8; --linha
       .then(function(x){ msg.className = 'msg ' + (x.ok ? 'ok' : 'erro'); msg.textContent = x.ok ? x.j.recado : (x.j.erro || 'Não consegui enviar.'); if(x.ok) f.reset(); })
       .catch(function(){ msg.className = 'msg erro'; msg.textContent = 'Sem conexão agora. Tente de novo, ou fale pelo WhatsApp.'; });
   });
+})();
+</script>
+<script>try{sessionStorage.setItem('produto','solo')}catch(e){}</script>
+<script>
+/* 3.2 — a conversa da Duda: começa quando aparece na tela, troca de exemplo
+   sozinha, e para se a pessoa escolher uma aba. Sem movimento para quem pediu. */
+(function(){
+  var caixa = document.getElementById('dudaMsgs'); if(!caixa) return;
+  var CENAS = [
+    [['voce','26 endo 1ª sessão: odontometria 3 canais, PQM, MIC hidróxido de cálcio, CIV. retorno 7d'],
+     ['ela','<b>Evolução — dente 26.</b> Tratamento endodôntico, 1ª sessão: odontometria dos três canais e preparo químico-mecânico. Medicação intracanal com hidróxido de cálcio e selamento provisório com CIV. Retorno em 7 dias.<br><span class="tarja">Rascunho · você aprova antes de salvar</span>']],
+    [['voce','mensagem para <span class="pac">Maria Eduarda</span> confirmar amanhã às 14h'],
+     ['ela','Olá, Maria Eduarda! Passando para confirmar a sua consulta de amanhã, às 14h. Pode me responder com <b>SIM</b> para confirmar, ou me avisar se precisar remarcar.<br><span class="tarja">O nome saiu como [PACIENTE] e voltou aqui</span>']],
+    [['voce','como sou avisado quando o anestésico estiver acabando?'],
+     ['ela','Em <b>Estoque</b>, abra o anestésico e preencha o <b>nível mínimo</b>. Quando a quantidade chegar nele, o aviso aparece no Painel.<br><span class="tarja">Ela conhece o programa inteiro</span>']],
+    [['voce','“O que a Duda sabe do seu consultório”: atendo Amil Dental e Bradesco Dental; limpeza particular R$ 180'],
+     ['ela','Entendido. Quando o assunto for convênio ou o valor da limpeza, respondo com o que está escrito aí — e você muda quando quiser.<br><span class="tarja">Fica no seu cofre, não num servidor</span>']]
+  ];
+  var abas = [].slice.call(document.querySelectorAll('.duda-abas button'));
+  var reduzir = false; try{ reduzir = matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  var atual = 0, timers = [], automatico = true, rodando = false;
+  function limpar(){ timers.forEach(clearTimeout); timers = []; }
+  function depois(ms, fn){ timers.push(setTimeout(fn, reduzir ? 0 : ms)); }
+  function bolha(tipo, html){ var d = document.createElement('div'); d.className = 'duda-msg ' + tipo; d.innerHTML = html; caixa.appendChild(d);
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ d.classList.add('vis'); }); }); return d; }
+  function mostrar(i){
+    limpar(); atual = i; caixa.innerHTML = '';
+    abas.forEach(function(b, k){ b.setAttribute('aria-selected', String(k === i)); });
+    var c = CENAS[i];
+    depois(300, function(){ bolha('voce', c[0][1]); });
+    var pts = document.createElement('div'); pts.className = 'duda-pontos'; pts.innerHTML = '<i></i><i></i><i></i>';
+    depois(1100, function(){ caixa.appendChild(pts); pts.classList.add('vis'); });
+    depois(2600, function(){ if(pts.parentNode) pts.parentNode.removeChild(pts); bolha('ela', c[1][1]); });
+    depois(9500, function(){ if(automatico) mostrar((atual + 1) % CENAS.length); });
+  }
+  abas.forEach(function(b, k){ b.addEventListener('click', function(){ automatico = false; mostrar(k); }); });
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && !rodando){ rodando = true; mostrar(0); } }); }, { threshold: .3 }).observe(caixa);
+  } else mostrar(0);
+})();
+</script>
+<script>
+/* 3.2 — a calculadora curta: as mesmas contas da completa (celular, exames
+   "normal"), e o link leva os números para lá */
+(function(){
+  var F = document.getElementById('mcForm'); if(!F) return;
+  var KB = 1/(1024*1024), MB = 1/1024;
+  function fmt(gb){ if(gb < 1) return Math.max(1, Math.round(gb*1024)) + ' MB'; if(gb < 10) return gb.toFixed(1).replace('.', ',') + ' GB'; if(gb < 1000) return Math.round(gb) + ' GB'; return (gb/1000).toFixed(1).replace('.', ',') + ' TB'; }
+  function tamanho(gb, l){ for(var i=0;i<l.length;i++) if(l[i] >= gb) return l[i]; return l[l.length-1]; }
+  function rot(gb){ return gb >= 1000 ? (gb/1000) + ' TB' : gb + ' GB'; }
+  function calc(){
+    var p = Math.max(0, Math.min(100000, parseInt(document.getElementById('mcPac').value, 10) || 0));
+    var a = parseInt(document.getElementById('mcAnos').value, 10) || 5;
+    var f = parseFloat((F.querySelector('input[name="mcFotos"]:checked') || {}).value || 1);
+    var fotos = p*a*f, exames = p*a*1.5;
+    var dados = p*(15 + 25*a)*KB, minis = (fotos*35 + exames*0.6*25)*KB;
+    var cofre = (dados + minis)*1.35, copias = cofre*40, originais = fotos*3.5*MB + exames*1.5*MB, programa = 0.5;
+    var total = programa + cofre + copias + originais, precisa = (total*1.5 + 60)/0.75;
+    document.getElementById('mcTotal').textContent = fmt(total);
+    document.getElementById('mcSsd').textContent = (precisa > 4000 ? 'Mais de ' : 'SSD de ') + rot(tamanho(precisa, [256,512,1000,2000,4000]));
+    var partes = [[originais,'var(--verde-solo, #0E6B5E)'],[copias,'var(--azul)'],[cofre,'var(--ambar)'],[programa,'var(--tinta-3)']], h = '';
+    partes.forEach(function(x){ var pc = total ? x[0]/total*100 : 0; if(pc > .4) h += '<span style="width:' + pc.toFixed(2) + '%;background:' + x[1] + '"></span>'; });
+    document.getElementById('mcBarra').innerHTML = h;
+    var q = '/armazenamento?p=' + p + '&a=' + a + '&f=' + f;
+    document.getElementById('mcLink').href = q; document.getElementById('mcLinkTexto').href = q;
+  }
+  F.addEventListener('input', calc); F.addEventListener('change', calc); calc();
 })();
 </script>
 </body>

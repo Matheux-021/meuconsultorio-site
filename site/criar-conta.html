@@ -512,14 +512,90 @@ input:-webkit-autofill:focus{
 .planos.cli .plano:has(input:checked){border-color:var(--azul); box-shadow:0 0 0 1px var(--azul)}
 .selo-cli{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; color:var(--azul); background:var(--azul-suave); border-radius:99px; padding:4px 10px}
 </style>
+<style>
+
+/* 3.2 — o mesmo céu da página inicial: verde de um lado, azul do outro */
+.campo .v2, .ceu .v2{background:radial-gradient(circle closest-side, var(--azul) 0%, color-mix(in srgb, var(--azul) 62%, transparent) 26%, color-mix(in srgb, var(--azul) 26%, transparent) 55%, color-mix(in srgb, var(--azul) 8%, transparent) 78%, transparent 100%)}
+
+</style>
+<style>
+
+:root{--azul:#1E4E9C; --azul-claro:#2C63BE; --azul-suave:#E2EAF7; --azul-fundo:#0B2149; --azul-fundo-2:#10306A; --sobre-azul:#DCE6F7; --verde-solo:#0E6B5E}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6; --verde-solo:#4FBFA6} }
+:root[data-theme="dark"]{--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6; --verde-solo:#4FBFA6}
+body.pagina-clinica{--verde:var(--azul); --verde-claro:var(--azul-claro); --verde-suave:var(--azul-suave); --verde-fundo:var(--azul-fundo); --verde-fundo-2:var(--azul-fundo-2); --sobre-verde:var(--sobre-azul)}
+body.pagina-clinica{--papel:#F2F4F8; --folha-2:#E9EDF4; --linha:#D6DDE8; --linha-forte:#B5C1D3; --tinta:#0B1220; --tinta-2:#3D4A5E; --tinta-3:#5E6B80}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) body.pagina-clinica{--papel:#080D15; --folha:#0E1520; --folha-2:#141D2B; --linha:#222D3E; --linha-forte:#364458; --tinta:#E5EAF2; --tinta-2:#AEBACC; --tinta-3:#7D8A9F}
+}
+:root[data-theme="dark"] body.pagina-clinica{--papel:#080D15; --folha:#0E1520; --folha-2:#141D2B; --linha:#222D3E; --linha-forte:#364458; --tinta:#E5EAF2; --tinta-2:#AEBACC; --tinta-3:#7D8A9F}
+body.pagina-clinica .btn.pri, body.pagina-clinica .btn-pri{color:#fff}
+:root[data-theme="dark"] body.pagina-clinica .btn.pri{color:#071630}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) body.pagina-clinica .btn.pri{color:#071630} }
+body.pagina-clinica .ceu .v1{background:radial-gradient(circle closest-side, var(--azul) 0%, color-mix(in srgb, var(--azul) 62%, transparent) 26%, color-mix(in srgb, var(--azul) 26%, transparent) 55%, color-mix(in srgb, var(--azul) 8%, transparent) 78%, transparent 100%)}
+body.pagina-clinica .ceu .v2{background:radial-gradient(circle closest-side, var(--azul-claro) 0%, color-mix(in srgb, var(--azul-claro) 62%, transparent) 26%, color-mix(in srgb, var(--azul-claro) 26%, transparent) 55%, color-mix(in srgb, var(--azul-claro) 8%, transparent) 78%, transparent 100%); opacity:.28}
+#campoTestador{margin-top:16px}
+.marca .cli-marca{display:none}
+body.pagina-clinica .marca .solo-marca{display:none}
+body.pagina-clinica .marca .cli-marca{display:inline}
+
+</style>
+<style>
+
+.escolha-tipo{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:2px 0 14px}
+.escolha-tipo button{display:flex; gap:11px; align-items:center; text-align:left; padding:12px 14px; border-radius:12px;
+  border:1.5px solid var(--linha); background:var(--folha); cursor:pointer; font:inherit; color:var(--tinta); transition:border-color .2s, box-shadow .2s}
+.escolha-tipo button img{width:36px; height:36px; border-radius:9px; flex:none}
+.escolha-tipo b{display:block; font-size:15.5px}
+.escolha-tipo small{display:block; font-size:12.5px; color:var(--tinta-3); margin-top:2px; line-height:1.35}
+.escolha-tipo button:hover{border-color:var(--linha-forte)}
+.escolha-tipo button[data-tipo="solo"][aria-checked="true"]{border-color:var(--verde-solo); box-shadow:0 0 0 3px color-mix(in srgb, var(--verde-solo) 20%, transparent)}
+.escolha-tipo button[data-tipo="clinica"][aria-checked="true"]{border-color:var(--azul); box-shadow:0 0 0 3px color-mix(in srgb, var(--azul) 22%, transparent)}
+.escolha-tipo button:focus-visible{outline:2px solid var(--azul); outline-offset:2px}
+@media (max-width:420px){ .escolha-tipo{grid-template-columns:minmax(0,1fr)} }
+.aviso-troca{margin:0 0 16px; padding:10px 14px; border-radius:10px; border-left:4px solid var(--ambar); background:var(--ambar-suave); color:var(--tinta-2); font-size:14px; line-height:1.5}
+.aviso-troca .elo{font:inherit; font-weight:600; color:var(--verde); background:none; border:0; padding:0; cursor:pointer; text-decoration:underline}
+body.pagina-clinica .estreito{max-width:780px}
+.grade-campos{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 14px}
+.grade-campos .inteiro{grid-column:1/-1}
+@media (max-width:600px){ .grade-campos{grid-template-columns:minmax(0,1fr)} }
+.secao-cad{border:0; margin:0 0 6px; padding:0; min-width:0}
+.secao-cad legend{display:flex; align-items:center; gap:10px; font-family:Newsreader, Georgia, serif; font-size:21px; font-weight:600; color:var(--tinta); padding:0; margin:10px 0 14px}
+.secao-cad legend span{display:grid; place-items:center; width:26px; height:26px; border-radius:50%; background:var(--azul-suave); color:var(--azul);
+  font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:13px; font-weight:500}
+.opc{color:var(--tinta-3); font-weight:400}
+.campo select, .campo input[type=number]{width:100%; padding:11px 13px; font:inherit; font-size:15.5px; color:var(--tinta);
+  background:var(--papel); border:1px solid var(--linha-forte); border-radius:10px}
+.campo select:focus{border-color:var(--verde); outline:none; box-shadow:0 0 0 3px var(--verde-suave)}
+.mais-cad{margin:0 0 10px}
+.mais-cad summary{cursor:pointer; font-size:14.5px; color:var(--verde); margin:0 0 12px; font-weight:600}
+#blocoClinica{border-bottom:1px solid var(--linha); margin-bottom:18px; padding-bottom:4px}
+
+</style>
 </head>
 <body>
+<script>
+/* 3.2 — veio pela Clínica? a página já nasce azul (sem piscar verde antes) */
+(function(){ try{
+  var q = location.search, ss = sessionStorage.getItem('produto');
+  if(/[?&]clinica=1/.test(q) || /[?&]c=/.test(q)) sessionStorage.setItem('produto', 'clinica');
+  if(/[?&]solo=1/.test(q)) sessionStorage.setItem('produto', 'solo');
+  if(sessionStorage.getItem('produto') === 'clinica') document.body.classList.add('pagina-clinica');
+}catch(e){} })();
+window.mcaPintarClinica = function(sim){
+  document.body.classList.toggle('pagina-clinica', !!sim);
+  try{ sessionStorage.setItem('produto', sim ? 'clinica' : 'solo'); }catch(e){}
+  var img = document.querySelector('.marca-selo img'); if(img) img.src = sim ? '/img/favicon-clinica.png' : '/img/favicon.png';
+  var ic = document.querySelector('link[rel="icon"]'); if(ic) ic.href = sim ? '/img/favicon-clinica.png' : '/img/favicon.png';
+};
+if(document.body.classList.contains('pagina-clinica')) document.addEventListener('DOMContentLoaded', function(){ window.mcaPintarClinica(document.body.classList.contains('pagina-clinica')); });
+</script>
 <div class="ceu" aria-hidden="true">
   <div class="veu v1"></div><div class="veu v2"></div><div class="veu v3"></div>
 </div>
 <header class="topo">
   <div class="topo-in">
-    <a class="marca" href="/" aria-label="Meu Consultório App — início"><span class="marca-selo"><img src="/img/favicon.png" alt="" width="40" height="40" /></span><span class="marca-nome"><b>Meu Consultório</b><small>App</small></span></a>
+    <a class="marca" href="/" aria-label="Meu Consultório App — início"><span class="marca-selo"><img src="/img/favicon.png" alt="" width="40" height="40" /></span><span class="marca-nome"><b>Meu Consultório</b><small><span class="solo-marca">App</span><span class="cli-marca">App | Clínica</span></small></span></a>
     <nav><a href="/entrar">Entrar</a>
       <span class="tema" role="group" aria-label="Tema da página">
         <button type="button" data-tema="light" aria-pressed="false" title="Tema claro" aria-label="Tema claro">
@@ -539,6 +615,13 @@ input:-webkit-autofill:focus{
       <p class="rot">14 dias · sem cartão</p>
       <h1>Criar conta</h1>
       <p class="sub">14 dias com o sistema inteiro. Não pedimos cartão.</p>
+      <div class="escolha-tipo" role="radiogroup" aria-label="Para quem é a conta">
+        <button type="button" role="radio" data-tipo="solo" aria-checked="true">
+          <img src="/img/favicon.png" alt="" width="36" height="36" /><span><b>Solo</b><small>Sou dentista e atendo sozinho</small></span></button>
+        <button type="button" role="radio" data-tipo="clinica" aria-checked="false">
+          <img src="/img/favicon-clinica.png" alt="" width="36" height="36" /><span><b>Clínica</b><small>2 a 8 dentistas, com equipe</small></span></button>
+      </div>
+      <div class="aviso-troca" id="avisoTroca" hidden><span id="avisoTrocaTxt"></span> <button type="button" class="elo" id="avisoTrocaBt"></button></div>
       <p class="recado" id="recado" hidden></p>
       <div class="cli-caixa" id="vemClinica" hidden style="margin:0 0 16px">
         <p style="margin:0"><span class="selo-cli">Clínica · 30 dias</span></p>
@@ -546,6 +629,7 @@ input:-webkit-autofill:focus{
           programa da clínica, em azul, com um acesso para cada pessoa da equipe. Depois de criar, baixe o programa
           da Clínica e entre com esta conta.</p>
       </div>
+      <div id="blocoClinica" hidden><fieldset class="secao-cad"><legend><span>1</span>A clínica</legend><div class="grade-campos"><div class="campo inteiro"><label for="ccRazao">Razão social</label><input id="ccRazao" type="text" autocomplete="off" autocomplete="organization"/></div><div class="campo"><label for="ccFantasia">Nome fantasia</label><input id="ccFantasia" type="text" autocomplete="off" /><p class="dica">O nome que aparece no programa e nos documentos.</p></div><div class="campo"><label for="ccCnpj">CNPJ</label><input id="ccCnpj" type="text" autocomplete="off" inputmode="numeric"/><p class="dica">A assinatura e a nota saem neste CNPJ.</p></div><div class="campo"><label for="ccTel">Telefone da clínica</label><input id="ccTel" type="tel" autocomplete="off" inputmode="numeric"/></div><div class="campo"><label for="ccWhats">WhatsApp da clínica <span class="opc">(opcional)</span></label><input id="ccWhats" type="tel" autocomplete="off" inputmode="numeric"/></div><div class="campo inteiro"><label for="ccEmailCli">E-mail da clínica <span class="opc">(opcional)</span></label><input id="ccEmailCli" type="email" autocomplete="off" /><p class="dica">Se for diferente do e-mail de quem administra a conta (logo abaixo).</p></div><div class="campo"><label for="ccCadeiras">Consultórios (cadeiras)</label><input id="ccCadeiras" type="number" autocomplete="off" min="1" max="60" inputmode="numeric"/></div><div class="campo"><label for="ccDentistas">Dentistas que atendem</label><input id="ccDentistas" type="number" autocomplete="off" min="1" max="300" inputmode="numeric"/><p class="dica">Até 8 entra nos planos; acima disso, faço um orçamento.</p></div><div class="campo inteiro"><label for="ccEsp">Especialidades atendidas <span class="opc">(opcional)</span></label><input id="ccEsp" type="text" autocomplete="off" placeholder="Ex.: ortodontia, implantes, endodontia"/></div></div><details class="mais-cad"><summary>Registros da clínica <span class="opc">(opcional)</span></summary><div class="grade-campos"><div class="campo"><label for="ccIm">Inscrição municipal <span class="opc">(opcional)</span></label><input id="ccIm" type="text" autocomplete="off" /></div><div class="campo"><label for="ccCnes">CNES <span class="opc">(opcional)</span></label><input id="ccCnes" type="text" autocomplete="off" inputmode="numeric" maxlength="7"/></div><div class="campo"><label for="ccAlvara">Alvará sanitário / licença <span class="opc">(opcional)</span></label><input id="ccAlvara" type="text" autocomplete="off" /></div><div class="campo"><label for="ccCroPj">Inscrição da clínica no CRO <span class="opc">(opcional)</span></label><input id="ccCroPj" type="text" autocomplete="off" /></div></div></details></fieldset><fieldset class="secao-cad"><legend><span>2</span>Endereço</legend><div class="grade-campos"><div class="campo"><label for="ccCep">CEP</label><input id="ccCep" type="text" autocomplete="off" inputmode="numeric" maxlength="9"/></div><div class="campo"><label for="ccUf">Estado (UF)</label><select id="ccUf"><option value="">UF</option><option>AC</option><option>AL</option><option>AP</option><option>AM</option><option>BA</option><option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MA</option><option>MT</option><option>MS</option><option>MG</option><option>PA</option><option>PB</option><option>PR</option><option>PE</option><option>PI</option><option>RJ</option><option>RN</option><option>RS</option><option>RO</option><option>RR</option><option>SC</option><option>SP</option><option>SE</option><option>TO</option></select></div><div class="campo inteiro"><label for="ccRua">Logradouro</label><input id="ccRua" type="text" autocomplete="off" autocomplete="address-line1"/></div><div class="campo"><label for="ccNum">Número</label><input id="ccNum" type="text" autocomplete="off" /></div><div class="campo"><label for="ccCompl">Complemento <span class="opc">(opcional)</span></label><input id="ccCompl" type="text" autocomplete="off" /></div><div class="campo"><label for="ccBairro">Bairro</label><input id="ccBairro" type="text" autocomplete="off" /></div><div class="campo"><label for="ccCidade">Cidade</label><input id="ccCidade" type="text" autocomplete="off" /></div></div></fieldset><fieldset class="secao-cad"><legend><span>3</span>Responsável técnico</legend><p class="dica" style="margin:-6px 0 12px">O cirurgião-dentista responsável pela clínica perante o CRO.</p><div class="grade-campos"><div class="campo inteiro"><label for="ccRtNome">Nome completo</label><input id="ccRtNome" type="text" autocomplete="off" /></div><div class="campo"><label for="ccRtSocial">Nome social <span class="opc">(opcional)</span></label><input id="ccRtSocial" type="text" autocomplete="off" /></div><div class="campo"><label for="ccRtCpf">CPF</label><input id="ccRtCpf" type="text" autocomplete="off" inputmode="numeric"/></div><div class="campo"><label for="ccRtCro">Número do CRO</label><input id="ccRtCro" type="text" autocomplete="off" inputmode="numeric"/></div><div class="campo"><label for="ccRtUf">UF do CRO</label><select id="ccRtUf"><option value="">UF</option><option>AC</option><option>AL</option><option>AP</option><option>AM</option><option>BA</option><option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MA</option><option>MT</option><option>MS</option><option>MG</option><option>PA</option><option>PB</option><option>PR</option><option>PE</option><option>PI</option><option>RJ</option><option>RN</option><option>RS</option><option>RO</option><option>RR</option><option>SC</option><option>SP</option><option>SE</option><option>TO</option></select></div><div class="campo inteiro"><label for="ccRtEsp">Especialidade <span class="opc">(opcional)</span></label><input id="ccRtEsp" type="text" autocomplete="off" /></div></div></fieldset><fieldset class="secao-cad" style="margin-bottom:0"><legend><span>4</span>Quem administra a conta</legend><p class="dica" style="margin:-6px 0 12px">Entra no site, recebe os e-mails e convida a equipe. Pode ser o responsável técnico ou outra pessoa (gerente, sócio).</p><label class="marcador" style="margin:0 0 14px"><input type="checkbox" id="ccMesmo" /><span>Sou eu o responsável técnico</span></label></fieldset></div>
       <form id="forma" novalidate>
         <div class="campo">
           <label for="nome">Nome completo</label>
@@ -764,7 +848,7 @@ f.onsubmit = async (e) => {
   e.preventDefault();
   const nome = f.nome.value.trim();
   const email = f.email.value.trim();
-  const documento = MCA.digitos(f.documento.value);
+  const documento = MCA.digitos(window.VEM_CLINICA ? document.getElementById('ccCnpj').value : f.documento.value);
   const telefone = MCA.digitos(f.telefone.value);
   const senha = f.senha.value;
 
@@ -774,6 +858,10 @@ f.onsubmit = async (e) => {
   const forca = MCA.forcaDaSenha(senha);
   if (!forca.boa) return MCA.aviso(recado, 'A senha precisa de: ' + forca.problemas.join(', ') + '.');
   if (senha !== f.senha2.value) return MCA.aviso(recado, 'As duas senhas não são iguais.');
+  if (window.VEM_CLINICA && window.mcaValidarClinica) {
+    const erro = window.mcaValidarClinica();
+    if (erro) { const el = document.getElementById(erro[0]); if (el) { el.setAttribute('aria-invalid', 'true'); el.focus({ preventScroll: true }); el.addEventListener('input', () => el.removeAttribute('aria-invalid'), { once: true }); } MCA.aviso(recado, erro[1]); try { recado.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (x) {} return; }
+  }
   if (!document.getElementById('aceite').checked) return MCA.aviso(recado, 'É preciso aceitar o contrato para criar a conta.');
 
   MCA.aviso(recado, '');
@@ -782,7 +870,7 @@ f.onsubmit = async (e) => {
     const derivada = await MCA.derivar(senha, email);
     const r = await MCA.chamar('/api/conta/criar',
       { nome, email, documento, telefone, senha: derivada, aceite: true,
-        clinica: VEM_CLINICA, codigoTestador: (document.getElementById('codigoTestador') || {}).value || '' });
+        clinica: !!window.VEM_CLINICA, cadastroClinica: window.VEM_CLINICA && window.mcaColetarClinica ? window.mcaColetarClinica() : undefined, codigoTestador: (document.getElementById('codigoTestador') || {}).value || '' });
     if (r.ok) {
       /* A ÚNICA CONVERSÃO PRINCIPAL DO SITE, e ela dispara aqui porque é aqui
          que a conta passou a existir de verdade — o servidor respondeu ok.
@@ -932,6 +1020,82 @@ var VEM_CLINICA = /(^|[?&])clinica=1/.test(location.search) || /(^|[?&])c=/.test
     var b = document.getElementById('enviar'); if (b) { b.classList.add('azul'); b.classList.remove('pri'); b.textContent = 'Criar minha conta e testar a Clínica'; }
   }
   if (cod) { var i = document.getElementById('codigoTestador'); if (i) i.value = cod.toUpperCase(); }
+})();
+</script>
+<script>
+/* 3.2 — SOLO OU CLÍNICA. Quem chega pela página da Clínica já cai na Clínica;
+   quem chega pelo Solo, no Solo. Trocar é um clique — e, se a escolha for
+   diferente de onde a pessoa veio, um aviso explica a diferença. */
+(function(){
+  var f = document.getElementById('forma'); if(!f) return;
+  var q = location.search, origem = null;
+  try{
+    if(/[?&](clinica=1|c=)/.test(q)) origem = 'clinica';
+    else if(/[?&]solo=1/.test(q)) origem = 'solo';
+    else origem = sessionStorage.getItem('produto') || null;
+  }catch(e){}
+  var bloco = document.getElementById('blocoClinica');
+  f.insertBefore(bloco, f.firstChild);
+  var campoDoc = f.documento.closest('.campo');
+  var campoTel = f.telefone.closest('.campo');
+  var campoTest = document.getElementById('campoTestador');
+  var vem = document.getElementById('vemClinica');
+  var rot = document.querySelector('#passo-forma .rot'), h1 = document.querySelector('#passo-forma h1'), sub = document.querySelector('#passo-forma .sub');
+  var lblNome = f.querySelector('label[for="nome"]'), lblTel = f.querySelector('label[for="telefone"]');
+  var aviso = document.getElementById('avisoTroca'), avisoTxt = document.getElementById('avisoTrocaTxt'), avisoBt = document.getElementById('avisoTrocaBt');
+  var enviar = document.getElementById('enviar');
+  function aplicar(tipo){
+    var cli = tipo === 'clinica';
+    window.VEM_CLINICA = cli;
+    document.querySelectorAll('.escolha-tipo button').forEach(function(b){ b.setAttribute('aria-checked', String(b.getAttribute('data-tipo') === tipo)); });
+    if(window.mcaPintarClinica) window.mcaPintarClinica(cli);
+    bloco.hidden = !cli; campoDoc.hidden = cli; if(campoTest) campoTest.hidden = !cli; if(vem) vem.hidden = !cli;
+    rot.textContent = cli ? 'Clínica · 30 dias · sem cartão' : '14 dias · sem cartão';
+    h1.textContent = cli ? 'Cadastrar a clínica' : 'Criar conta';
+    sub.textContent = cli ? '30 dias com a Clínica inteira, para toda a equipe. Não pedimos cartão.' : '14 dias com o sistema inteiro. Não pedimos cartão.';
+    lblNome.textContent = cli ? 'Seu nome completo' : 'Nome completo';
+    lblTel.innerHTML = cli ? 'Seu celular' : 'Celular <span style="color:var(--tinta-3);font-weight:400">(opcional)</span>';
+    enviar.textContent = cli ? 'Cadastrar a clínica e testar 30 dias' : 'Criar minha conta';
+    enviar.classList.toggle('azul', cli); enviar.classList.toggle('pri', !cli);
+    if(origem && origem !== tipo){
+      aviso.hidden = false;
+      if(cli){ avisoTxt.textContent = 'Você veio pela página do Solo. A Clínica é para 2 a 8 dentistas, com um acesso para cada pessoa da equipe.'; avisoBt.textContent = 'Atendo sozinho — voltar para o Solo'; avisoBt.onclick = function(){ aplicar('solo'); }; }
+      else { avisoTxt.textContent = 'Você veio pela página da Clínica. O Solo é um acesso só, para quem atende sozinho.'; avisoBt.textContent = 'Tenho equipe — voltar para a Clínica'; avisoBt.onclick = function(){ aplicar('clinica'); }; }
+    } else aviso.hidden = true;
+  }
+  document.querySelectorAll('.escolha-tipo button').forEach(function(b){ b.addEventListener('click', function(){ aplicar(b.getAttribute('data-tipo')); }); });
+  /* máscaras */
+  ['ccCnpj','ccRtCpf'].forEach(function(id){ var i = document.getElementById(id); i.addEventListener('input', function(){ i.value = MCA.mascaraDocumento(i.value); }); });
+  ['ccTel','ccWhats'].forEach(function(id){ var i = document.getElementById(id); i.addEventListener('input', function(){ i.value = MCA.mascaraTelefone(i.value); }); });
+  var cep = document.getElementById('ccCep'); cep.addEventListener('input', function(){ var d = cep.value.replace(/\D/g,'').slice(0,8); cep.value = d.length > 5 ? d.slice(0,5) + '-' + d.slice(5) : d; });
+  document.getElementById('ccMesmo').addEventListener('change', function(e){ if(e.target.checked){ f.nome.value = document.getElementById('ccRtNome').value; } });
+  window.mcaValidarClinica = function(){
+    var v = function(id){ return document.getElementById(id).value.trim(); }, dg = function(id){ return v(id).replace(/\D/g,''); };
+    if(v('ccRazao').length < 3) return ['ccRazao', 'Escreva a razão social da clínica.'];
+    if(v('ccFantasia').length < 2) return ['ccFantasia', 'Escreva o nome fantasia da clínica.'];
+    if(dg('ccCnpj').length !== 14 || !MCA.documentoValido(dg('ccCnpj'))) return ['ccCnpj', 'Confira o CNPJ da clínica.'];
+    if(dg('ccTel').length < 10) return ['ccTel', 'Confira o telefone da clínica.'];
+    if(!(parseInt(v('ccCadeiras'),10) > 0)) return ['ccCadeiras', 'Diga quantos consultórios (cadeiras) a clínica tem.'];
+    if(!(parseInt(v('ccDentistas'),10) > 0)) return ['ccDentistas', 'Diga quantos dentistas atendem na clínica.'];
+    if(dg('ccCep').length !== 8) return ['ccCep', 'Confira o CEP — são 8 números.'];
+    if(!v('ccUf')) return ['ccUf', 'Escolha o estado (UF).'];
+    if(!v('ccRua') || !v('ccNum') || !v('ccBairro') || !v('ccCidade')) return ['ccRua', 'Complete o endereço da clínica.'];
+    if(v('ccRtNome').split(' ').filter(Boolean).length < 2) return ['ccRtNome', 'Escreva o nome completo do responsável técnico.'];
+    if(dg('ccRtCpf').length !== 11 || !MCA.documentoValido(dg('ccRtCpf'))) return ['ccRtCpf', 'Confira o CPF do responsável técnico.'];
+    if(dg('ccRtCro').length < 3) return ['ccRtCro', 'Escreva o número do CRO.'];
+    if(!v('ccRtUf')) return ['ccRtUf', 'Escolha a UF do CRO.'];
+    if(f.telefone.value.replace(/\D/g,'').length < 10) return ['telefone', 'Escreva o seu celular.'];
+    return null;
+  };
+  window.mcaColetarClinica = function(){
+    var v = function(id){ return document.getElementById(id).value.trim(); };
+    return { razaoSocial: v('ccRazao'), nomeFantasia: v('ccFantasia'), inscricaoMunicipal: v('ccIm'), cnes: v('ccCnes'),
+      alvara: v('ccAlvara'), croPJ: v('ccCroPj'), telefone: v('ccTel'), whatsapp: v('ccWhats'), emailClinica: v('ccEmailCli'),
+      consultorios: v('ccCadeiras'), dentistas: v('ccDentistas'), especialidades: v('ccEsp'),
+      endereco: { cep: v('ccCep'), logradouro: v('ccRua'), numero: v('ccNum'), complemento: v('ccCompl'), bairro: v('ccBairro'), cidade: v('ccCidade'), uf: v('ccUf') },
+      rt: { nome: v('ccRtNome'), nomeSocial: v('ccRtSocial'), cpf: v('ccRtCpf'), cro: v('ccRtCro'), croUf: v('ccRtUf'), especialidade: v('ccRtEsp') } };
+  };
+  aplicar(origem === 'clinica' ? 'clinica' : 'solo');
 })();
 </script>
 </body>

@@ -1068,6 +1068,43 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
 <style>:root{--azul:#1E4E9C; --azul-claro:#2C63BE; --azul-suave:#E2EAF7; --azul-fundo:#0B2149; --azul-fundo-2:#10306A; --sobre-azul:#DCE6F7}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6} }
 :root[data-theme="dark"]{--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6}</style>
+<style>
+
+/* 3.2 — a faixa escura deixa o fundo passar mais e some mais devagar */
+.faixa.escuro::before{--esfuma:clamp(56px,8vw,130px);
+  background:linear-gradient(170deg,
+    color-mix(in srgb, var(--verde-fundo-2) 80%, transparent),
+    color-mix(in srgb, var(--verde-fundo) 82%, transparent))}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .faixa.escuro::before, :root:not([data-theme="light"]) .faixa.duda-palco::before{--esfuma:clamp(90px,13vw,220px)} }
+:root[data-theme="dark"] .faixa.escuro::before, :root[data-theme="dark"] .faixa.duda-palco::before{--esfuma:clamp(90px,13vw,220px)}
+/* as faixas claras também chegam e saem esfumadas: nada de linha dura */
+.faixa.banda{background:linear-gradient(180deg, transparent 0,
+  color-mix(in srgb, var(--folha-2) 92%, transparent) clamp(70px,9vw,150px),
+  color-mix(in srgb, var(--folha-2) 92%, transparent) calc(100% - clamp(70px,9vw,150px)), transparent 100%)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .faixa.escuro::before{
+  background:linear-gradient(170deg,
+    color-mix(in srgb, var(--verde-fundo-2) 58%, transparent),
+    color-mix(in srgb, var(--verde-fundo) 62%, transparent))} }
+:root[data-theme="dark"] .faixa.escuro::before{
+  background:linear-gradient(170deg,
+    color-mix(in srgb, var(--verde-fundo-2) 58%, transparent),
+    color-mix(in srgb, var(--verde-fundo) 62%, transparent))}
+/* a última faixa da página vai inteira até o rodapé: sem esfumar embaixo,
+   e cheia o bastante para o véu azul do fundo não aparecer no canto */
+main > section.faixa.escuro:last-of-type::before{
+  background:linear-gradient(180deg,
+    color-mix(in srgb, var(--verde-fundo-2) 88%, transparent),
+    color-mix(in srgb, var(--verde-fundo) 97%, transparent) 70%, var(--verde-fundo) 100%);
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0, rgba(0,0,0,.55) calc(var(--esfuma) * .45), #000 var(--esfuma));
+          mask-image:linear-gradient(to bottom, transparent 0, rgba(0,0,0,.55) calc(var(--esfuma) * .45), #000 var(--esfuma))}
+
+</style>
+<style>
+
+/* 3.2 — o mesmo céu da página inicial: verde de um lado, azul do outro */
+.campo .v2, .ceu .v2{background:radial-gradient(circle closest-side, var(--azul) 0%, color-mix(in srgb, var(--azul) 62%, transparent) 26%, color-mix(in srgb, var(--azul) 26%, transparent) 55%, color-mix(in srgb, var(--azul) 8%, transparent) 78%, transparent 100%)}
+
+</style>
 </head>
 <body>
 

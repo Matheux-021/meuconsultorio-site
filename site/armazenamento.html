@@ -1091,6 +1091,61 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
 .calc-trilho span.cli.ativo{border-color:var(--azul); background:color-mix(in srgb, var(--azul) 13%, transparent); color:var(--tinta)}
 .pagina-arm .faixa.escuro.fecho-misto{background:linear-gradient(115deg, var(--verde-fundo) 0%, color-mix(in srgb, var(--verde-fundo) 50%, var(--azul-fundo)) 50%, var(--azul-fundo) 100%)}
 </style>
+<style>
+
+/* 3.2 — a faixa escura deixa o fundo passar mais e some mais devagar */
+.faixa.escuro::before{--esfuma:clamp(56px,8vw,130px);
+  background:linear-gradient(170deg,
+    color-mix(in srgb, var(--verde-fundo-2) 80%, transparent),
+    color-mix(in srgb, var(--verde-fundo) 82%, transparent))}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .faixa.escuro::before, :root:not([data-theme="light"]) .faixa.duda-palco::before{--esfuma:clamp(90px,13vw,220px)} }
+:root[data-theme="dark"] .faixa.escuro::before, :root[data-theme="dark"] .faixa.duda-palco::before{--esfuma:clamp(90px,13vw,220px)}
+/* as faixas claras também chegam e saem esfumadas: nada de linha dura */
+.faixa.banda{background:linear-gradient(180deg, transparent 0,
+  color-mix(in srgb, var(--folha-2) 92%, transparent) clamp(70px,9vw,150px),
+  color-mix(in srgb, var(--folha-2) 92%, transparent) calc(100% - clamp(70px,9vw,150px)), transparent 100%)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .faixa.escuro::before{
+  background:linear-gradient(170deg,
+    color-mix(in srgb, var(--verde-fundo-2) 58%, transparent),
+    color-mix(in srgb, var(--verde-fundo) 62%, transparent))} }
+:root[data-theme="dark"] .faixa.escuro::before{
+  background:linear-gradient(170deg,
+    color-mix(in srgb, var(--verde-fundo-2) 58%, transparent),
+    color-mix(in srgb, var(--verde-fundo) 62%, transparent))}
+/* a última faixa da página vai inteira até o rodapé: sem esfumar embaixo,
+   e cheia o bastante para o véu azul do fundo não aparecer no canto */
+main > section.faixa.escuro:last-of-type::before{
+  background:linear-gradient(180deg,
+    color-mix(in srgb, var(--verde-fundo-2) 88%, transparent),
+    color-mix(in srgb, var(--verde-fundo) 97%, transparent) 70%, var(--verde-fundo) 100%);
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0, rgba(0,0,0,.55) calc(var(--esfuma) * .45), #000 var(--esfuma));
+          mask-image:linear-gradient(to bottom, transparent 0, rgba(0,0,0,.55) calc(var(--esfuma) * .45), #000 var(--esfuma))}
+
+</style>
+<style>
+
+/* 3.2 — o mesmo céu da página inicial: verde de um lado, azul do outro */
+.campo .v2, .ceu .v2{background:radial-gradient(circle closest-side, var(--azul) 0%, color-mix(in srgb, var(--azul) 62%, transparent) 26%, color-mix(in srgb, var(--azul) 26%, transparent) 55%, color-mix(in srgb, var(--azul) 8%, transparent) 78%, transparent 100%)}
+
+</style>
+<style>
+
+/* 3.2 — a página da calculadora inteira em verde e azul */
+body.pagina-arm{background:
+  radial-gradient(1100px 760px at 0% 0%, color-mix(in srgb, var(--verde) 16%, transparent), transparent 70%),
+  radial-gradient(1100px 860px at 100% 38%, color-mix(in srgb, var(--azul) 18%, transparent), transparent 70%),
+  radial-gradient(900px 700px at 15% 100%, color-mix(in srgb, var(--azul) 12%, transparent), transparent 72%),
+  radial-gradient(800px 600px at 85% 100%, color-mix(in srgb, var(--verde) 10%, transparent), transparent 72%),
+  var(--papel); background-attachment:fixed}
+.pagina-arm .faixa.banda{background:color-mix(in srgb, var(--folha-2) 46%, transparent)}
+.pagina-arm .campo .v1{opacity:.42} .pagina-arm .campo .v2{opacity:.4}
+.pagina-arm .faixa.escuro.fecho-misto{background:none}
+.pagina-arm main > section.faixa.escuro.fecho-misto::before{background:linear-gradient(115deg,
+  color-mix(in srgb, #06322B 92%, transparent) 0%, color-mix(in srgb, color-mix(in srgb, #06322B 50%, #0B2149) 94%, transparent) 50%,
+  color-mix(in srgb, #0B2149 96%, transparent) 100%)}
+.pagina-arm .calc-form{border-top:3px solid transparent; background:linear-gradient(var(--folha), var(--folha)) padding-box, linear-gradient(90deg, var(--verde), var(--azul)) border-box}
+
+</style>
 </head>
 <body class="pagina-arm">
 
@@ -1511,6 +1566,18 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
     document.documentElement.classList.toggle('rolou', !es[0].isIntersecting);
   }).observe(s);
 })();
+</script>
+<script>
+/* 3.2 — veio da calculadora curta: os números chegam preenchidos */
+(function(){ try{
+  var q = new URLSearchParams(location.search), F = document.getElementById('calcForm'); if(!F) return;
+  var mudou = false;
+  if(q.get('p')){ document.getElementById('cPacientes').value = Math.max(0, parseInt(q.get('p'),10) || 0); mudou = true; }
+  if(q.get('d')){ document.getElementById('cDentistas').value = Math.max(1, parseInt(q.get('d'),10) || 1); mudou = true; }
+  if(q.get('a')){ var s = document.getElementById('cAnos'); if([].some.call(s.options, function(o){ return o.value === q.get('a'); })){ s.value = q.get('a'); mudou = true; } }
+  if(q.get('f')){ var r = F.querySelector('input[name="fotos"][value="' + q.get('f') + '"]'); if(r){ r.checked = true; mudou = true; } }
+  if(mudou){ F.dispatchEvent(new Event('input', { bubbles: true })); }
+}catch(e){} })();
 </script>
 </body>
 </html>

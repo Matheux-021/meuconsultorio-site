@@ -1206,6 +1206,159 @@ body.pagina-clinica{--papel:#F2F4F8; --folha-2:#E9EDF4; --linha:#D6DDE8; --linha
 .rola-x{overflow-x:auto}
 </style>
 
+<style>
+
+/* 3.2 — a faixa escura deixa o fundo passar mais e some mais devagar */
+.faixa.escuro::before{--esfuma:clamp(56px,8vw,130px);
+  background:linear-gradient(170deg,
+    color-mix(in srgb, var(--verde-fundo-2) 80%, transparent),
+    color-mix(in srgb, var(--verde-fundo) 82%, transparent))}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .faixa.escuro::before, :root:not([data-theme="light"]) .faixa.duda-palco::before{--esfuma:clamp(90px,13vw,220px)} }
+:root[data-theme="dark"] .faixa.escuro::before, :root[data-theme="dark"] .faixa.duda-palco::before{--esfuma:clamp(90px,13vw,220px)}
+/* as faixas claras também chegam e saem esfumadas: nada de linha dura */
+.faixa.banda{background:linear-gradient(180deg, transparent 0,
+  color-mix(in srgb, var(--folha-2) 92%, transparent) clamp(70px,9vw,150px),
+  color-mix(in srgb, var(--folha-2) 92%, transparent) calc(100% - clamp(70px,9vw,150px)), transparent 100%)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .faixa.escuro::before{
+  background:linear-gradient(170deg,
+    color-mix(in srgb, var(--verde-fundo-2) 58%, transparent),
+    color-mix(in srgb, var(--verde-fundo) 62%, transparent))} }
+:root[data-theme="dark"] .faixa.escuro::before{
+  background:linear-gradient(170deg,
+    color-mix(in srgb, var(--verde-fundo-2) 58%, transparent),
+    color-mix(in srgb, var(--verde-fundo) 62%, transparent))}
+/* a última faixa da página vai inteira até o rodapé: sem esfumar embaixo,
+   e cheia o bastante para o véu azul do fundo não aparecer no canto */
+main > section.faixa.escuro:last-of-type::before{
+  background:linear-gradient(180deg,
+    color-mix(in srgb, var(--verde-fundo-2) 88%, transparent),
+    color-mix(in srgb, var(--verde-fundo) 97%, transparent) 70%, var(--verde-fundo) 100%);
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0, rgba(0,0,0,.55) calc(var(--esfuma) * .45), #000 var(--esfuma));
+          mask-image:linear-gradient(to bottom, transparent 0, rgba(0,0,0,.55) calc(var(--esfuma) * .45), #000 var(--esfuma))}
+
+</style>
+<style>
+
+:root{--verde-solo:#0E6B5E}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--verde-solo:#4FBFA6} }
+:root[data-theme="dark"]{--verde-solo:#4FBFA6}
+.topo-links a.link-solo{color:var(--verde-solo)}
+.topo-links a.link-solo:hover{color:var(--verde-solo)}
+
+</style>
+<style>
+
+/* ===== 3.2 — o palco da Duda ===== */
+.faixa.duda-palco{position:relative; isolation:isolate; color:#E6F0EE; padding-top:clamp(90px,12vw,170px); padding-bottom:clamp(90px,12vw,170px)}
+.faixa.duda-palco::before{content:""; position:absolute; inset:0; z-index:-1; pointer-events:none; --esfuma:clamp(56px,8vw,130px);
+  background:
+    radial-gradient(55% 60% at 12% 28%, rgba(79,191,166,.30), transparent 70%),
+    radial-gradient(50% 60% at 90% 62%, rgba(108,155,230,.32), transparent 70%),
+    radial-gradient(30% 35% at 60% 8%, rgba(231,188,123,.14), transparent 70%),
+    linear-gradient(160deg, rgba(5,36,31,.94), rgba(8,20,44,.95));
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0, rgba(0,0,0,.55) calc(var(--esfuma) * .45), #000 var(--esfuma), #000 calc(100% - var(--esfuma)), rgba(0,0,0,.55) calc(100% - var(--esfuma) * .45), transparent 100%);
+          mask-image:linear-gradient(to bottom, transparent 0, rgba(0,0,0,.55) calc(var(--esfuma) * .45), #000 var(--esfuma), #000 calc(100% - var(--esfuma)), rgba(0,0,0,.55) calc(100% - var(--esfuma) * .45), transparent 100%)}
+.duda-palco .olho{color:#9FE3D2}
+.duda-palco .olho::after{background:linear-gradient(90deg, rgba(143,217,200,.5), rgba(159,189,240,.5))}
+.duda-palco h2{color:#fff; font-size:clamp(34px,5.2vw,60px); line-height:1.02; max-width:16ch; margin:10px 0 0}
+.duda-palco h2 em{font-style:italic; font-weight:500; background:linear-gradient(90deg,#8FD9C8,#9FBDF0 70%); -webkit-background-clip:text; background-clip:text; color:transparent; padding-right:.06em}
+.duda-palco .subtitulo{color:rgba(230,240,238,.84); max-width:36rem; margin:18px 0 0}
+.duda-topo{display:grid; grid-template-columns:auto minmax(0,1fr); gap:clamp(22px,4vw,48px); align-items:center}
+@media (max-width:700px){ .duda-topo{grid-template-columns:minmax(0,1fr)} }
+.duda-selo{display:inline-flex; align-items:center; gap:8px; margin-top:18px; font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:11.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:#F3D7AA; border:1px solid rgba(231,188,123,.45); background:rgba(231,188,123,.1); padding:7px 12px; border-radius:99px}
+
+/* o orbe: três luzes girando devagar em volta de um núcleo — a "presença" dela */
+.duda-orbe{position:relative; width:clamp(120px,15vw,176px); aspect-ratio:1; border-radius:50%; flex:none}
+.duda-orbe i{position:absolute; inset:0; border-radius:50%; mix-blend-mode:screen; animation:dudaGira 14s linear infinite}
+.duda-orbe i:nth-child(1){background:radial-gradient(circle at 30% 35%, rgba(79,191,166,.95), rgba(79,191,166,0) 58%)}
+.duda-orbe i:nth-child(2){background:radial-gradient(circle at 70% 40%, rgba(108,155,230,.95), rgba(108,155,230,0) 58%); animation-duration:19s; animation-direction:reverse}
+.duda-orbe i:nth-child(3){background:radial-gradient(circle at 50% 75%, rgba(231,188,123,.6), rgba(231,188,123,0) 55%); animation-duration:23s}
+.duda-orbe .duda-nucleo{position:absolute; inset:24%; border-radius:50%; background:radial-gradient(circle at 40% 35%, #fff, rgba(220,240,236,.75) 40%, rgba(160,200,230,.15) 75%, transparent);
+  box-shadow:0 0 60px 12px rgba(143,217,200,.25), 0 0 90px 30px rgba(108,155,230,.18); animation:dudaRespira 4.5s ease-in-out infinite}
+.duda-orbe::after{content:""; position:absolute; inset:-14%; border-radius:50%; border:1px solid rgba(255,255,255,.12); animation:dudaRespira 4.5s ease-in-out infinite reverse}
+@keyframes dudaGira{to{transform:rotate(360deg)}}
+@keyframes dudaRespira{0%,100%{transform:scale(.94); opacity:.85} 50%{transform:scale(1.04); opacity:1}}
+
+.duda-grade{display:grid; grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr); gap:clamp(20px,3.4vw,40px); margin-top:clamp(36px,5vw,60px); align-items:start}
+@media (max-width:900px){ .duda-grade{grid-template-columns:minmax(0,1fr)} }
+
+/* a conversa */
+.duda-chat{border-radius:20px; background:rgba(255,255,255,.055); border:1px solid rgba(255,255,255,.13); box-shadow:0 40px 90px -40px rgba(0,0,0,.8); overflow:hidden}
+.duda-chat-topo{display:flex; align-items:center; gap:12px; padding:14px 18px; border-bottom:1px solid rgba(255,255,255,.1)}
+.duda-chat-topo .mini-orbe{width:30px; height:30px; border-radius:50%; background:conic-gradient(from 120deg, #4FBFA6, #7FA6E6, #E7BC7B, #4FBFA6); animation:dudaGira 8s linear infinite; box-shadow:0 0 18px rgba(127,166,230,.45)}
+.duda-chat-topo b{display:block; color:#fff; font-size:15px}
+.duda-chat-topo small{display:flex; align-items:center; gap:6px; font-size:12px; color:rgba(230,240,238,.7)}
+.duda-chat-topo small::before{content:""; width:7px; height:7px; border-radius:50%; background:#4FBFA6; box-shadow:0 0 8px #4FBFA6}
+.duda-abas{display:flex; gap:6px; flex-wrap:wrap; padding:12px 18px 0}
+.duda-abas button{font:inherit; font-size:12.5px; font-weight:600; color:rgba(230,240,238,.75); background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:99px; padding:6px 12px; cursor:pointer}
+.duda-abas button[aria-selected="true"]{color:#06221D; background:linear-gradient(90deg,#8FD9C8,#9FBDF0); border-color:transparent}
+.duda-abas button:focus-visible{outline:2px solid #9FBDF0; outline-offset:2px}
+.duda-msgs{display:flex; flex-direction:column; gap:12px; padding:18px; min-height:330px}
+.duda-msg{max-width:88%; padding:12px 15px; border-radius:16px; font-size:15px; line-height:1.55; opacity:0; transform:translateY(8px); transition:opacity .45s ease, transform .45s ease}
+.duda-msg.vis{opacity:1; transform:none}
+.duda-msg.voce{align-self:flex-end; background:rgba(255,255,255,.12); color:#fff; border-bottom-right-radius:5px; font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:13.5px}
+.duda-msg.ela{align-self:flex-start; background:linear-gradient(135deg, rgba(79,191,166,.2), rgba(108,155,230,.2)); border:1px solid rgba(159,189,240,.25); color:#EEF5F3; border-bottom-left-radius:5px}
+.duda-msg .tarja{display:inline-block; margin-top:9px; font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:11px; letter-spacing:.06em; color:#F3D7AA; background:rgba(231,188,123,.12); border:1px solid rgba(231,188,123,.35); border-radius:99px; padding:3px 9px}
+.duda-msg .pac{background:rgba(231,188,123,.22); color:#F6DDB5; border-radius:5px; padding:0 5px}
+.duda-pontos{align-self:flex-start; display:none; gap:5px; padding:12px 15px; border-radius:16px; background:rgba(255,255,255,.07)}
+.duda-pontos.vis{display:flex}
+.duda-pontos i{width:7px; height:7px; border-radius:50%; background:#9FBDF0; animation:dudaPonto 1.1s ease-in-out infinite}
+.duda-pontos i:nth-child(2){animation-delay:.15s; background:#8FD9C8} .duda-pontos i:nth-child(3){animation-delay:.3s}
+@keyframes dudaPonto{0%,100%{opacity:.3; transform:translateY(0)} 50%{opacity:1; transform:translateY(-3px)}}
+
+/* os poderes dela */
+.duda-poderes{display:grid; grid-template-columns:minmax(0,1fr); gap:12px}
+.duda-poder{display:grid; grid-template-columns:auto minmax(0,1fr); gap:14px; align-items:start; padding:16px 18px; border-radius:16px;
+  background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.1)}
+.duda-poder .ico{width:38px; height:38px; border-radius:11px; display:grid; place-items:center; color:#06221D; background:linear-gradient(135deg,#8FD9C8,#9FBDF0)}
+.duda-poder h3{margin:0 0 4px; color:#fff; font-size:17px; font-family:Newsreader, Georgia, serif; font-weight:600}
+.duda-poder p{margin:0; font-size:14.5px; line-height:1.55; color:rgba(230,240,238,.8)}
+.duda-palco .miuda{margin:clamp(26px,4vw,40px) 0 0; max-width:62rem; font-size:13.5px; line-height:1.6; color:rgba(230,240,238,.62)}
+@media (prefers-reduced-motion: reduce){ .duda-orbe i, .duda-orbe .duda-nucleo, .duda-orbe::after, .duda-chat-topo .mini-orbe, .duda-pontos i{animation:none} .duda-msg{transition:none} }
+
+/* o selo da Duda no menu */
+.topo-links a.link-duda{background:linear-gradient(90deg, var(--verde), var(--azul)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:600}
+
+.duda-curta{display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:clamp(18px,3vw,34px); align-items:center}
+.duda-curta .duda-orbe{width:96px}
+.duda-curta h2{font-size:clamp(28px,3.6vw,40px); max-width:none}
+.duda-curta .subtitulo{margin-top:10px}
+@media (max-width:760px){ .duda-curta{grid-template-columns:minmax(0,1fr)} }
+
+</style>
+<style>
+
+/* ===== 3.2 — a calculadora curta ===== */
+.mini-calc{display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:clamp(22px,4vw,54px); align-items:center}
+@media (max-width:900px){ .mini-calc{grid-template-columns:minmax(0,1fr)} }
+.mc-cartao{position:relative; border-radius:18px; padding:22px; box-shadow:var(--sombra); border:1.5px solid transparent;
+  background:linear-gradient(var(--folha), var(--folha)) padding-box, linear-gradient(120deg, var(--verde-solo, #0E6B5E), var(--azul)) border-box}
+.mc-form{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:12px 14px}
+.mc-form label{display:block; font-size:13.5px; font-weight:600; color:var(--tinta); margin-bottom:6px}
+.mc-form input, .mc-form select{width:100%; padding:10px 12px; font:inherit; font-size:15px; color:var(--tinta); background:var(--papel); border:1px solid var(--linha-forte); border-radius:10px}
+.mc-form input:focus, .mc-form select:focus{outline:none; border-color:var(--azul); box-shadow:0 0 0 3px var(--azul-suave)}
+.mc-form .inteiro{grid-column:1/-1}
+.mc-chips{display:flex; flex-wrap:wrap; gap:6px}
+.mc-chips label{margin:0; font-weight:500; font-size:13.5px; cursor:pointer}
+.mc-chips input{position:absolute; opacity:0; pointer-events:none}
+.mc-chips span{display:inline-block; padding:7px 12px; border-radius:99px; border:1px solid var(--linha-forte); color:var(--tinta-2); background:var(--folha)}
+.mc-chips input:checked + span{border-color:var(--azul); color:var(--tinta); background:color-mix(in srgb, var(--azul) 12%, var(--folha)); font-weight:600}
+.mc-chips input:focus-visible + span{outline:2px solid var(--azul); outline-offset:2px}
+.mc-res{margin-top:18px; padding-top:16px; border-top:1px solid var(--linha); display:grid; grid-template-columns:auto minmax(0,1fr); gap:6px 18px; align-items:end}
+.mc-total{font-family:Newsreader, Georgia, serif; font-size:clamp(40px,5vw,54px); font-weight:600; line-height:1; color:var(--tinta); font-variant-numeric:tabular-nums}
+.mc-rot{font-size:13px; color:var(--tinta-3)}
+.mc-ssd{justify-self:end; text-align:right}
+.mc-ssd b{display:block; font-size:18px; background:linear-gradient(90deg, var(--verde-solo, #0E6B5E), var(--azul)); -webkit-background-clip:text; background-clip:text; color:transparent}
+.mc-barra{grid-column:1/-1; height:8px; border-radius:99px; background:var(--folha-2); overflow:hidden; display:flex; margin-top:8px}
+.mc-barra span{display:block; height:100%}
+.mc-ir{display:inline-flex; align-items:center; gap:6px; margin-top:16px; font-weight:600}
+@media (max-width:480px){ .mc-form{grid-template-columns:minmax(0,1fr)} .mc-res{grid-template-columns:minmax(0,1fr)} .mc-ssd{justify-self:start; text-align:left} }
+
+:root{--verde-solo:#0E6B5E}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--verde-solo:#4FBFA6} }
+:root[data-theme="dark"]{--verde-solo:#4FBFA6}
+</style>
 </head>
 <body class="pagina-clinica">
 
@@ -1224,7 +1377,7 @@ body.pagina-clinica{--papel:#F2F4F8; --folha-2:#E9EDF4; --linha:#D6DDE8; --linha
       <span class="marca-nome"><b>Meu Consultório</b><small>App<span class="bar">|</span><span class="cli">Clínica</span></small></span>
     </a>
     <nav class="topo-links" aria-label="Páginas do site">
-      <a href="/">Solo</a>
+      <a href="/" class="link-solo">Solo</a>
       <a href="#papeis">Quem vê o quê</a>
       <a href="/seguranca">Segurança</a>
       <a href="#planos">Planos</a>
@@ -1239,7 +1392,7 @@ body.pagina-clinica{--papel:#F2F4F8; --folha-2:#E9EDF4; --linha:#D6DDE8; --linha
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5z"/></svg>
         </button>
       </span>
-      <a class="entrar" href="/entrar">Entrar</a>
+      <a class="entrar" href="/entrar?clinica=1">Entrar</a>
       <a class="btn pri" href="/criar-conta?clinica=1"><span class="longo">Testar 30 dias</span><span class="curto">Testar</span></a>
     </div>
   </div>
@@ -1327,6 +1480,37 @@ body.pagina-clinica{--papel:#F2F4F8; --folha-2:#E9EDF4; --linha:#D6DDE8; --linha
     </div>
   </section>
 
+  <section class="faixa" id="espaco">
+    <div class="centro mini-calc">
+      <div>
+        <p class="olho">O servidor da clínica</p>
+        <h2>Quanto espaço o servidor vai precisar?</h2>
+        <div class="prosa"><p>Fichas cifradas são pequenas; quem ocupa espaço são as fotos e as radiografias. Mude os números e veja
+          na hora — o que conta para o servidor da recepção.</p></div>
+        <a class="mc-ir" href="/armazenamento" id="mcLinkTexto">Abrir a calculadora completa →</a>
+      </div>
+      <div class="mc-cartao aparece">
+        <form class="mc-form" id="mcForm" onsubmit="return false" aria-label="Calculadora rápida de espaço">
+          <div><label for="mcPac">Pacientes no cadastro</label><input id="mcPac" type="number" min="0" max="100000" step="50" value="3000" inputmode="numeric" /></div>
+          <div><label for="mcAnos">Pensar em</label><select id="mcAnos"><option value="1">1 ano</option><option value="3">3 anos</option><option value="5" selected>5 anos</option><option value="10">10 anos</option></select></div>
+          <div class="inteiro"><label>Fotos clínicas</label>
+            <div class="mc-chips" role="radiogroup" aria-label="Fotos clínicas">
+              <label><input type="radio" name="mcFotos" value="0" /><span>Não tiro</span></label>
+              <label><input type="radio" name="mcFotos" value="1" checked /><span>Algumas</span></label>
+              <label><input type="radio" name="mcFotos" value="4" /><span>Documento casos</span></label>
+              <label><input type="radio" name="mcFotos" value="10" /><span>Orto / estética</span></label>
+            </div></div>
+        </form>
+        <div class="mc-res" aria-live="polite">
+          <div><div class="mc-rot">O sistema vai ocupar</div><div class="mc-total" id="mcTotal">—</div></div>
+          <div class="mc-ssd"><span class="mc-rot">Disco recomendado</span><b id="mcSsd">—</b></div>
+          <div class="mc-barra" id="mcBarra" aria-hidden="true"></div>
+        </div>
+        <a class="btn sec mc-ir" href="/armazenamento" id="mcLink">Ver a conta completa, com backup e crescimento por ano →</a>
+      </div>
+    </div>
+  </section>
+
   <section class="faixa banda" id="papeis">
     <div class="centro">
       <p class="olho">Quem vê o quê</p>
@@ -1361,6 +1545,19 @@ body.pagina-clinica{--papel:#F2F4F8; --folha-2:#E9EDF4; --linha:#D6DDE8; --linha
         </div>
         <figure class="tela aparece" style="margin:0"><div class="tela-topo" aria-hidden="true"><i></i><i></i><i></i><span>Equipe</span></div><img loading="lazy" src="img/cli-equipe.webp" width="1400" height="875" alt="Tela da equipe com os papéis de cada pessoa e o servidor da clínica." /></figure>
       </div>
+    </div>
+  </section>
+
+  <section class="faixa duda-palco" style="padding-top:clamp(80px,10vw,140px);padding-bottom:clamp(80px,10vw,140px)">
+    <div class="centro duda-curta">
+      <div class="duda-orbe" aria-hidden="true"><i></i><i></i><i></i><span class="duda-nucleo"></span></div>
+      <div>
+        <p class="olho">A Duda vem junto</p>
+        <h2>A assistente de IA também está na Clínica.</h2>
+        <p class="subtitulo">Evolução escrita a partir da anotação rápida, mensagem pronta para o paciente, a resposta sobre qualquer tela
+          do programa — e o nome do paciente sempre fica no computador da clínica.</p>
+      </div>
+      <a class="btn claro" href="/#duda">Conhecer a Duda</a>
     </div>
   </section>
 
@@ -1682,7 +1879,7 @@ body.pagina-clinica{--papel:#F2F4F8; --folha-2:#E9EDF4; --linha:#D6DDE8; --linha
     <a href="/armazenamento">Quanto espaço preciso</a>
     <a href="/#planos">Planos</a>
     <a href="/baixar">Baixar o sistema</a>
-    <a href="/entrar">Entrar</a>
+    <a href="/entrar?clinica=1">Entrar</a>
     <a href="/contrato.pdf" target="_blank" rel="noopener">Contrato de adesão</a>
   </nav>
 </footer>
@@ -1872,6 +2069,35 @@ body.pagina-clinica{--papel:#F2F4F8; --folha-2:#E9EDF4; --linha:#D6DDE8; --linha
       .then(function(x){ msg.className = 'msg ' + (x.ok ? 'ok' : 'erro'); msg.textContent = x.ok ? x.j.recado : (x.j.erro || 'Não consegui enviar.'); if(x.ok) f.reset(); })
       .catch(function(){ msg.className = 'msg erro'; msg.textContent = 'Sem conexão agora. Tente de novo, ou fale pelo WhatsApp.'; });
   });
+})();
+</script>
+<script>try{sessionStorage.setItem('produto','clinica')}catch(e){}</script>
+<script>
+/* 3.2 — a calculadora curta: as mesmas contas da completa (celular, exames
+   "normal"), e o link leva os números para lá */
+(function(){
+  var F = document.getElementById('mcForm'); if(!F) return;
+  var KB = 1/(1024*1024), MB = 1/1024;
+  function fmt(gb){ if(gb < 1) return Math.max(1, Math.round(gb*1024)) + ' MB'; if(gb < 10) return gb.toFixed(1).replace('.', ',') + ' GB'; if(gb < 1000) return Math.round(gb) + ' GB'; return (gb/1000).toFixed(1).replace('.', ',') + ' TB'; }
+  function tamanho(gb, l){ for(var i=0;i<l.length;i++) if(l[i] >= gb) return l[i]; return l[l.length-1]; }
+  function rot(gb){ return gb >= 1000 ? (gb/1000) + ' TB' : gb + ' GB'; }
+  function calc(){
+    var p = Math.max(0, Math.min(100000, parseInt(document.getElementById('mcPac').value, 10) || 0));
+    var a = parseInt(document.getElementById('mcAnos').value, 10) || 5;
+    var f = parseFloat((F.querySelector('input[name="mcFotos"]:checked') || {}).value || 1);
+    var fotos = p*a*f, exames = p*a*1.5;
+    var dados = p*(15 + 25*a)*KB, minis = (fotos*35 + exames*0.6*25)*KB;
+    var cofre = (dados + minis)*1.35, copias = cofre*40, originais = fotos*3.5*MB + exames*1.5*MB, programa = 0.5;
+    var total = programa + cofre + copias + originais, precisa = (total*1.5 + 60)/0.75;
+    document.getElementById('mcTotal').textContent = fmt(total);
+    document.getElementById('mcSsd').textContent = (precisa > 4000 ? 'Mais de ' : 'SSD de ') + rot(tamanho(precisa, [256,512,1000,2000,4000]));
+    var partes = [[originais,'var(--verde-solo, #0E6B5E)'],[copias,'var(--azul)'],[cofre,'var(--ambar)'],[programa,'var(--tinta-3)']], h = '';
+    partes.forEach(function(x){ var pc = total ? x[0]/total*100 : 0; if(pc > .4) h += '<span style="width:' + pc.toFixed(2) + '%;background:' + x[1] + '"></span>'; });
+    document.getElementById('mcBarra').innerHTML = h;
+    var q = '/armazenamento?p=' + p + '&a=' + a + '&f=' + f;
+    document.getElementById('mcLink').href = q; document.getElementById('mcLinkTexto').href = q;
+  }
+  F.addEventListener('input', calc); F.addEventListener('change', calc); calc();
 })();
 </script>
 </body>
