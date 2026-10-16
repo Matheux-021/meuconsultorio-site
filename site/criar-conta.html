@@ -1098,5 +1098,92 @@ var VEM_CLINICA = /(^|[?&])clinica=1/.test(location.search) || /(^|[?&])c=/.test
   aplicar(origem === 'clinica' ? 'clinica' : 'solo');
 })();
 </script>
+
+
+
+
+
+
+<style id="ajuste-telas">
+/* nada pode empurrar a página para o lado */
+html, body{max-width:100%}
+body{overflow-x:clip}
+img, video, svg, canvas, iframe{max-width:100%}
+/* bolinhas escondidas dos seletores (radio) não podem ter a largura do formulário */
+.mc-chips label{position:relative}
+.mc-chips input{width:1px; height:1px; margin:0; left:0; top:0}
+/* endereços e links compridos quebram em vez de vazar */
+.rodape a, .rodape p, .resp a, .resp p, .faq summary, td, dd{overflow-wrap:anywhere}
+/* filhos de grid e flex podem encolher */
+.rodape > *, .faq, .resp{min-width:0}
+pre, table{max-width:100%}
+.tabela-rolagem, pre{overflow-x:auto}
+
+/* topo, computador: marca, links e botões em três colunas que não se encostam */
+@media (min-width:1001px){
+  html:not(.rolou) body:has(.topo-links) .topo-in{grid-template-columns:auto minmax(0,1fr) auto; gap:24px}
+  body:has(.topo-links) .topo-links{min-width:0; justify-content:center}
+  body:has(.topo-links) .topo-links a{white-space:nowrap}
+}
+@media (min-width:1001px){
+  html:not(.rolou) body:has(.topo-links) .topo-in{gap:18px}
+  body:has(.topo-links) .topo-links{gap:16px}
+  body:has(.topo-links) .topo-links a{font-size:11px; letter-spacing:.1em}
+  html:not(.rolou) body:has(.topo-links) .marca-nome b{font-size:23px}
+  html:not(.rolou) body:has(.topo-links) .marca-selo, html:not(.rolou) body:has(.topo-links) .marca-selo img{width:46px; height:46px}
+  html.rolou body:has(.topo-links) .topo-in{gap:16px}
+}
+@media (min-width:1001px) and (max-width:1120px){
+  body:has(.topo-links) .topo-acoes .tema{display:none}
+  body:has(.topo-links) .topo-links{gap:13px}
+}
+/* topo, notebook pequeno, tablet e celular: links numa segunda linha, que desliza com o dedo */
+@media (max-width:1000px){
+  html:not(.rolou) body:has(.topo-links) .topo-in{grid-template-columns:minmax(0,1fr) auto}
+  html:not(.rolou) body:has(.topo-links) .topo-links{display:flex; grid-column:1 / -1; grid-row:2; justify-self:stretch;
+    flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden; min-width:0; max-width:100%; margin-top:-6px;
+    scrollbar-width:none; -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain; padding-bottom:2px}
+  body:has(.topo-links) .topo-links::-webkit-scrollbar{display:none}
+  body:has(.topo-links) .topo-links a{flex:none; white-space:nowrap}
+  body:has(.topo-links) .marca{min-width:0}
+}
+@media (min-width:901px) and (max-width:1000px){
+  html.rolou body:has(.topo-links) .marca-nome{display:none}
+  body:has(.topo-links) .abertura{padding-top:calc(clamp(44px,7vw,86px) + 112px) !important}
+}
+@media (max-width:480px){
+  html:not(.rolou) body:has(.topo-links) .topo-links{-webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);
+    mask-image:linear-gradient(90deg,#000 86%,transparent); padding-right:24px}
+  body:has(.topo-links) .abertura{padding-top:calc(clamp(44px,7vw,86px) + 72px) !important}
+}
+
+/* topo simples (entrar, perfil, planos, baixar…): o nome não passa por cima dos links */
+@media (max-width:600px){
+  body:not(:has(.topo-links)) .topo nav .tema{display:none}
+  body:not(:has(.topo-links)) .marca{flex:0 1 auto; min-width:0}
+  body:not(:has(.topo-links)) .marca-selo{flex:none}
+  body:not(:has(.topo-links)) .marca-nome{overflow:hidden; min-width:0}
+}
+@media (max-width:330px){
+  body:not(:has(.topo-links)) .marca span.marca-selo{display:grid}
+}
+@media (max-width:380px){
+  body:not(:has(.topo-links)) .marca-nome b{font-size:17px}
+  body:not(:has(.topo-links)) .topo nav{gap:10px; font-size:13px}
+}
+/* página da Duda: o topo fica sobre o palco escuro, então o texto do topo clareia */
+html:not(.rolou) body:has(#ddTitulo) .marca-nome b{color:#F2F7F5}
+html:not(.rolou) body:has(#ddTitulo) .marca-nome small{color:#9FE3D2}
+html:not(.rolou) body:has(#ddTitulo) .topo-links a{color:rgba(230,240,238,.80)}
+html:not(.rolou) body:has(#ddTitulo) .topo-links a[href="/clinica"]{color:#A9C4F2 !important}
+html:not(.rolou) body:has(#ddTitulo) .topo-links a.link-duda{background:linear-gradient(90deg,#8FD9C8,#9FBDF0);
+  -webkit-background-clip:text; background-clip:text; color:transparent}
+html:not(.rolou) body:has(#ddTitulo) .topo-acoes a.entrar{color:#F2F7F5; background:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.28)}
+html:not(.rolou) body:has(#ddTitulo) .tema{background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.2)}
+@media (max-width:700px){
+  .dd-palco-topo .duda-orbe{margin-left:12px}
+}
+</style>
 </body>
 </html>
