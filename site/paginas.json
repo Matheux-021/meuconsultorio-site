@@ -1,5 +1,5 @@
 {
- "versao": "4.0",
+ "versao": "4.1",
  "arquivos": [
   "404.html",
   "armazenamento.html",
@@ -9,6 +9,7 @@
   "contrato-1.1.pdf",
   "contrato-2.0.pdf",
   "contrato-2.1.pdf",
+  "contrato-3.0.pdf",
   "criar-conta.html",
   "duda.html",
   "duvidas.html",
@@ -17,6 +18,7 @@
   "img/ajustes.webp",
   "img/anamnese.webp",
   "img/arquivos.webp",
+  "img/assinaturas.webp",
   "img/atestado.webp",
   "img/atualizacao.webp",
   "img/caixa.webp",
@@ -63,11 +65,13 @@
   "img/laboratorio.webp",
   "img/odontograma.webp",
   "img/painel.webp",
+  "img/papeis41.webp",
   "img/receita-pdf.webp",
   "img/receituario.webp",
   "img/registro.webp",
   "img/retorno.webp",
   "img/tratamentos.webp",
+  "img/treinamento.webp",
   "index.html",
   "nova-senha.html",
   "novidades.html",
@@ -76,6 +80,7 @@
   "recursos.html",
   "robots.txt",
   "seguranca.html",
-  "sitemap.xml"
+  "sitemap.xml",
+  "treinamento.html"
  ]
 }

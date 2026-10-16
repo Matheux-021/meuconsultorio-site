@@ -1130,6 +1130,7 @@ main > section.faixa.escuro:last-of-type::before{
       <a href="/clinica" style="color:var(--azul)">Clínica</a>
       <a href="/duda" class="link-duda">Duda</a>
       <a href="/recursos" aria-current="page">Recursos</a>
+      <a href="/treinamento">Treinamento</a>
       <a href="/seguranca">Segurança</a>
       <a href="/#planos">Planos</a>
       <a href="/duvidas">Dúvidas</a>
@@ -1157,7 +1158,7 @@ main > section.faixa.escuro:last-of-type::before{
       <p class="olho">Recursos</p>
       <h1>O sistema inteiro, tela por tela.</h1>
       <p class="subtitulo">Vinte funções, na ordem em que o dia do consultório acontece. Cada imagem é o programa
-        rodando no programa de verdade (da versão 2.10 à 4.0), com a paciente de exemplo — nenhuma é montagem.</p>
+        rodando no programa de verdade (da versão 2.10 à 4.1), com a paciente de exemplo — nenhuma é montagem. E cada função tem aula em vídeo no <a href="/treinamento">Treinamento</a>.</p>
       <ul class="atalhos">
         <li><a class="some" href="#agenda">Agenda</a></li>
         <li><a class="some" href="#pacientes">Pacientes</a></li>
@@ -1170,6 +1171,7 @@ main > section.faixa.escuro:last-of-type::before{
         <li><a class="some" href="#termos">Termos de esclarecimento</a></li>
         <li><a class="some" href="#documentos">Contrato e documentos <small>novo</small></a></li>
         <li><a class="some" href="#digital">Assinatura com a digital <small>novo</small></a></li>
+        <li><a class="some" href="#assinaturas">Cinco jeitos de assinar <small>novo</small></a></li>
         <li><a class="some" href="#fotos">Fotos clínicas</a></li>
         <li><a class="some" href="#arquivos">Arquivos</a></li>
         <li><a class="some" href="#tratamentos">Tratamentos</a></li>
@@ -1178,6 +1180,8 @@ main > section.faixa.escuro:last-of-type::before{
         <li><a class="some" href="#integracoes">Asaas, WhatsApp oficial e API <small>novo</small></a></li>
         <li><a class="some" href="#estoque">Estoque</a></li>
         <li><a class="some" href="#laboratorio">Laboratório</a></li>
+        <li><a class="some" href="#papeis">Clínica: papéis e plano protegido <small>novo</small></a></li>
+        <li><a class="some" href="#treinamento">Treinamento <small>novo</small></a></li>
         <li><a class="some" href="#retorno">Lista de retorno</a></li>
         <li><a class="some" href="#duda">Duda <small>novo</small></a></li>
         <li><a class="some" href="#registro">Registro e prova</a></li>
@@ -1433,7 +1437,30 @@ main > section.faixa.escuro:last-of-type::before{
           </div>
         </div>
 
-        <div class="bloco espelho" id="fotos">
+        <div class="bloco espelho" id="assinaturas">
+          <div class="texto">
+            <p class="olho">Cinco jeitos de assinar <span class="novo">Novo na 4.1</span></p>
+            <h2>Na tela, no dedo, no rosto, no papel — ou com o certificado ICP-Brasil.</h2>
+            <div class="prosa">
+              <p>A janela de assinatura tem abas, e cada pessoa escolhe na hora: o traço na tela; a digital no leitor; o <b>rosto</b>, com a câmera do computador e uma prova de vida (piscar ou virar o rosto), para uma foto não enganar; o <b>papel</b>, imprimindo e escaneando a via assinada, que fica na ficha; e o <b>certificado digital ICP-Brasil</b> do próprio profissional.</p>
+              <p>O rosto é conferido no próprio computador, sem internet: fica guardado só um desenho matemático de 128 números, cifrado no cofre — nunca a foto —, e o do paciente só com a autorização dele, que pode pedir para apagar quando quiser.</p>
+              <p>Com o certificado (A1 em arquivo, ou A3 em token ou cartão, que pede o PIN na janela do próprio fabricante), a receita, o atestado, o encaminhamento, o termo e o contrato saem em <b>PDF assinado no padrão PAdES</b>, com os dados de documento de saúde que o ITI pede — a farmácia confere em validar.iti.gov.br.</p>
+            </div>
+            <ul class="lista">
+              <li>O jeito padrão do profissional e o do paciente ficam guardados em cada computador.</li>
+              <li>A forma de assinar entra no código de verificação do documento.</li>
+              <li>Só o certificado ICP-Brasil tem a validade jurídica plena da assinatura digital; a tela diz isso nos outros quatro.</li>
+            </ul>
+          </div>
+          <div class="arte">
+            <figure class="tela aparece" style="margin:0">
+              <div class="tela-topo" aria-hidden="true"><i></i><i></i><i></i><span>Assinatura — certificado ICP-Brasil</span></div>
+              <img loading="lazy" src="/img/assinaturas.webp" width="1400" height="875" alt="Janela de assinatura com as abas Na tela, Digital, Rosto, Papel e Certificado, e o certificado ICP-Brasil do profissional escolhido." />
+            </figure>
+          </div>
+        </div>
+
+        <div class="bloco" id="fotos">
           <div class="texto">
             <p class="olho">Fotos clínicas</p>
             <h2>Antes e depois, organizados por caso.</h2>
@@ -1453,7 +1480,7 @@ main > section.faixa.escuro:last-of-type::before{
           </div>
         </div>
 
-        <div class="bloco" id="arquivos">
+        <div class="bloco espelho" id="arquivos">
           <div class="texto">
             <p class="olho">Arquivos</p>
             <h2>Radiografias e laudos dentro da ficha, cifrados.</h2>
@@ -1469,7 +1496,7 @@ main > section.faixa.escuro:last-of-type::before{
           </div>
         </div>
 
-        <div class="bloco espelho" id="tratamentos">
+        <div class="bloco" id="tratamentos">
           <div class="texto">
             <p class="olho">Tratamentos</p>
             <h2>Do orçamento à última parcela.</h2>
@@ -1490,7 +1517,7 @@ main > section.faixa.escuro:last-of-type::before{
           </div>
         </div>
 
-        <div class="bloco" id="financeiro">
+        <div class="bloco espelho" id="financeiro">
           <div class="texto">
             <p class="olho">Financeiro</p>
             <h2>O mês inteiro, e quatro números que mudam a semana.</h2>
@@ -1512,7 +1539,7 @@ main > section.faixa.escuro:last-of-type::before{
           </div>
         </div>
 
-        <div class="bloco espelho" id="caixa">
+        <div class="bloco" id="caixa">
           <div class="texto">
             <p class="olho">Caixa, relatórios e contabilidade <span class="novo">Novo na 4.0</span></p>
             <h2>Contado, conferido e fechado — com a diferença explicada.</h2>
@@ -1534,7 +1561,7 @@ main > section.faixa.escuro:last-of-type::before{
           </div>
         </div>
 
-        <div class="bloco" id="integracoes">
+        <div class="bloco espelho" id="integracoes">
           <div class="texto">
             <p class="olho">Asaas, WhatsApp oficial e API <span class="novo">Novo na 4.0</span></p>
             <h2>Cobrança, nota e confirmação pelas contas da própria clínica.</h2>
@@ -1556,7 +1583,7 @@ main > section.faixa.escuro:last-of-type::before{
           </div>
         </div>
 
-        <div class="bloco espelho" id="estoque">
+        <div class="bloco" id="estoque">
           <div class="texto">
             <p class="olho">Estoque</p>
             <h2>Por lote, porque é o lote que vence.</h2>
@@ -1579,7 +1606,7 @@ main > section.faixa.escuro:last-of-type::before{
           </div>
         </div>
 
-        <div class="bloco" id="laboratorio">
+        <div class="bloco espelho" id="laboratorio">
           <div class="texto">
             <p class="olho">Laboratório</p>
             <h2>A peça prometida para sexta e a consulta marcada na quinta.</h2>
@@ -1599,7 +1626,51 @@ main > section.faixa.escuro:last-of-type::before{
           </div>
         </div>
 
-        <div class="bloco espelho" id="retorno">
+        <div class="bloco" id="papeis">
+          <div class="texto">
+            <p class="olho">Clínica: papéis e plano protegido <span class="novo">Novo na 4.1</span></p>
+            <h2>O plano é de quem o fez — e cada um vê o que o papel dele pede.</h2>
+            <div class="prosa">
+              <p>Na Clínica, o antigo responsável virou <b>Administrador</b> — equipe e chaves, integrações, regras de comissão e cópias de segurança. Entrou o <b>Gerente</b>, que toca o dia a dia (agenda, caixa, repasse, estoque, aprovações) sem abrir prontuário, e o <b>Responsável técnico</b> ganhou as funções dele: vê e anota nos prontuários de todos, cuida dos protocolos e recebe as pendências clínicas.</p>
+              <p>E nenhum dentista apaga, cancela ou desmonta o plano de tratamento de outro — não há como tirar a comissão do colega. Quem fez o plano só o exclui antes de virar dinheiro; depois, só a gerência. Se alguém mexer por fora, o computador da gerência devolve a versão anterior sozinho e avisa nas Pendências.</p>
+            </div>
+            <ul class="lista">
+              <li>A regra vale na tela, no servidor da clínica (só a gerência apaga de verdade) e na guarda do computador da gerência.</li>
+              <li>Plano excluído pelo autor continua visível para a gerência, que pode desfazer.</li>
+              <li>As chaves acompanham o papel: o que a pessoa não pode ver, ela nem recebe.</li>
+            </ul>
+          </div>
+          <div class="arte">
+            <figure class="tela aparece" style="margin:0">
+              <div class="tela-topo" aria-hidden="true"><i></i><i></i><i></i><span>Clínica — Equipe</span></div>
+              <img loading="lazy" src="/img/papeis41.webp" width="1400" height="875" alt="Tela de equipe da clínica com o quadro de quem faz o quê: administrador, gerente, responsável técnico, dentista, recepção e os demais papéis." />
+            </figure>
+          </div>
+        </div>
+
+        <div class="bloco espelho" id="treinamento">
+          <div class="texto">
+            <p class="olho">Treinamento <span class="novo">Novo na 4.1</span></p>
+            <h2>Vídeo, passo a passo na tela de verdade, teste e certificado.</h2>
+            <div class="prosa">
+              <p>O menu Treinamento tem aulas curtas do programa inteiro, separadas por trilha: primeiros passos, agenda, prontuário, plano de tratamento, documentos e assinaturas, financeiro, estoque, clínica e segurança.</p>
+              <p>Cada aula tem um vídeo gravado no próprio programa, narrado pela Duda e com legendas; um passo a passo que acontece na tela de verdade, destacando cada botão; e um teste rápido. A barra mostra o progresso de cada pessoa, e no fim sai o certificado.</p>
+            </div>
+            <ul class="lista">
+              <li>Cada pessoa vê só as aulas do papel dela.</li>
+              <li>O administrador acompanha o progresso da equipe.</li>
+              <li>Os vídeos também estão abertos no site, em <a href="/treinamento">/treinamento</a>.</li>
+            </ul>
+          </div>
+          <div class="arte">
+            <figure class="tela aparece" style="margin:0">
+              <div class="tela-topo" aria-hidden="true"><i></i><i></i><i></i><span>Treinamento</span></div>
+              <img loading="lazy" src="/img/treinamento.webp" width="1400" height="875" alt="Tela do Treinamento com o progresso, as trilhas e as aulas com a marca de vídeo, passo a passo e teste." />
+            </figure>
+          </div>
+        </div>
+
+        <div class="bloco" id="retorno">
           <div class="texto">
             <p class="olho">Lista de retorno</p>
             <h2>Quem sumiu, antes de virar paciente perdido.</h2>
@@ -1620,7 +1691,7 @@ main > section.faixa.escuro:last-of-type::before{
           </div>
         </div>
 
-        <div class="bloco" id="duda">
+        <div class="bloco espelho" id="duda">
           <div class="texto">
             <p class="olho">Duda · assistente de IA <span class="novo">Novo na 2.9</span></p>
             <h2>Uma assistente que aprende o jeito da sua casa — e fala.</h2>
@@ -1642,7 +1713,7 @@ main > section.faixa.escuro:last-of-type::before{
           </div>
         </div>
 
-        <div class="bloco espelho" id="registro">
+        <div class="bloco" id="registro">
           <div class="texto">
             <p class="olho">Registro e prova</p>
             <h2>Quem fez, o quê e quando — e a prova de que nada mudou.</h2>
@@ -1659,7 +1730,7 @@ main > section.faixa.escuro:last-of-type::before{
           </div>
         </div>
 
-        <div class="bloco" id="atualizacao">
+        <div class="bloco espelho" id="atualizacao">
           <div class="texto">
             <p class="olho">Atualização <span class="novo">Novo na 2.10</span></p>
             <h2>Um clique, e o programa volta na versão nova.</h2>
@@ -1679,7 +1750,7 @@ main > section.faixa.escuro:last-of-type::before{
           </div>
         </div>
 
-        <div class="bloco espelho" id="aparencia">
+        <div class="bloco" id="aparencia">
           <div class="texto">
             <p class="olho">Aparência</p>
             <h2>Modo claro, modo escuro, e a sua cor.</h2>
