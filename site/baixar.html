@@ -868,12 +868,6 @@ Promise.all([MCA.chamar('/api/baixar'), MCA.chamar('/api/conta/eu')]).then(([arq
   if (/clinica/.test(location.hash)) { const el = document.getElementById('clinica'); if (el) el.scrollIntoView({ block: 'center' }); }
 }).catch(() => {});
 </script>
-
-
-
-
-
-
 <style id="ajuste-telas">
 /* nada pode empurrar a página para o lado */
 html, body{max-width:100%}

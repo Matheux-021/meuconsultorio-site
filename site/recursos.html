@@ -1157,7 +1157,7 @@ main > section.faixa.escuro:last-of-type::before{
       <p class="olho">Recursos</p>
       <h1>O sistema inteiro, tela por tela.</h1>
       <p class="subtitulo">Vinte funções, na ordem em que o dia do consultório acontece. Cada imagem é o programa
-        rodando na versão 2.10, com a paciente de exemplo — nenhuma é montagem.</p>
+        rodando no programa de verdade (da versão 2.10 à 4.0), com a paciente de exemplo — nenhuma é montagem.</p>
       <ul class="atalhos">
         <li><a class="some" href="#agenda">Agenda</a></li>
         <li><a class="some" href="#pacientes">Pacientes</a></li>
@@ -1168,10 +1168,14 @@ main > section.faixa.escuro:last-of-type::before{
         <li><a class="some" href="#atestados">Atestados</a></li>
         <li><a class="some" href="#encaminhamentos">Encaminhamentos <small>novo</small></a></li>
         <li><a class="some" href="#termos">Termos de esclarecimento</a></li>
+        <li><a class="some" href="#documentos">Contrato e documentos <small>novo</small></a></li>
+        <li><a class="some" href="#digital">Assinatura com a digital <small>novo</small></a></li>
         <li><a class="some" href="#fotos">Fotos clínicas</a></li>
         <li><a class="some" href="#arquivos">Arquivos</a></li>
         <li><a class="some" href="#tratamentos">Tratamentos</a></li>
         <li><a class="some" href="#financeiro">Financeiro</a></li>
+        <li><a class="some" href="#caixa">Caixa, relatórios e contabilidade <small>novo</small></a></li>
+        <li><a class="some" href="#integracoes">Asaas, WhatsApp oficial e API <small>novo</small></a></li>
         <li><a class="some" href="#estoque">Estoque</a></li>
         <li><a class="some" href="#laboratorio">Laboratório</a></li>
         <li><a class="some" href="#retorno">Lista de retorno</a></li>
@@ -1199,6 +1203,8 @@ main > section.faixa.escuro:last-of-type::before{
               <li>Confirmação e lembrete pelo WhatsApp, com a mensagem que você escreveu uma vez.</li>
               <li>Horário de trabalho, pulo do arrasto e fim de semana ajustáveis.</li>
               <li>Duas consultas no mesmo horário ficam lado a lado, nunca uma escondendo a outra.</li>
+              <li>Ao vivo: sala de espera, em atendimento, agenda, laboratório e pedidos se atualizam sozinhos — de tempo real a cada 15 s, você escolhe em cada computador.</li>
+              <li>Filtros por dentista, especialidade, consultório, turno, horário, situação e paciente, que valem em todas as abas.</li>
             </ul>
           </div>
           <div class="arte">
@@ -1384,6 +1390,49 @@ main > section.faixa.escuro:last-of-type::before{
           </div>
         </div>
 
+        <div class="bloco espelho" id="documentos">
+          <div class="texto">
+            <p class="olho">Contrato e documentos <span class="novo">Novo na 4.0</span></p>
+            <h2>O plano aprovado vira contrato — e o paciente aprova pelo celular.</h2>
+            <div class="prosa">
+              <p>Plano aprovado, ou com o primeiro pagamento, ganha sozinho o contrato de prestação de serviços com os procedimentos, os valores, o desconto e as condições. Procedimento incluído depois vira aditivo, só com ele. O contrato fica pendente na aba Documentos até as duas partes assinarem; assinado, tranca e entra na corrente.</p>
+              <p>O paciente pode aprovar pelo celular: o link leva o plano, os valores e as cláusulas fechados com uma chave que só existe no próprio link, e a assinatura dele volta fechada para o seu cofre. Se ele não aprovar, conta o porquê.</p>
+              <p>Receita e atestado no papel ficam acompanhados até o fim: ainda não impresso, na fila da recepção, impresso e — com a via assinada e carimbada escaneada — OK.</p>
+            </div>
+            <ul class="lista">
+              <li>Cada procedimento do plano mostra se está pendente ou concluído, e o saldo do paciente aparece no tratamento.</li>
+              <li>O contrato é um modelo de partida: revise com o seu advogado se quiser cláusulas próprias.</li>
+            </ul>
+          </div>
+          <div class="arte">
+            <figure class="tela aparece" style="margin:0">
+              <div class="tela-topo" aria-hidden="true"><i></i><i></i><i></i><span>Atendimento — Documentos</span></div>
+              <img loading="lazy" src="/img/documentos.webp" width="1400" height="875" alt="Aba Documentos com o contrato assinado pelas duas partes, a receita no papel e a digital da paciente." />
+            </figure>
+          </div>
+        </div>
+
+        <div class="bloco" id="digital">
+          <div class="texto">
+            <p class="olho">Assinatura com a digital <span class="novo">Novo na 4.0</span></p>
+            <h2>O dedo no leitor, e o documento assinado.</h2>
+            <div class="prosa">
+              <p>Com um leitor Nitgen (Hamster III e família) na USB, dentista e paciente assinam termos, contratos e planos com a impressão digital. A recepção confirma cada recebimento com o dedo de quem recebeu, fecha o caixa do mesmo jeito e acha o paciente pela digital, sem digitar o nome.</p>
+              <p>Fica guardado só o modelo da digital que o leitor devolve — não a foto do dedo —, cifrado dentro do cofre, e nunca sai do computador. A do paciente só com o consentimento dele, com o texto da LGPD na tela; ele pode pedir para apagar quando quiser.</p>
+            </div>
+            <ul class="lista">
+              <li>A assinatura pela digital entra no código de verificação do documento.</li>
+              <li>Não é certificado ICP-Brasil, e a tela diz isso.</li>
+            </ul>
+          </div>
+          <div class="arte">
+            <figure class="tela aparece" style="margin:0">
+              <div class="tela-topo" aria-hidden="true"><i></i><i></i><i></i><span>Assinar com a digital</span></div>
+              <img loading="lazy" src="/img/digital.webp" width="1400" height="875" alt="Janela de assinatura pela digital pedindo o dedo cadastrado do paciente." />
+            </figure>
+          </div>
+        </div>
+
         <div class="bloco espelho" id="fotos">
           <div class="texto">
             <p class="olho">Fotos clínicas</p>
@@ -1463,6 +1512,50 @@ main > section.faixa.escuro:last-of-type::before{
           </div>
         </div>
 
+        <div class="bloco espelho" id="caixa">
+          <div class="texto">
+            <p class="olho">Caixa, relatórios e contabilidade <span class="novo">Novo na 4.0</span></p>
+            <h2>Contado, conferido e fechado — com a diferença explicada.</h2>
+            <div class="prosa">
+              <p>O recebimento leva a foto do comprovante (Pix, maquininha, boleto) e a confirmação de quem recebeu. No fim do dia, o caixa mostra o que o sistema diz que entrou em cada forma de pagamento; você conta, confere e fecha. Diferença só fecha com o motivo escrito.</p>
+              <p>Financiamento é uma forma de pagamento: o programa acompanha a análise e o repasse da financeira e lança o custo dela como despesa. Os relatórios mostram o recebido por forma de pagamento e a produção por especialidade, e a contabilidade sai em partidas dobradas, pronta para o contador e para o TOTVS.</p>
+              <p>Na Clínica, desconto acima do limite e estorno esperam a responsável aprovar, a comissão pode ser diferente por especialidade e cada um fecha o próprio caixa.</p>
+            </div>
+            <ul class="lista">
+              <li>Exportação em CSV.</li>
+              <li>Na contabilidade, o paciente aparece pelo número — nunca pelo nome.</li>
+            </ul>
+          </div>
+          <div class="arte">
+            <figure class="tela aparece" style="margin:0">
+              <div class="tela-topo" aria-hidden="true"><i></i><i></i><i></i><span>Financeiro — Caixa do dia</span></div>
+              <img loading="lazy" src="/img/caixa.webp" width="1400" height="875" alt="Caixa do dia fechado, com o sistema, o contado e a diferença de cada forma de pagamento." />
+            </figure>
+          </div>
+        </div>
+
+        <div class="bloco" id="integracoes">
+          <div class="texto">
+            <p class="olho">Asaas, WhatsApp oficial e API <span class="novo">Novo na 4.0</span></p>
+            <h2>Cobrança, nota e confirmação pelas contas da própria clínica.</h2>
+            <div class="prosa">
+              <p>Com a chave da conta Asaas da clínica, o programa cria a cobrança por Pix, boleto ou cartão recorrente, manda o link ao paciente, dá baixa sozinho quando o pagamento cai e emite a nota fiscal de serviço. O dinheiro vai direto para a conta da clínica.</p>
+              <p>Quem tem número próprio no WhatsApp oficial (API da Meta) manda a confirmação com os botões Confirmar e Remarcar, que mudam a agenda sozinhos, e responde o paciente numa caixa de entrada dentro do programa. A resposta da Meta chega ao nosso site já fechada para a chave do seu computador.</p>
+              <p>Para o ERP, o BI ou o sistema da rede: uma API de leitura no próprio computador, com token, só com o que você marcar, e avisos automáticos assinados.</p>
+            </div>
+            <ul class="lista">
+              <li>Chaves e tokens guardados cifrados no cofre.</li>
+              <li>Tudo desligado até você ligar.</li>
+            </ul>
+          </div>
+          <div class="arte">
+            <figure class="tela aparece" style="margin:0">
+              <div class="tela-topo" aria-hidden="true"><i></i><i></i><i></i><span>Cobranças pelo Asaas da clínica</span></div>
+              <img loading="lazy" src="/img/integracoes.webp" width="1400" height="875" alt="Lista de cobranças pelo Asaas com Pix recebido, nota fiscal emitida e cartão recorrente ativo." />
+            </figure>
+          </div>
+        </div>
+
         <div class="bloco espelho" id="estoque">
           <div class="texto">
             <p class="olho">Estoque</p>
@@ -1474,6 +1567,8 @@ main > section.faixa.escuro:last-of-type::before{
             <ul class="lista">
               <li>Baixa sugerida do lote que vence primeiro.</li>
               <li>Custo de material por tratamento.</li>
+              <li>Pedido de compra ao fornecedor, entrada da mercadoria por lote e inventário com ajuste.</li>
+              <li>O nível ideal de cada item, calculado pelo seu consumo.</li>
             </ul>
           </div>
           <div class="arte">
@@ -1756,12 +1851,6 @@ main > section.faixa.escuro:last-of-type::before{
   }).observe(s);
 })();
 </script>
-
-
-
-
-
-
 <style id="ajuste-telas">
 /* nada pode empurrar a página para o lado */
 html, body{max-width:100%}

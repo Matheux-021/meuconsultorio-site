@@ -132,11 +132,25 @@
   .fim h2{ margin:14px 0 6px; font-size:21px; }
   .fim p{ margin:0; color:var(--fraca); }
   .rodape{ font-size:12.5px; color:var(--fraca); text-align:center; margin:18px 0 0; }
+  /* 4.0 — nota de 0 a 10, estrelas e o plano de tratamento */
+  .notas{ display:grid; grid-template-columns:repeat(11,1fr); gap:5px; }
+  .notas button{ font:inherit; font-size:15px; padding:10px 0; border-radius:9px; cursor:pointer;
+    border:1px solid var(--borda); background:#fbfdfc; color:var(--fraca); }
+  .notas button[aria-pressed=true]{ background:var(--marca); border-color:var(--marca); color:#fff; font-weight:700; }
+  .notas-legenda{ display:flex; justify-content:space-between; font-size:12.5px; color:var(--fraca); margin-top:5px; }
+  .estrelas{ display:flex; gap:6px; }
+  .estrelas button{ font-size:30px; line-height:1; padding:2px 4px; background:none; border:0; cursor:pointer; color:#c9d4d0; }
+  .estrelas button.acesa{ color:#d9a038; }
+  @media (max-width:420px){ .notas{ grid-template-columns:repeat(6,1fr); } }
+  .plano-tab{ width:100%; border-collapse:collapse; font-size:14.5px; }
+  .plano-tab td{ padding:9px 0; border-top:1px solid var(--borda); vertical-align:top; }
+  .plano-tab td.v{ text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; padding-left:10px; }
+  .plano-tab tr.tot td{ font-weight:700; font-size:16px; }
+  .clausula{ font-size:13.5px; color:var(--fraca); margin:0 0 9px; line-height:1.5; }
 </style>
 <style>:root{--azul:#1E4E9C; --azul-claro:#2C63BE; --azul-suave:#E2EAF7; --azul-fundo:#0B2149; --azul-fundo-2:#10306A; --sobre-azul:#DCE6F7}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6} }
 :root[data-theme="dark"]{--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6}</style>
-
 </head>
 <body>
 <div id="tela"></div>
@@ -152,6 +166,11 @@
   if(!conv) conv = (location.hash.match(/[#&]c=([A-Za-z0-9_\-]+)/) || [])[1] || "";
   conv = conv.toUpperCase();
   var CAMPOS = null, PUB = null, TITULO = "Ficha de saúde", CLINICA = "";
+  /* 4.0 — o mesmo formulário serve ao plano de tratamento (que vem CIFRADO,
+     com a chave depois do "#" do link, que o navegador não manda ao servidor)
+     e à pesquisa de satisfação. O jeito de cada um vem no bloco "__meta". */
+  var META = {}, MODO = "anamnese", PLANO = null;
+  var CHAVE_LINK = (location.hash.match(/[#&]k=([A-Za-z0-9_\-]+)/) || [])[1] || "";
   var RESP = {};
 
   function esc(s){
@@ -202,10 +221,17 @@
       });
     })
     .then(function(o){
-      CAMPOS = o.campos; PUB = (o.publica && o.publica.pub) || o.pub;
+      PUB = (o.publica && o.publica.pub) || o.pub;
       TITULO = o.titulo || "Ficha de saúde"; CLINICA = o.clinica || "";
+      MODO = o.modo || "anamnese";
+      CAMPOS = (o.campos || []).filter(function(s){
+        if(s && s.sec === "__meta"){ META = s.meta || {}; return false; }
+        return true;
+      });
+      if(META.modo) MODO = META.modo;
       if(!PUB) throw new Error("Convite incompleto. Peça outro na recepção.");
-      desenhar();
+      try{ document.title = META.titulo || TITULO; }catch(e){}
+      return abrirPlano().then(desenhar);
     })
     .catch(function(e){
       porta("Não deu para abrir",
@@ -213,23 +239,66 @@
           : "Não consegui carregar agora. Confira a sua internet e tente de novo.");
     });
 
+  /* o plano chega fechado: abre aqui, com a chave que veio no próprio link */
+  function abrirPlano(){
+    var cif = null;
+    CAMPOS.forEach(function(sec){ (sec.campos || []).forEach(function(c){ if(c.tipo === "cifrado") cif = c; }); });
+    if(!cif) return Promise.resolve();
+    if(!CHAVE_LINK) return Promise.reject(new Error("O link chegou cortado. Abra o link exatamente como veio na mensagem, inteiro, ou peça outro ao consultório."));
+    return crypto.subtle.importKey("raw", bytes(CHAVE_LINK), { name:"AES-GCM" }, false, ["decrypt"])
+      .then(function(k){ return crypto.subtle.decrypt({ name:"AES-GCM", iv: bytes(cif.iv) }, k, bytes(cif.ct)); })
+      .then(function(claro){ PLANO = JSON.parse(new TextDecoder().decode(claro)); })
+      .catch(function(){ throw new Error("Não consegui abrir o plano com este link. Peça ao consultório para mandar de novo."); });
+  }
+  function reais(v){ return "R$ " + (Number(v) || 0).toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
+  function planoHTML(){
+    var p = PLANO, h = '<section><h2>' + esc(p.titulo || "Plano de tratamento") + '</h2>';
+    h += '<p style="font-size:14px;color:var(--fraca);margin:8px 0">' + esc(p.paciente ? "Paciente: " + p.paciente + " · " : "") + esc(p.profissional || "") + (p.cro ? " · " + esc(p.cro) : "") + '</p>';
+    h += '<table class="plano-tab">';
+    (p.itens || []).forEach(function(i){ h += '<tr><td>' + esc(i.proc) + (i.dente ? ' <span style="color:var(--fraca)">— dente ' + esc(i.dente) + '</span>' : '') + '</td><td class="v">' + reais(i.valor) + '</td></tr>'; });
+    if(p.desconto) h += '<tr><td>Desconto</td><td class="v">− ' + reais(p.desconto) + '</td></tr>';
+    h += '<tr class="tot"><td>Total</td><td class="v">' + reais(p.total) + '</td></tr></table>';
+    h += '<p style="font-size:14.5px;margin:12px 0 0"><b>Pagamento:</b> ' + esc(p.pagamento || "") + '</p></section>';
+    if(p.contrato && p.contrato.length){
+      h += '<section><h2>Contrato de prestação de serviços</h2>';
+      p.contrato.forEach(function(c){ h += '<p class="clausula">' + esc(c) + '</p>'; });
+      h += '</section>';
+    }
+    return h;
+  }
+
   /* ------------------------------ a tela ------------------------------ */
   function desenhar(){
     var h = '<div class="topo"><div class="caixa">'
           + '<h1>' + esc(CLINICA || TITULO) + '</h1>'
-          + '<p>Ficha de saúde — leva uns três minutos</p></div></div>';
+          + '<p>' + esc(META.subtitulo || "Ficha de saúde — leva uns três minutos") + '</p></div></div>';
     h += '<div class="caixa">';
-    h += '<div class="aviso">Estas respostas vão direto para a sua ficha no consultório, '
+    h += '<div class="aviso">' + (META.aviso ? esc(META.aviso) : MODO === "plano"
+       ? 'Este é o seu plano de tratamento. Ele só abre por este link, que é só seu, e a sua resposta vai <b>fechada neste telefone</b> direto para o consultório. Leia com calma; se tiver dúvida, fale com o dentista antes de responder.'
+       : MODO === "pesquisa"
+       ? 'A sua resposta vai direto para o consultório, <b>fechada neste telefone</b>. Leva menos de um minuto — obrigado por contar como foi.'
+       : 'Estas respostas vão direto para a sua ficha no consultório, '
        + '<b>fechadas neste telefone</b>. Depois de enviar elas não podem mais ser alteradas, '
        + 'então confira antes. Se tiver dúvida em alguma pergunta, deixe em branco e fale com '
-       + 'o dentista.</div>';
+       + 'o dentista.') + '</div>';
+    if(PLANO) h += planoHTML();
 
     CAMPOS.forEach(function(sec, si){
+      if((sec.campos || []).every(function(c){ return c.tipo === "cifrado"; })) return;
       h += '<section><h2>' + esc(sec.sec) + '</h2>';
       (sec.campos || []).forEach(function(c, ci){
         var id = "c" + si + "_" + ci;
+        if(c.tipo === "cifrado") return;
         h += '<div class="campo">';
-        if(c.tipo === "sn"){
+        if(c.tipo === "nota"){
+          h += '<span class="rot">' + esc(c.rot) + '</span><div class="notas" data-nota="' + esc(c.k) + '">';
+          for(var n = (c.min || 0); n <= (c.max == null ? 10 : c.max); n++) h += '<button type="button" data-v="' + n + '" aria-pressed="false">' + n + '</button>';
+          h += '</div><div class="notas-legenda"><span>nada provável</span><span>com certeza</span></div>';
+        } else if(c.tipo === "estrelas"){
+          h += '<span class="rot">' + esc(c.rot) + '</span><div class="estrelas" data-estrelas="' + esc(c.k) + '" data-v="0">';
+          for(var e = 1; e <= 5; e++) h += '<button type="button" data-v="' + e + '" aria-label="' + e + ' estrela' + (e > 1 ? "s" : "") + '">★</button>';
+          h += '</div>';
+        } else if(c.tipo === "sn"){
           h += '<span class="rot">' + esc(c.rot) + '</span>'
              + '<div class="sn" data-k="' + esc(c.k) + '">'
              + '<button type="button" data-v="sim" aria-pressed="false">Sim</button>'
@@ -272,12 +341,20 @@
       h += '</section>';
     });
 
+    if(MODO === "plano" && META.recusar){
+      h += '<section><h2>A sua decisão</h2><div class="campo"><div class="sn" data-k="decisao">'
+         + '<button type="button" data-v="aprovado" aria-pressed="true">Aprovo o plano</button>'
+         + '<button type="button" data-v="recusado" aria-pressed="false">Não aprovo</button></div>'
+         + '<div class="detalhe" id="motivoCx" style="display:none"><label for="motivo" class="rot">Se quiser, conte o motivo (valor, prazo, dúvida…)</label>'
+         + '<textarea id="motivo" data-k="motivo"></textarea></div></div></section>';
+    }
     /* ---- a assinatura ----
        Sem ela isto não é um documento: é um formulário. O que o paciente
        declara sobre a própria saúde só vale se ele assinar embaixo, e é o
        mesmo que ele faria no papel da prancheta. Assina aqui, agora; o
        dentista assina depois, no atendimento. */
-    h += '<section><h2>Sua assinatura</h2>';
+    var comAssinatura = META.assinatura !== false;
+    h += '<section' + (comAssinatura ? '' : ' style="display:none"') + '><h2>Sua assinatura</h2>';
     h += '<div class="campo">'
        + '<label for="assNome">Seu nome completo</label>'
        + '<input type="text" id="assNome" autocomplete="name" '
@@ -289,14 +366,14 @@
        + '<button type="button" class="limpar" id="btLimpar">Limpar</button></div>'
        + '</div>';
     h += '<label class="declaro"><input type="checkbox" id="assDeclaro" />'
-       + '<span>Declaro que li as perguntas e que as respostas acima são verdadeiras, '
-       + 'e que informei tudo o que sei sobre a minha saúde.</span></label>';
+       + '<span>' + (META.declaracao ? esc(META.declaracao) : 'Declaro que li as perguntas e que as respostas acima são verdadeiras, '
+       + 'e que informei tudo o que sei sobre a minha saúde.') + '</span></label>';
     h += '</section>';
 
     h += '<div class="recado" id="recado"></div>';
-    h += '<button class="enviar" id="btEnviar" type="button">Assinar e enviar</button>';
-    h += '<p class="rodape">As respostas e a sua assinatura são fechadas aqui no seu telefone '
-       + 'e só o seu dentista consegue abrir.</p>';
+    h += '<button class="enviar" id="btEnviar" type="button">' + esc(META.botao || "Assinar e enviar") + '</button>';
+    h += '<p class="rodape">' + (comAssinatura ? 'As respostas e a sua assinatura são fechadas aqui no seu telefone '
+       + 'e só o seu dentista consegue abrir.' : 'A sua resposta é fechada aqui no seu telefone e só o consultório consegue abrir.') + '</p>';
     h += '</div>';
     tela.innerHTML = h;
 
@@ -317,6 +394,29 @@
         if(!b) return;
         b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") === "true" ? "false" : "true");
       });
+    });
+    /* nota de 0 a 10 e estrelas */
+    Array.prototype.forEach.call(document.querySelectorAll("[data-nota]"), function(g){
+      g.addEventListener("click", function(ev){
+        var b = ev.target.closest("button"); if(!b) return;
+        Array.prototype.forEach.call(g.querySelectorAll("button"), function(x){ x.setAttribute("aria-pressed", String(x === b)); });
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-estrelas]"), function(g){
+      g.addEventListener("click", function(ev){
+        var b = ev.target.closest("button"); if(!b) return;
+        var v = Number(b.getAttribute("data-v"));
+        g.setAttribute("data-v", String(v));
+        Array.prototype.forEach.call(g.querySelectorAll("button"), function(x){ x.classList.toggle("acesa", Number(x.getAttribute("data-v")) <= v); });
+      });
+    });
+    var dec = document.querySelector('.sn[data-k="decisao"]');
+    if(dec) dec.addEventListener("click", function(){
+      setTimeout(function(){
+        var rec = !!dec.querySelector('button[data-v="recusado"][aria-pressed="true"]');
+        var m = document.getElementById("motivoCx"); if(m) m.style.display = rec ? "block" : "none";
+        var bt = document.getElementById("btEnviar"); if(bt) bt.textContent = rec ? "Enviar a minha resposta" : (META.botao || "Assinar e enviar");
+      }, 0);
     });
     montarQuadro();
     document.getElementById("btLimpar").addEventListener("click", function(){
@@ -397,6 +497,14 @@
       var v = String(el.value || "").trim();
       if(v) r[el.getAttribute("data-det") + "Det"] = v;
     });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-nota]"), function(g){
+      var m = g.querySelector('button[aria-pressed="true"]');
+      if(m) r[g.getAttribute("data-nota")] = Number(m.getAttribute("data-v"));
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-estrelas]"), function(g){
+      var v = Number(g.getAttribute("data-v")) || 0;
+      if(v) r[g.getAttribute("data-estrelas")] = v;
+    });
     Array.prototype.forEach.call(document.querySelectorAll("[data-marcas]"), function(g){
       var lista = [];
       Array.prototype.forEach.call(g.querySelectorAll('button[aria-pressed="true"]'), function(b){
@@ -443,6 +551,19 @@
       aviso("Responda pelo menos alguma coisa antes de enviar.", true);
       return;
     }
+    if(META.obrigatorio && (respostas[META.obrigatorio] === undefined || respostas[META.obrigatorio] === "")){
+      aviso("Escolha uma nota antes de enviar.", true);
+      return;
+    }
+    /* pesquisa (sem assinatura) e plano recusado: sobem só as respostas */
+    var recusou = MODO === "plano" && respostas.decisao === "recusado";
+    if(META.assinatura === false || recusou){
+      var nm = String((document.getElementById("assNome") || {}).value || "").trim();
+      bt.disabled = true;
+      aviso("Fechando a sua resposta…", false);
+      return fechar(recusou ? { respostas: respostas, assinatura: nm ? { nome: nm, ts: new Date().toISOString() } : null } : { respostas: respostas })
+        .then(subir).then(tratar).catch(falhou);
+    }
     var nome = String((document.getElementById("assNome") || {}).value || "").trim();
     var declarou = !!(document.getElementById("assDeclaro") || {}).checked;
     /* As três travas da assinatura. Documento sem assinatura não fecha nada —
@@ -471,7 +592,9 @@
     fechar({
       respostas: respostas,
       assinatura: { img: img, nome: nome, ts: new Date().toISOString() }
-    }).then(function(sacola){
+    }).then(subir).then(tratar).catch(falhou);
+  }
+  function subir(sacola){
       aviso("Enviando…", false);
       /* A sacola sobe como TEXTO, num campo só. O servidor guarda essa
          string do jeito que ela chega e não tem por que olhar dentro — nem
@@ -482,16 +605,18 @@
         headers:{ "content-type":"application/json" },
         body: JSON.stringify({ codigo: conv, sacola: JSON.stringify(sacola) })
       });
-    }).then(function(r){
+  }
+  function tratar(r){
       return r.json().catch(function(){ return {}; }).then(function(o){
         if(!r.ok) throw new Error(o.erro || "O consultório não recebeu. Tente de novo.");
         pronto();
       });
-    }).catch(function(e){
-      bt.disabled = false;
+  }
+  function falhou(e){
+      var bt = document.getElementById("btEnviar");
+      if(bt) bt.disabled = false;
       aviso((e && e.message) ? e.message
         : "Não consegui enviar. Confira a sua internet e tente de novo.", true);
-    });
   }
 
   function pronto(){
@@ -499,17 +624,14 @@
       + '<div class="caixa"><div class="fim">'
       + '<div class="marca">✓</div>'
       + '<h2>Recebemos, obrigado!</h2>'
-      + '<p>As suas respostas e a sua assinatura já estão na sua ficha. Pode guardar o '
-      + 'telefone — o dentista chama você daqui a pouco.</p>'
+      + '<p>' + (MODO === "plano" ? 'A sua resposta já chegou ao consultório. Qualquer dúvida, é só falar com a gente.'
+        : MODO === "pesquisa" ? 'A sua opinião ajuda a gente a cuidar melhor de você. Até a próxima!'
+        : 'As suas respostas e a sua assinatura já estão na sua ficha. Pode guardar o '
+      + 'telefone — o dentista chama você daqui a pouco.') + '</p>'
       + '</div></div>';
   }
 })();
 </script>
-
-
-
-
-
 
 <style id="ajuste-telas">
 /* nada pode empurrar a página para o lado */
