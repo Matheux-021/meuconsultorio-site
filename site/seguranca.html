@@ -1187,6 +1187,7 @@ main > section.faixa.escuro:last-of-type::before{
           <ul class="lista">
             <li>Radiografias, fotos e anexos também são gravados cifrados, não soltos numa pasta.</li>
             <li>Entre o computador e o celular trafega o mesmo envelope cifrado que fica em disco.</li>
+            <li>Na Clínica, cada gaveta tem a própria chave, e o servidor da clínica só a entrega a quem o papel permite — a gerência, por exemplo, nem recebe a do prontuário. Veja <a href="/clinica#papeis">quem vê o quê</a>.</li>
             <li>O programa funciona sem internet: a ficha não depende de servidor para abrir.</li>
           </ul>
           <p class="nota ambar"><b>O outro lado da moeda:</b> a senha que abre o cofre não tem recuperação.
@@ -1226,6 +1227,15 @@ main > section.faixa.escuro:last-of-type::before{
             <tr><th scope="row">Respostas da anamnese pelo link</th>
               <td data-rot="Onde fica">Passam pelo nosso servidor por até seis horas, fechadas com uma chave que só o seu cofre tem.</td>
               <td data-rot="Quem consegue ler"><span class="sim">Só o seu programa,</span> quando recolhe as respostas.</td></tr>
+            <tr><th scope="row">Digital e rosto</th>
+              <td data-rot="Onde fica">No cofre, cifrados: só o modelo da digital e o desenho matemático do rosto (128 números) — nunca a foto. O do paciente, só com o consentimento dele.</td>
+              <td data-rot="Quem consegue ler"><span class="sim">Só o seu programa,</span> para conferir a assinatura, sem internet.</td></tr>
+            <tr><th scope="row">Certificado digital ICP-Brasil</th>
+              <td data-rot="Onde fica">O A3 no token ou no cartão; o A1 no Windows ou no arquivo .pfx. A senha é digitada na hora e não é guardada.</td>
+              <td data-rot="Quem consegue ler"><span class="sim">Só você,</span> com o PIN ou a senha do certificado.</td></tr>
+            <tr><th scope="row">Plano para aprovar pelo celular</th>
+              <td data-rot="Onde fica">Passa pelo nosso servidor cifrado; a chave vai só no link que o paciente recebe, na parte que o navegador não envia.</td>
+              <td data-rot="Quem consegue ler"><span class="sim">Só o paciente,</span> pelo link, e o seu programa, quando recolhe a resposta.</td></tr>
             <tr><th scope="row">Sua conta</th>
               <td data-rot="Onde fica">No nosso servidor: nome, e-mail, telefone, CPF ou CNPJ e a situação da assinatura.</td>
               <td data-rot="Quem consegue ler">Nós, para cobrar e liberar o acesso.</td></tr>
@@ -1255,6 +1265,7 @@ main > section.faixa.escuro:last-of-type::before{
           <ul class="lista">
             <li><b>Minimização:</b> documentos que vão para fora (encaminhamentos, a Duda) levam só o necessário.</li>
             <li><b>Registro:</b> criação, alteração, assinatura, emissão e exclusão ficam na trilha de auditoria, com data e hora.</li>
+            <li><b>Biometria:</b> digital e rosto são dados sensíveis. O do paciente só entra com o consentimento dele, com o texto da LGPD na tela, e sai quando ele pedir.</li>
             <li><b>Uso de imagem:</b> três autorizações separadas — documentação, ensino, publicidade — cada uma com seu termo.</li>
             <li><b>Direito do paciente:</b> o recibo de entrega de documentação lista cada arquivo que saiu, com data.</li>
             <li><b>Exclusão:</b> excluir um paciente apaga dele tudo o que é clínico; receitas já pagas ficam no financeiro, sem vínculo, porque o dinheiro entrou de verdade.</li>
@@ -1276,7 +1287,7 @@ main > section.faixa.escuro:last-of-type::before{
     <div class="centro">
       <div class="bloco">
         <div class="texto">
-          <p class="olho">Encaminhamentos <span class="novo">2.9</span></p>
+          <p class="olho">Encaminhamentos</p>
           <h2>O pedido de exame sai com o mínimo que a lei pede.</h2>
           <div class="prosa">
             <p>Um pedido de panorâmica não precisa do CPF, e um encaminhamento ao periodontista não precisa da

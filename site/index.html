@@ -1120,7 +1120,8 @@ footer{border-top:1px solid var(--linha); background:var(--folha)}
 .clinica .lista li::before{border-color:#9FBDF0}
 .clinica em{color:#F0C27F}
 .clinica .papeis{display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0}
-.clinica .papeis span{font-size:13px; color:var(--sobre-azul); border:1px solid rgba(211,224,246,.28); background:rgba(255,255,255,.05); border-radius:99px; padding:6px 12px}
+.clinica .papeis a:hover{background:rgba(255,255,255,.12); border-color:rgba(211,224,246,.5)}
+.clinica .papeis a{text-decoration:none !important; color:var(--sobre-azul) !important; font-size:13px; color:var(--sobre-azul); border:1px solid rgba(211,224,246,.28); background:rgba(255,255,255,.05); border-radius:99px; padding:6px 12px}
 .clinica .tela{box-shadow:0 30px 70px -30px rgba(0,0,0,.75)}
 .clinica .grade-cli{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(24px,4vw,54px); align-items:center}
 .clinica .grade-cli + .grade-cli{margin-top:clamp(40px,6vw,74px)}
@@ -1433,14 +1434,12 @@ main > section.faixa.escuro:last-of-type::before{
            Fica logo abaixo da dobra, com a ressalva junto: prometer assistente
            de IA e esconder o que ela não faz é o jeito de perder o cliente
            depois que ele testa. -->
-      <a class="selo-duda cli" href="/clinica">
+      <a class="selo-duda cli" href="/novidades">
         <span class="selo-duda-marca" aria-hidden="true" style="background:var(--azul)">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3.5 19c.8-3.2 3-5 5.5-5s4.7 1.8 5.5 5"/><path d="M14.8 14.6c.6-.4 1.4-.6 2.2-.6 2 0 3.6 1.5 4.2 4"/></svg>
         </span>
         <span>
-          <b>Novo: Meu Consultório App | Clínica.</b>
-          Um programa para a clínica inteira — um acesso para cada pessoa, sala de espera ao vivo e repasse por
-          profissional. E na 2.11 do Solo: a conta do paciente na ficha, agendado × confirmado e instrumentais.
+          <b>Novo na 4.1: Treinamento e cinco jeitos de assinar.</b> Aulas em vídeo do programa inteiro; assinatura na tela, pela digital, pelo rosto, no papel ou com o certificado ICP-Brasil. E, na Clínica, gerente, responsável técnico e o plano de tratamento protegido.
         </span>
         <span class="selo-duda-ir" aria-hidden="true">→</span>
       </a>
@@ -1457,7 +1456,7 @@ main > section.faixa.escuro:last-of-type::before{
           <span class="p-novo">Novo</span>
           <div class="p-topo"><img src="img/favicon-clinica.png" alt="" width="46" height="46" />
             <span class="p-nome"><b>Meu Consultório</b><small>App | Clínica · para a equipe</small></span></div>
-          <p>Um acesso para cada pessoa — dentistas, recepção, ASB, financeiro e laboratório —, cada um vendo só
+          <p>Um acesso para cada pessoa — administrador, gerente, dentistas, recepção, ASB, financeiro e laboratório —, cada um vendo só
             o que o papel permite. Sala de espera ao vivo, repasse por profissional e cada ficha com a sua chave.</p>
           <div class="p-pe"><span class="p-preco">de 2 a 8 dentistas, a partir de <b>R$ 110,91</b>/mês</span>
             <span class="p-ir">Conhecer a Clínica →</span></div>
@@ -1574,7 +1573,7 @@ main > section.faixa.escuro:last-of-type::before{
             <p class="olho">Anamnese e Evolução</p>
             <h2>Assinado é assinado.</h2>
             <div class="prosa">
-              <p>A anamnese é preenchida na tela e assinada pelo paciente ali mesmo, no dedo ou no mouse.
+              <p>A anamnese é preenchida na tela e assinada pelo paciente ali mesmo — no dedo, no mouse, pela digital ou pelo rosto.
                 A sua assinatura, cadastrada uma vez, entra sozinha em todo documento.</p>
               <p>Cada evolução é datada e assinada. Depois de assinada, ela <em>tranca</em>: o sistema
                 não deixa mais editar nem apagar — nem você. É o que faz um prontuário valer alguma coisa
@@ -1613,7 +1612,7 @@ main > section.faixa.escuro:last-of-type::before{
         <!-- encaminhamentos (2.9) -->
         <div class="bloco espelho">
           <div class="texto">
-            <p class="olho">Encaminhamentos <span class="novo">Novo na 2.9</span></p>
+            <p class="olho">Encaminhamentos</p>
             <h2>O pedido de exame sai com o mínimo de dados.</h2>
             <div class="prosa">
               <p>Periapical com os dentes, interproximal, panorâmica, telerradiografia, tomografia de feixe
@@ -1851,7 +1850,7 @@ main > section.faixa.escuro:last-of-type::before{
         </div>
         <div class="cartao">
           <h3>Ele se atualiza sozinho</h3>
-          <p>O programa baixa a versão nova, mostra a porcentagem e instala com um clique, em segundos — sem as telas do instalador. Seus dados ficam fora do programa e não são tocados.</p>
+          <p>O programa baixa a versão nova, mostra a porcentagem e, com um clique, instala em silêncio e reabre já atualizado — ou se instala sozinho quando você fechar. Seus dados ficam fora do programa e não são tocados.</p>
         </div>
         <div class="cartao">
           <h3>O paciente assina pelo celular</h3>
@@ -2056,7 +2055,7 @@ main > section.faixa.escuro:last-of-type::before{
         </div>
 
         <div class="grupo">
-          <h3>Documentos <span>7</span></h3>
+          <h3>Documentos <span>8</span></h3>
           <ul>
             <li>Receituário com catálogo e posologia pronta</li>
             <li>Atestado simples</li>
@@ -2065,6 +2064,7 @@ main > section.faixa.escuro:last-of-type::before{
             <li>Cabeçalho com nome, CRO, endereço e telefone</li>
             <li>Sua assinatura acima da linha</li>
             <li>PDF, impressão em A4 ou envio pelo WhatsApp</li>
+            <li>Contrato de prestação de serviços gerado do plano aprovado, com aditivos</li>
           </ul>
         </div>
 
@@ -2176,7 +2176,7 @@ main > section.faixa.escuro:last-of-type::before{
         </div>
 
         <div class="grupo">
-          <h3>Financeiro <span>7</span></h3>
+          <h3>Financeiro <span>10</span></h3>
           <ul>
             <li>Receitas e despesas por mês</li>
             <li>Formas: Pix, dinheiro, cartão de débito e crédito</li>
@@ -2185,6 +2185,9 @@ main > section.faixa.escuro:last-of-type::before{
             <li>Despesas por categoria</li>
             <li>Receita ligada ao paciente e ao tratamento</li>
             <li>Comprovante pelo WhatsApp</li>
+            <li>Caixa do dia contado, conferido e fechado</li>
+            <li>Cobrança pelo seu Asaas — Pix, boleto e cartão recorrente — com baixa automática e nota fiscal de serviço</li>
+            <li>Relatórios e contabilidade em partidas dobradas, para o contador</li>
           </ul>
         </div>
 
@@ -2226,13 +2229,14 @@ main > section.faixa.escuro:last-of-type::before{
         </div>
 
         <div class="grupo">
-          <h3>WhatsApp <span>5</span></h3>
+          <h3>WhatsApp <span>6</span></h3>
           <ul>
             <li>Confirmação de consulta</li>
             <li>Lembrete de consulta</li>
             <li>Comprovante de pagamento</li>
             <li>Receita para o paciente</li>
             <li>Orientação de pós-operatório</li>
+            <li>WhatsApp oficial (API da Meta), com os botões Confirmar e Remarcar</li>
           </ul>
         </div>
 
@@ -2241,14 +2245,17 @@ main > section.faixa.escuro:last-of-type::before{
           <ul>
             <li>O programa confere sozinho se saiu versão nova</li>
             <li>Baixa em segundo plano, mostrando a porcentagem</li>
-            <li><b>Instalar agora</b>: reabre atualizado em segundos, sem o instalador</li>
-            <li>Pacote conferido pela assinatura; se falhar, volta sozinho à versão anterior</li>
+            <li><b>Instalar agora</b>: instala o programa inteiro em silêncio e reabre na versão nova</li>
+            <li>Não clicou? A atualização se instala sozinha quando você fecha o programa</li>
           </ul>
         </div>
 
         <div class="grupo">
-          <h3>Assinaturas <span>4</span></h3>
+          <h3>Assinaturas <span>7</span></h3>
           <ul>
+            <li><b>Cinco jeitos:</b> na tela, pela digital, pelo rosto, no papel e com o certificado ICP-Brasil</li>
+            <li>Digital pelo leitor Nitgen; rosto pela câmera, com prova de vida — sem guardar foto</li>
+            <li>Certificado A1 ou A3: receita e atestado em PDF assinado (PAdES), para conferir no ITI</li>
             <li>Paciente assina no dedo, no mouse ou no próprio celular, pelo QR</li>
             <li>Sua assinatura, cadastrada uma vez, entra sozinha nos documentos</li>
             <li>Assinado pelas duas partes, tranca: não se edita nem se apaga</li>
@@ -2263,6 +2270,16 @@ main > section.faixa.escuro:last-of-type::before{
             <li>Paleta escolhida por você, para cada modo</li>
             <li>Acompanha o modo do aparelho</li>
             <li>Tela do celular pensada para o polegar</li>
+          </ul>
+        </div>
+
+        <div class="grupo">
+          <h3>Treinamento <span>4</span></h3>
+          <ul>
+            <li>Aulas em vídeo do programa inteiro, narradas e com legendas</li>
+            <li>Passo a passo na tela de verdade, destacando cada botão</li>
+            <li>Teste rápido e certificado no fim</li>
+            <li>Barra de progresso de cada pessoa da equipe</li>
           </ul>
         </div>
 
@@ -2327,10 +2344,7 @@ main > section.faixa.escuro:last-of-type::before{
             <p>Quem já usa o Meu Consultório App leva os pacientes junto, em um clique: vai o cofre cifrado,
               do jeito que está, e ele abre do outro lado com a mesma senha.</p>
           </div>
-          <div class="papeis" aria-label="Os papéis da equipe">
-            <span>Responsável</span><span>Dentista de produção</span><span>Dentista avaliador</span>
-            <span>Recepção</span><span>ASB</span><span>Financeiro</span><span>Laboratório</span>
-          </div>
+          <div class="papeis" aria-label="Os papéis da equipe"><a href="/clinica#papel-admin">Administrador</a><a href="/clinica#papel-gerente">Gerente</a><a href="/clinica#papel-rt">Responsável técnico</a><a href="/clinica#papel-dentista">Dentista de produção</a><a href="/clinica#papel-avaliador">Dentista avaliador</a><a href="/clinica#papel-asb">ASB</a><a href="/clinica#papel-recepcao">Recepção</a><a href="/clinica#papel-financeiro">Financeiro</a><a href="/clinica#papel-lab">Laboratório</a></div>
           <div class="acoes" style="margin-top:26px">
             <a class="btn azul" href="/clinica">Conhecer a Clínica</a>
             <a class="btn vazado" href="/criar-conta?clinica=1">Testar 30 dias</a>
@@ -2345,8 +2359,7 @@ main > section.faixa.escuro:last-of-type::before{
         <div>
           <h3 style="color:#fff">Cada ficha com a sua chave. Cada repasse com a sua regra.</h3>
           <ul class="lista">
-            <li>O dentista abre só os pacientes dele — e os que a recepção liberar para todos. A recepção vê agenda
-              e valores, nunca o prontuário. Quem sai da equipe perde as chaves na hora.</li>
+            <li>O dentista abre só os pacientes dele — e os que a recepção liberar para todos. A recepção vê agenda e valores, nunca o prontuário; a gerência toca o dia a dia sem abrir ficha clínica. Quem sai da equipe perde as chaves na hora.</li>
             <li>Sala de espera ao vivo: chegou, esperando, em atendimento, encaminhado, alta com revisão marcada.</li>
             <li>Repasse configurável por profissional (% da produção, % de avaliação, por procedimento ou fixo),
               conta corrente do dentista, salários e custos fixos.</li>
@@ -2367,7 +2380,7 @@ main > section.faixa.escuro:last-of-type::before{
       <p class="olho">Planos</p>
       <h2 style="max-width:24ch">Um preço só, com tudo dentro. Para o consultório ou para a clínica.</h2>
       <p class="subtitulo">Não existe versão capada nem módulo cobrado à parte. No Solo, um dentista e o sistema
-        inteiro. Na Clínica, de 2 a 8 dentistas com a equipe ilimitada — recepção, ASB, financeiro e laboratório
+        inteiro. Na Clínica, de 2 a 8 dentistas com a equipe ilimitada — gerente, recepção, ASB, financeiro e laboratório
         não pagam. O que muda é só de quanto em quanto tempo você paga.</p>
 
       <div class="abas-planos" role="tablist" aria-label="Escolha o programa">
@@ -2672,7 +2685,7 @@ main > section.faixa.escuro:last-of-type::before{
           <li><b>O Solo é um acesso por consultório.</b> Para clínica com vários profissionais, cada um com a própria senha, existe o <a href="/clinica">Meu Consultório App | Clínica</a> — um programa à parte, em azul.</li>
           <li><b>O aplicativo é Android.</b> No iPhone ainda não tem aplicativo.</li>
           <li><b>Não está na Play Store.</b> A instalação é pelo arquivo, com o aviso de "fonte desconhecida" que o Android dá para todo aplicativo de fora da loja.</li>
-          <li><b>Não emite nota fiscal</b> e não conversa com convênio nem com TISS.</li>
+          <li><b>Não conversa com convênio nem com TISS.</b> Nota fiscal de serviço, só pela sua conta no Asaas, ligada em Ajustes.</li>
           <li><b>A Duda não examina o seu paciente.</b> Perguntada sobre odontologia, ela responde como um livro-texto responderia a um colega — mas não vê a boca de ninguém, não recebe radiografia nem foto, e o que ela escreve nasce como rascunho. Exame, diagnóstico, decisão e responsabilidade são do cirurgião-dentista. Ela precisa de internet e atende no computador; no celular, pelo computador vinculado.</li>
           <li><b>A senha é uma só, e a parte que abre as fichas não tem recuperação.</b> Você redefine a senha aqui no site pelo e-mail — mas isso só troca o que prova quem você é. As fichas continuam fechadas com a chave que nasce da senha e nunca sai do seu aparelho: o programa vai pedir a anterior uma vez, para regravar o cofre com a nova. Esqueceu a senha por completo e não tem backup? Perdeu. É assim de propósito — é o mesmo motivo pelo qual eu também não consigo abrir o cofre de ninguém.</li>
           <li><b>O backup vem desligado, e enquanto estiver desligado o risco é seu.</b> O programa gera um arquivo cifrado que você guarda onde quiser — HD externo, pen drive, a sua nuvem. E existe, em Ajustes, um backup do cofre na nossa nuvem: você liga, e a partir daí o computador manda sozinho o mesmo bloco cifrado, no máximo uma vez por dia. Nenhum dos dois vem ligado de fábrica. Se você não ligar nenhum e o computador queimar, as fichas vão junto. O sistema insiste, mas quem decide é você.</li>
@@ -2688,7 +2701,7 @@ main > section.faixa.escuro:last-of-type::before{
       <p class="olho">Para ler com calma</p>
       <h2 style="max-width:24ch">O resto está escrito, sem “fale com um consultor”.</h2>
       <div class="leituras">
-        <a class="leitura some" href="/recursos"><b>Recursos</b><span>O tour completo, tela por tela: das vinte funções, o que cada uma faz e onde fica.</span><i>Ver o tour →</i></a>
+        <a class="leitura some" href="/recursos"><b>Recursos</b><span>O tour completo, tela por tela: das vinte e sete funções, o que cada uma faz e onde fica.</span><i>Ver o tour →</i></a>
         <a class="leitura some" href="/seguranca"><b>Segurança e LGPD</b><span>O que fica no seu computador, o que passa pelo servidor e o que sai num encaminhamento.</span><i>Entender o cofre →</i></a>
         <a class="leitura some" href="/novidades"><b>Novidades</b><span>Tudo o que mudou em cada versão, com os consertos escritos — não escondidos.</span><i>Ver as versões →</i></a>
         <a class="leitura some" href="/duvidas"><b>Perguntas frequentes</b><span>Instalação, celular, senha, backup, planos e o que acontece se a assinatura vencer.</span><i>Tirar dúvidas →</i></a>
