@@ -507,6 +507,11 @@ input:-webkit-autofill:focus{
 .escolha-produto button[aria-pressed="true"]{background:var(--verde); color:#fff}
 .escolha-produto button.cli[aria-pressed="true"]{background:var(--azul)}
 .tamanhos{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 12px}
+.escritorio{border:1px solid color-mix(in srgb, #9A6B12 40%, var(--linha)); border-radius:14px; padding:4px 14px 12px; margin:14px 0 0; background:color-mix(in srgb, #9A6B12 5%, transparent)}
+.escritorio .interruptor{margin-top:10px; background:none; border:0; padding:0; box-shadow:none}
+.esc-usuarios{display:flex; align-items:center; gap:10px; margin:8px 0 0 30px; font-size:14.5px}
+.esc-usuarios input{width:90px; font:inherit; padding:7px 10px; border:1px solid var(--linha-forte); border-radius:10px; background:var(--folha); color:var(--tinta)}
+.partes{display:grid; gap:2px; margin-top:6px; font-size:14px}
 .tamanhos button{font:inherit; font-size:14px; border:1px solid var(--linha); background:var(--folha); color:var(--tinta-2); border-radius:10px; padding:8px 12px; cursor:pointer}
 .tamanhos button[aria-pressed="true"]{border-color:var(--azul); background:var(--azul-suave); color:var(--azul); font-weight:600}
 .planos.cli .plano:has(input:checked){border-color:var(--azul); box-shadow:0 0 0 1px var(--azul)}
@@ -607,6 +612,19 @@ if(document.body.classList.contains('pagina-clinica')) document.addEventListener
             Pix, pela regra dos bancos, não podem ser cobrados sozinhos. Você desliga quando quiser, aqui
             mesmo, sem falar com ninguém.</span></span>
         </label>
+
+        <fieldset class="escritorio" id="escritorio" hidden>
+          <label class="interruptor">
+            <input type="checkbox" id="comEsc" />
+            <span><b>Acrescentar o Escritório</b> — financeiro, compras, CRC, faturamento, RH, marketing, folha de ponto e o painel do dono.<br />
+              <span style="color:var(--tinta-3);font-size:13.5px"><span id="escPreco">R$ 129,90 por mês + R$ 14,90 por usuário do escritório</span>, na mesma cobrança da clínica e mostrado à parte.
+              Contam só as pessoas que trabalham apenas no escritório; gerência, recepção, ASB e dentistas já estão no plano da clínica.</span></span>
+          </label>
+          <div class="esc-usuarios" id="escUsuariosCx" hidden>
+            <label for="escUsuarios">Usuários do escritório</label>
+            <input type="number" id="escUsuarios" min="0" max="60" value="3" inputmode="numeric" />
+          </div>
+        </fieldset>
 
         <p class="recado" id="total" style="margin-top:18px"></p>
 
@@ -710,7 +728,18 @@ const total = document.getElementById('total');
 const botao = document.getElementById('enviar');
 let planos = [];
 
-let PROD = /clinica/.test(location.hash) ? 'clinica' : 'solo', TAM = 5, CLI = [], EU = null;
+let PROD = /clinica/.test(location.hash) ? 'clinica' : 'solo', TAM = 5, CLI = [], EU = null, ESC = null;
+/* 5.0 — o Escritório: as mesmas contas do servidor (fixo + por usuário, desconto do período) */
+function valorEsc(p, auto) {
+  if (!ESC || !document.getElementById('comEsc').checked) return 0;
+  const n = Math.max(0, Math.min(ESC.maxUsuarios || 60, Math.round(Number(document.getElementById('escUsuarios').value) || 0)));
+  const mensal = Math.round((ESC.mensal + ESC.porUsuario * n + 1e-9) * 100) / 100;
+  const per = (ESC.periodos || []).find((x) => x.meses === p.meses) || { meses: 1, desconto: 0 };
+  let v = per.meses === 1 ? mensal : Number((Math.round(mensal * per.meses * (1 - per.desconto / 100)) - 0.10).toFixed(2));
+  if (EU && EU.testador) v = Math.round((v * 0.95 + 1e-9) * 100) / 100;
+  if (auto) v = Math.round((v * 0.97 + 1e-9) * 100) / 100;
+  return v;
+}
 function precoFinal(p, auto) {
   let v = p.valor;
   if (PROD === 'clinica' && EU && EU.testador && p.valorTestador) v = p.valorTestador;
@@ -724,14 +753,16 @@ function pintarTotal() {
   const p = planos.find((x) => x.id === escolhido.value);
   if (!p) { total.hidden = true; return; }
   const auto = document.getElementById('automatica').checked;
-  const v = precoFinal(p, auto);
+  const vc = precoFinal(p, auto), ve = PROD === 'clinica' ? valorEsc(p, auto) : 0, v = Math.round((vc + ve) * 100) / 100;
+  document.getElementById('escUsuariosCx').hidden = !document.getElementById('comEsc').checked;
   total.hidden = false;
   total.classList.toggle('cli', PROD === 'clinica');
   total.className = 'recado ok';
   total.innerHTML = 'Plano <b>' + p.nome + '</b> — <b>' + reais(v) + '</b>' +
     (auto ? ' (com os 3% da cobrança automática)' : '') +
     (PROD === 'clinica' && EU && EU.testador ? ' · com o desconto de testador' : '') +
-    ' a cada ' + (p.meses === 1 ? 'mês' : p.meses + ' meses') + '.';
+    ' a cada ' + (p.meses === 1 ? 'mês' : p.meses + ' meses') + '.' +
+    (ve ? '<span class="partes"><span>Clínica: ' + reais(vc) + '</span><span>Escritório (' + document.getElementById('escUsuarios').value + ' usuário(s)): ' + reais(ve) + '</span></span>' : '');
 }
 function desenharPlanos() {
   const lista = PROD === 'clinica' ? ((CLI.find((x) => x.dentistas === TAM) || {}).periodos || []) : SOLO;
@@ -748,6 +779,7 @@ function desenharPlanos() {
     </label>`).join('');
   document.querySelectorAll('input[name=plano]').forEach((i) => i.addEventListener('change', pintarTotal));
   document.getElementById('tamanhos').hidden = PROD !== 'clinica';
+  document.getElementById('escritorio').hidden = PROD !== 'clinica' || !ESC;
   document.querySelectorAll('.escolha-produto button').forEach((b) => b.setAttribute('aria-pressed', b.getAttribute('data-prod') === PROD ? 'true' : 'false'));
   document.querySelectorAll('.tamanhos button').forEach((b) => b.setAttribute('aria-pressed', Number(b.getAttribute('data-n')) === TAM ? 'true' : 'false'));
   const bt = document.getElementById('enviar');
@@ -760,13 +792,17 @@ document.querySelectorAll('.tamanhos button').forEach((b) => b.addEventListener(
 let SOLO = [];
 (async () => {
   const [r, eu] = await Promise.all([MCA.chamar('/api/planos'), MCA.chamar('/api/conta/eu')]);
-  SOLO = r.dados.planos; CLI = r.dados.clinica || [];
+  SOLO = r.dados.planos; CLI = r.dados.clinica || []; ESC = r.dados.escritorio || null;
   EU = eu.ok ? eu.dados.conta : null;
+  if (ESC) document.getElementById('escPreco').textContent = ESC.mensalTexto + ' por mês + ' + ESC.porUsuarioTexto + ' por usuário do escritório';
+  if (ESC && (/escritorio/.test(location.hash) || (EU && EU.escritorio))) { document.getElementById('comEsc').checked = true; if (EU && EU.escritorio && EU.escritorio.usuarios) document.getElementById('escUsuarios').value = EU.escritorio.usuarios; }
   if (EU && EU.clinica && !/solo/.test(location.hash)) { PROD = 'clinica'; if (!EU.clinica.teste && EU.clinica.dentistas) TAM = Math.min(8, EU.clinica.dentistas); }
   desenharPlanos();
 })();
 
 document.getElementById('automatica').addEventListener('change', pintarTotal);
+document.getElementById('comEsc').addEventListener('change', pintarTotal);
+document.getElementById('escUsuarios').addEventListener('input', pintarTotal);
 
 document.getElementById('forma').onsubmit = async (e) => {
   e.preventDefault();
@@ -778,6 +814,8 @@ document.getElementById('forma').onsubmit = async (e) => {
     plano: escolhido.value,
     cobrancaAutomatica: document.getElementById('automatica').checked,
     aceite: true,
+    escritorio: PROD === 'clinica' && !!ESC && document.getElementById('comEsc').checked,
+    usuariosEscritorio: Number(document.getElementById('escUsuarios').value) || 0,
   });
   if (!r.ok && r.dados && r.dados.mudarParaClinica) { MCA.aviso(recado, r.dados.erro, 'erro'); setTimeout(() => { location.href = '/perfil#mudar-clinica'; }, 2200); return; }
   if (r.ok && r.dados.urlPagamento) {

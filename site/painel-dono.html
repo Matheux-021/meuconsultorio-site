@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Painel do dono — Meu Consultório App</title>
+<meta name="description" content="O resumo administrativo e financeiro das suas clínicas, cifrado de ponta a ponta." />
+<meta name="theme-color" content="#0E6B5E" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://ponte.meuconsultorioappodonto.com.br; form-action 'none'; base-uri 'none'" />
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" href="/img/favicon.png" type="image/png" />
+<link rel="apple-touch-icon" href="/img/favicon.png" />
+<script>
+/* O tema tem de ser aplicado ANTES da primeira pintura, senão a página abre
+   clara e pisca para escura — e o piscar é pior do que não ter o botão. Por
+   isso este trecho é minúsculo, fica aqui em cima e não espera nada. */
+(function(){
+  try{
+    var g = localStorage.getItem("mca-tema");
+    if(g === "dark" || g === "light") document.documentElement.setAttribute("data-theme", g);
+  }catch(e){}
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,500&display=swap">
+<style>:root{
+  --papel:#F2F5F3; --folha:#FFFFFF; --folha-2:#E9EFEC; --linha:#D5E0DB;
+  --linha-forte:#B6C7C0; --tinta:#0B1A16; --tinta-2:#3E5650; --tinta-3:#5F6D68;
+  --verde:#0E6B5E; --verde-claro:#127F70; --verde-suave:#DDEDE8;
+  --verde-fundo:#06322B; --sobre-verde:#DCEDE8; --sobre-cheio:#FFFFFF;
+  --ambar:#8A5810; --ambar-suave:#F6EEDC; --enfase:#8A560F;
+  --erro:#8C2F1D; --erro-suave:#F7E7E3;
+  --sombra:0 1px 2px rgba(11,26,22,.05), 0 14px 34px -22px rgba(11,26,22,.45);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --papel:#091210; --folha:#101B18; --folha-2:#16241F; --linha:#243530;
+    --linha-forte:#38504A; --tinta:#E6EEEA; --tinta-2:#AFC4BD; --tinta-3:#7F958E;
+    --verde:#4FBFA6; --verde-claro:#68D2BA; --verde-suave:#13322C;
+    --verde-fundo:#04201B; --sobre-verde:#CFE8E1; --sobre-cheio:#04201B;
+    --ambar:#D9A85C; --ambar-suave:#2A2113; --enfase:#E0B064;
+    --erro:#E79383; --erro-suave:#2C1815;
+    --sombra:0 1px 2px rgba(0,0,0,.5), 0 16px 36px -22px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+    --papel:#091210; --folha:#101B18; --folha-2:#16241F; --linha:#243530;
+    --linha-forte:#38504A; --tinta:#E6EEEA; --tinta-2:#AFC4BD; --tinta-3:#7F958E;
+    --verde:#4FBFA6; --verde-claro:#68D2BA; --verde-suave:#13322C;
+    --verde-fundo:#04201B; --sobre-verde:#CFE8E1; --sobre-cheio:#04201B;
+    --ambar:#D9A85C; --ambar-suave:#2A2113; --enfase:#E0B064;
+    --erro:#E79383; --erro-suave:#2C1815;
+    --sombra:0 1px 2px rgba(0,0,0,.5), 0 16px 36px -22px rgba(0,0,0,.9);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--papel); color:var(--tinta-2);
+  font-family:Archivo,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.6; min-height:100vh;
+  display:flex; flex-direction:column;
+}
+a{color:var(--verde); text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* AS TRÊS VOZES DA IDENTIDADE, que até agora só existiam na página inicial.
+   Estas telas eram Archivo do título ao rodapé — e é por isso que atravessar
+   do site para "Criar conta" parecia trocar de empresa. Cada voz tem um
+   trabalho:
+     o serifado (Newsreader) AFIRMA     -> títulos
+     a Archivo EXPLICA                  -> texto, campos, botões
+     a monoespaçada ETIQUETA            -> rótulos, valores, códigos
+   A monoespaçada é a mesma que numera consultas e valores dentro do programa.
+   É ela que faz o site, o programa e o aplicativo parecerem um produto só. */
+h1,h2,h3{
+  font-family:Newsreader, Georgia, "Times New Roman", serif;
+  color:var(--tinta); line-height:1.2; margin:0 0 10px; font-weight:600; text-wrap:balance;
+}
+h1{font-size:clamp(26px,3.6vw,34px); letter-spacing:-.012em; line-height:1.14}
+h2{font-size:21px; letter-spacing:-.008em}
+p{margin:0 0 14px}
+
+/* o rótulo — etiqueta, não frase */
+.rot{
+  font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.14em;
+  color:var(--verde); display:flex; align-items:center; gap:12px; margin:0 0 12px;
+}
+.rot::after{content:""; flex:1; height:1px; background:var(--linha); max-width:110px}
+
+/* A ênfase, igual à da página inicial: o âmbar é a segunda voz da paleta —
+   a mesma dos procedimentos indicados no odontograma. */
+em{
+  font-family:Newsreader, Georgia, serif; font-style:italic; font-weight:500;
+  font-size:1.14em; line-height:1.15; color:var(--enfase);
+}
+:focus-visible{outline:2px solid var(--verde); outline-offset:2px; border-radius:6px}
+
+/* --- cabeçalho e rodapé --- */
+.topo{border-bottom:1px solid var(--linha); background:var(--folha)}
+.topo-in{
+  max-width:1080px; margin:0 auto; padding:13px 22px;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+}
+.marca{display:flex; align-items:center; gap:10px; color:var(--tinta); text-decoration:none;
+  font-family:Newsreader, Georgia, serif; font-weight:600; font-size:18px; letter-spacing:-.01em;
+  min-width:0}
+.marca:hover{text-decoration:none}
+.marca img{width:30px; height:30px; border-radius:22%; display:block; flex:none}
+/* O NOME DA MARCA NUNCA QUEBRA.
+   No telefone "Meu Consultório App" empilhava em duas linhas e a barra de
+   cima inchava de 40 para 84 pixels de altura — o mesmo defeito da página
+   inicial, e aqui ninguém tinha visto porque a tela de entrar é a que menos
+   se olha no computador. O nome encolhe, depois vira "Consultório", e só
+   então some. Medido em 360 e 390, que são as larguras de telefone reais. */
+.marca span{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
+.marca .mini{display:none}
+.topo nav{display:flex; align-items:center; gap:18px; font-size:14.5px; flex:none}
+@media (max-width:560px){
+  .topo-in{padding:11px 14px; gap:10px}
+  .topo nav{gap:12px; font-size:13.5px}
+  .marca{font-size:16px; gap:8px}
+  .marca img{width:27px; height:27px}
+}
+@media (max-width:440px){
+  .marca .longo{display:none}
+  .marca .mini{display:inline}
+}
+@media (max-width:330px){ .marca span{display:none} }
+.rodape{
+  margin-top:auto; border-top:1px solid var(--linha); background:var(--folha);
+  font-size:13px; color:var(--tinta-3);
+}
+.rodape div{max-width:1080px; margin:0 auto; padding:18px 22px; display:flex; gap:18px; flex-wrap:wrap}
+
+/* --- O CÉU VIVO, O MESMO CAMPO DA PÁGINA INICIAL ---
+
+   Chama-se .ceu e não .campo, que é o nome usado no index.html, por um motivo
+   que custou uma tela quebrada: aqui .campo JÁ É o campo de formulário
+   (.campo label, .campo .dica). Com o nome repetido, o position:fixed;inset:0
+   das partículas caía em cima de todo input da página — o e-mail e a senha
+   saltaram para fora do cartão e se esparramaram no topo da tela.
+   Duas coisas diferentes não podem dividir o mesmo nome de classe só porque
+   nasceram em arquivos diferentes.
+
+   Véus de luz que derivam devagar e partículas que sobem do rodapé e entram
+   pelas laterais. É o mesmo sistema do index.html, com as mesmas cores e os
+   mesmos tempos — de propósito: era a página inicial que parecia um produto
+   e estas aqui que pareciam outro.
+
+   Fica FIXO na janela, e não preso à seção: estas telas são curtas e centradas,
+   e um campo preso ao conteúdo deixaria metade da tela morta.
+
+   Tudo desenhado pelo navegador — sem vídeo, sem biblioteca, sem nada para
+   baixar — e tudo desligado para quem pediu menos movimento no sistema. */
+.ceu{position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:0}
+.ceu .veu{position:absolute; border-radius:50%; will-change:transform}
+/* SEM filter:blur — e este é o conserto do "trava em outros navegadores".
+   O blur de 110px era refeito a cada quadro, pelo processador, em todo navegador
+   que não o manda para a placa de vídeo (Firefox, Safari, notebook sem placa,
+   modo de economia). Medido com CPU 4x mais lenta e sem placa: 5,8 quadros por
+   segundo com ele, 58 sem ele. A suavidade agora vem do próprio degradê, em
+   degraus, que é desenhado uma vez e só desliza. */
+.ceu-tela{position:absolute; inset:0; display:block}
+.ceu-leve .ceu .veu{animation:none}
+.ceu .v1{width:940px; height:940px; left:-220px; top:-300px; opacity:.34;
+  background:radial-gradient(circle closest-side, var(--verde) 0%, color-mix(in srgb, var(--verde) 62%, transparent) 26%, color-mix(in srgb, var(--verde) 26%, transparent) 55%, color-mix(in srgb, var(--verde) 8%, transparent) 78%, transparent 100%);
+  animation:mcaDeriva1 19s ease-in-out infinite}
+.ceu .v2{width:860px; height:860px; right:-200px; top:60px; opacity:.30;
+  background:radial-gradient(circle closest-side, #43C0A7 0%, color-mix(in srgb, #43C0A7 62%, transparent) 26%, color-mix(in srgb, #43C0A7 26%, transparent) 55%, color-mix(in srgb, #43C0A7 8%, transparent) 78%, transparent 100%);
+  animation:mcaDeriva2 24s ease-in-out infinite}
+.ceu .v3{width:560px; height:560px; left:44%; bottom:-280px; opacity:.16;
+  background:radial-gradient(circle closest-side, var(--ambar) 0%, color-mix(in srgb, var(--ambar) 62%, transparent) 26%, color-mix(in srgb, var(--ambar) 26%, transparent) 55%, color-mix(in srgb, var(--ambar) 8%, transparent) 78%, transparent 100%);
+  animation:mcaDeriva1 29s ease-in-out infinite reverse}
+@keyframes mcaDeriva1{0%,100%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(80px,55px,0) scale(1.13)}}
+@keyframes mcaDeriva2{0%,100%{transform:translate3d(0,0,0) scale(1.07)}
+  50%{transform:translate3d(-70px,-45px,0) scale(1)}}
+:root[data-theme="dark"] .ceu .v1{opacity:.5}
+:root[data-theme="dark"] .ceu .v2{opacity:.46}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .ceu .v1{opacity:.5}
+  :root:not([data-theme="light"]) .ceu .v2{opacity:.46}
+}
+
+/* a partícula é um par: o de fora anda, o de dentro balança no seu ritmo.
+   É esse descompasso que faz o movimento parecer vivo e não trilho de trem. */
+.po{position:absolute; animation-timing-function:linear;
+  animation-iteration-count:infinite; will-change:transform;
+  /* no claro elas precisam de mais peso: ponto verde sobre fundo lavado
+     some, e o movimento é justamente o que se quer notar */
+  opacity:calc(var(--op) * 1.5)}
+:root[data-theme="dark"] .po{opacity:var(--op)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .po{opacity:var(--op)} }
+.po i{display:block; border-radius:50%; background:var(--verde);
+  animation-name:mcaBalancar; animation-timing-function:ease-in-out;
+  animation-iteration-count:infinite; animation-direction:alternate}
+:root[data-theme="dark"] .po i{background:#43C0A7; filter:drop-shadow(0 0 5px #43C0A7)}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .po i{background:#43C0A7; filter:drop-shadow(0 0 5px #43C0A7)}
+}
+@keyframes mcaBalancar{from{transform:translateX(calc(var(--bal) * -.5))}
+  to{transform:translateX(calc(var(--bal) * .5))}}
+.po.sobe{bottom:-30px; animation-name:mcaSubir}
+@keyframes mcaSubir{0%{transform:translateY(0) scale(.6)}
+  6%{transform:translateY(-60px) scale(1)}
+  94%{transform:translateY(-94vh) scale(1)}
+  100%{transform:translateY(-100vh) scale(.6)}}
+.po.daEsq{left:-30px; animation-name:mcaDaEsquerda}
+@keyframes mcaDaEsquerda{0%{transform:translate(0,0) scale(.5)}
+  7%{transform:translate(100px,-14px) scale(1)}
+  93%{transform:translate(96vw,-190px) scale(1)}
+  100%{transform:translate(104vw,-210px) scale(.5)}}
+.po.daDir{right:-30px; animation-name:mcaDaDireita}
+@keyframes mcaDaDireita{0%{transform:translate(0,0) scale(.5)}
+  7%{transform:translate(-100px,-14px) scale(1)}
+  93%{transform:translate(-96vw,-190px) scale(1)}
+  100%{transform:translate(-104vw,-210px) scale(.5)}}
+@media (prefers-reduced-motion: reduce){
+  .ceu .veu, .po, .po i{animation:none !important}
+  .po{display:none}
+}
+/* o conteúdo vive acima do campo */
+.topo, main, .rodape{position:relative; z-index:1}
+
+/* --- caixa central --- */
+main{width:100%; padding:clamp(26px,5vw,52px) 22px}
+.estreito{max-width:452px; margin:0 auto}
+.largo{max-width:1080px; margin:0 auto}
+.medio{max-width:660px; margin:0 auto}
+.caixa{
+  background:var(--folha); border:1px solid var(--linha); border-radius:18px;
+  padding:clamp(24px,4vw,34px); box-shadow:var(--sombra);
+}
+.sub{color:var(--tinta-3); font-size:15px; margin:-2px 0 22px}
+
+/* --- formulário --- */
+.campo{margin-bottom:16px}
+.campo label{display:block; font-size:14px; font-weight:500; color:var(--tinta); margin-bottom:6px}
+.campo .dica{font-size:13px; color:var(--tinta-3); margin:5px 0 0; line-height:1.45}
+input[type=text],input[type=email],input[type=password],input[type=tel]{
+  width:100%; padding:11px 13px; font:inherit; font-size:15.5px; color:var(--tinta);
+  background:var(--papel); border:1px solid var(--linha-forte); border-radius:10px;
+}
+input:focus{border-color:var(--verde); outline:none; box-shadow:0 0 0 3px var(--verde-suave)}
+input[aria-invalid="true"]{border-color:var(--erro)}
+.senha-caixa{position:relative}
+.senha-caixa input{padding-right:82px}
+.ver-senha{
+  position:absolute; right:6px; top:50%; transform:translateY(-50%);
+  background:none; border:0; color:var(--tinta-3); font:inherit; font-size:13px;
+  cursor:pointer; padding:6px 8px; border-radius:8px;
+}
+.ver-senha:hover{color:var(--verde); background:var(--verde-suave)}
+
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:12px 20px; border-radius:11px; border:1px solid transparent;
+  font:inherit; font-size:15.5px; font-weight:600; cursor:pointer; text-decoration:none;
+}
+.btn:hover{text-decoration:none}
+/* A COR DO TEXTO SOBRE O VERDE — um token, não um #fff escrito na mão.
+   No tema escuro o verde da marca clareia (#4FBFA6) para se ver no fundo
+   preto. Branco em cima dele dá 2,25:1 de contraste: abaixo do mínimo de
+   4,5:1, e justamente no botão mais importante da tela. O verde-escuro dá
+   7,6:1. Como token, os dois temas escolhem sozinhos e ninguém precisa
+   lembrar de escrever a exceção em cada lugar que usa o verde cheio. */
+.btn.pri{background:var(--verde); color:var(--sobre-cheio)}
+.btn.pri:hover:not(:disabled){background:var(--verde-claro)}
+.btn.sec{background:var(--folha); color:var(--tinta); border-color:var(--linha-forte)}
+.btn.sec:hover{border-color:var(--verde); color:var(--verde)}
+.btn:disabled{opacity:.55; cursor:not-allowed}
+.btn.bloco{width:100%; margin-top:6px}
+
+.recado{
+  margin:0 0 16px; padding:11px 14px; border-radius:10px; font-size:14.5px; line-height:1.5;
+  border-left:4px solid transparent;
+}
+.recado.erro{background:var(--erro-suave); border-color:var(--erro); color:var(--erro)}
+.recado.ok{background:var(--verde-suave); border-color:var(--verde); color:var(--verde)}
+.recado.atencao{background:var(--ambar-suave); border-color:var(--ambar); color:var(--ambar)}
+
+.marcador{display:flex; gap:10px; align-items:flex-start; font-size:14.5px; line-height:1.5; margin:18px 0 4px}
+.marcador input{margin-top:3px; width:17px; height:17px; accent-color:var(--verde); flex:none}
+.rodape-form{margin-top:20px; padding-top:16px; border-top:1px solid var(--linha); font-size:14.5px; color:var(--tinta-3)}
+.problemas{margin:6px 0 0; padding-left:1.1em; font-size:13px; color:var(--tinta-3)}
+
+/* --- perfil --- */
+.grade{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; align-items:start}
+.linha-dado{display:flex; justify-content:space-between; gap:14px; padding:11px 0; border-top:1px solid var(--linha); font-size:14.5px}
+.linha-dado:first-of-type{border-top:0}
+.linha-dado b{color:var(--tinta); font-weight:500; text-align:right;
+  font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size:14px; font-variant-numeric:tabular-nums}
+.selo{
+  display:inline-flex; align-items:center; gap:7px; font-size:13px; font-weight:600;
+  padding:5px 11px; border-radius:99px; letter-spacing:.01em;
+}
+.selo.teste{background:var(--ambar-suave); color:var(--ambar)}
+.selo.ativa{background:var(--verde-suave); color:var(--verde)}
+.selo.suspensa,.selo.teste_expirado,.selo.cancelada{background:var(--erro-suave); color:var(--erro)}
+.selo .pt{width:7px; height:7px; border-radius:50%; background:currentColor}
+
+/* --- planos --- */
+.planos{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:13px; margin:20px 0 0}
+.plano{
+  background:var(--papel); border:1px solid var(--linha); border-radius:14px; padding:18px 16px;
+  cursor:pointer; display:block; position:relative;
+}
+.plano:hover{border-color:var(--linha-forte)}
+.plano input{position:absolute; opacity:0; pointer-events:none}
+.plano:has(input:checked){border-color:var(--verde); box-shadow:0 0 0 1px var(--verde); background:var(--folha)}
+.plano .nome{font-weight:600; color:var(--tinta); font-size:15px}
+.plano .mes{font-family:Newsreader,Georgia,serif; font-size:29px; color:var(--tinta); margin-top:8px; font-variant-numeric:tabular-nums}
+.plano .mes small{font-family:Archivo,system-ui,sans-serif; font-size:13px; color:var(--tinta-3)}
+.plano .tot{font-size:13.5px; color:var(--tinta-2); margin-top:6px;
+  font-family:"IBM Plex Mono", ui-monospace, Menlo, monospace; font-variant-numeric:tabular-nums}
+.plano .eco{font-size:13px; color:var(--ambar); font-weight:600; margin-top:4px}
+
+.interruptor{display:flex; gap:12px; align-items:flex-start; background:var(--papel);
+  border:1px solid var(--linha); border-radius:12px; padding:14px 16px; margin-top:20px; font-size:14.5px}
+.interruptor input{margin-top:3px; width:18px; height:18px; accent-color:var(--verde); flex:none}
+
+/* --- download --- */
+.baixar{display:flex; gap:14px; align-items:flex-start; padding:18px 0; border-top:1px solid var(--linha)}
+.baixar:first-of-type{border-top:0; padding-top:4px}
+.baixar .ico{width:42px; height:42px; border-radius:11px; background:var(--verde-suave); color:var(--verde);
+  display:grid; place-items:center; flex:none; font-weight:700; font-size:13px}
+.baixar .txt{flex:1; min-width:0}
+.baixar h3{margin:0 0 3px; font-size:16px}
+.baixar p{margin:0; font-size:14px; color:var(--tinta-3)}
+.baixar .btn{flex:none; align-self:center}
+.mini{font-size:12.5px; color:var(--tinta-3); line-height:1.5}
+ol.passos{margin:14px 0 0; padding-left:1.3em; font-size:15px; color:var(--tinta-2)}
+ol.passos li{margin-bottom:9px; line-height:1.6}
+ol.passos li::marker{color:var(--verde); font-weight:600}
+.caixa.suporte{border-color:var(--verde); background:var(--verde-suave)}
+.caixa.suporte h2,.caixa.suporte p{color:var(--tinta)}
+.caixa.suporte .mini{color:var(--tinta-2)}
+.baixar .mini{margin-top:5px}
+.linha-conta{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap}
+@media (max-width:520px){
+  .baixar{flex-wrap:wrap}
+  .baixar .btn{width:100%; margin-top:4px}
+}
+
+/* --- a senha única ---
+   O código é o objeto mais importante desta tela inteira, então ele tem o
+   tratamento de objeto: monoespaçada de verdade, tracejado em volta (que lê
+   como "destaque para recortar"), e o verde da marca na borda para dizer que
+   é nosso e não um erro do sistema. O tracejado é o mesmo da etiqueta de
+   remédio — a pessoa já sabe, sem ler, que ali vai algo para guardar. */
+.codigo{
+  font-family:"IBM Plex Mono", ui-monospace, "Cascadia Mono", Menlo, Consolas, monospace;
+  font-size:clamp(16px,4.1vw,21px); font-weight:600; letter-spacing:.08em;
+  background:var(--verde-suave); border:2px dashed var(--verde); border-radius:12px;
+  padding:20px 14px; color:var(--tinta); margin:18px 0 20px;
+  display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:0 2px;
+  user-select:all;
+}
+/* Cada bloco de cinco é um pedaço indivisível.
+   Com word-break:break-all o código quebrava NO MEIO de um bloco — "…-D4Q"
+   numa linha e "JR" na outra —, e quem copia à caneta de um papel lê isso
+   errado. Aqui a quebra só pode acontecer entre blocos, que é onde o hífen já
+   diz que é para quebrar. */
+.codigo b{font-weight:inherit; white-space:nowrap}
+.codigo i{font-style:normal; opacity:.45; padding:0 1px}
+.paraque{
+  background:var(--folha-2); border-radius:12px; padding:16px 18px;
+  font-size:14.5px; line-height:1.55;
+}
+.paraque p{margin:0 0 10px}
+.paraque p:last-child{margin:0}
+.guardar{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:9px}
+.guardar .btn{width:100%}
+.confirmar{display:flex; gap:9px; margin-top:12px; flex-wrap:wrap}
+.btn.sm{padding:8px 14px; font-size:14px}
+.carregando{color:var(--tinta-3); font-size:15px; text-align:center; padding:26px 0}
+
+/* --- botão de tema ---
+   O mesmo par de botões da página inicial, com a mesma aparência e o mesmo
+   comportamento de três estados. Fica no cabeçalho, que é comum a todas as
+   páginas — então basta existir aqui para existir em todas. */
+.tema{display:inline-flex; align-items:center; gap:3px; padding:3px;
+  border:1px solid var(--linha); border-radius:99px; background:var(--folha)}
+.tema button{width:30px; height:30px; border:0; border-radius:99px; cursor:pointer;
+  background:none; color:var(--tinta-3); display:inline-flex; align-items:center;
+  justify-content:center; padding:0; transition:background .15s, color .15s}
+.tema button[aria-pressed="true"]{background:var(--verde); color:var(--sobre-cheio)}
+.tema button:hover{color:var(--tinta)}
+.tema button[aria-pressed="true"]:hover{color:var(--sobre-cheio)}
+:root[data-theme="dark"] .tema button[aria-pressed="true"]{background:#43C0A7; color:#04201B}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .tema button[aria-pressed="true"]{background:#43C0A7; color:#04201B}
+}
+@media (max-width:520px){ .topo nav{gap:12px} }
+/* ===== 2.10: a marca do topo igual à da página inicial ===== */
+.marca{gap:11px}
+.marca span{overflow:visible}
+.marca-selo{flex:none; display:grid; place-items:center}
+.marca-selo img{width:40px; height:40px; border-radius:11px; display:block;
+  box-shadow:0 8px 18px -12px rgba(11,26,22,.55)}
+.marca-nome{display:flex; flex-direction:column; min-width:0; line-height:1}
+.marca-nome b{font-family:Newsreader, Georgia, serif; font-weight:600; font-size:23px;
+  letter-spacing:-.02em; white-space:nowrap; color:var(--tinta)}
+.marca-nome small{font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size:9.5px; font-weight:500; letter-spacing:.46em; text-transform:uppercase;
+  color:var(--verde); margin:5px 0 0 2px}
+@media (max-width:560px){
+  .marca-selo img{width:36px; height:36px; border-radius:10px}
+  .marca-nome b{font-size:20px}
+  .marca-nome small{font-size:8.5px; letter-spacing:.42em; margin-top:4px}
+}
+@media (max-width:360px){ .marca-nome b{font-size:18px} .marca-nome small{display:none} }
+@media (max-width:300px){ .marca-nome{display:none} }
+/* O PREENCHIMENTO AUTOMÁTICO DO NAVEGADOR pintava o campo de azul-claro (e,
+   no tema escuro, deixava letra clara em fundo claro). A sombra interna cobre
+   o fundo que o navegador impõe; a cor do texto volta a ser a da página. */
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus{
+  -webkit-text-fill-color:var(--tinta); caret-color:var(--tinta);
+  -webkit-box-shadow:0 0 0 1000px var(--papel) inset; box-shadow:0 0 0 1000px var(--papel) inset;
+  transition:background-color 99999s ease-out 0s}
+input:-webkit-autofill:focus{
+  -webkit-box-shadow:0 0 0 1000px var(--papel) inset, 0 0 0 3px var(--verde-suave);
+  box-shadow:0 0 0 1000px var(--papel) inset, 0 0 0 3px var(--verde-suave)}
+</style>
+<style>:root{--azul:#1E4E9C; --azul-claro:#2C63BE; --azul-suave:#E2EAF7; --azul-fundo:#0B2149; --azul-fundo-2:#10306A; --sobre-azul:#DCE6F7}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6} }
+:root[data-theme="dark"]{--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6}</style>
+<style>
+
+/* 3.2 — o mesmo céu da página inicial: verde de um lado, azul do outro */
+.campo .v2, .ceu .v2{background:radial-gradient(circle closest-side, var(--azul) 0%, color-mix(in srgb, var(--azul) 62%, transparent) 26%, color-mix(in srgb, var(--azul) 26%, transparent) 55%, color-mix(in srgb, var(--azul) 8%, transparent) 78%, transparent 100%)}
+
+</style>
+<style>
+
+:root{--azul:#1E4E9C; --azul-claro:#2C63BE; --azul-suave:#E2EAF7; --azul-fundo:#0B2149; --azul-fundo-2:#10306A; --sobre-azul:#DCE6F7; --verde-solo:#0E6B5E}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6; --verde-solo:#4FBFA6} }
+:root[data-theme="dark"]{--azul:#7FA6E6; --azul-claro:#9BBBEE; --azul-suave:#14233D; --azul-fundo:#071630; --azul-fundo-2:#0C2147; --sobre-azul:#D3E0F6; --verde-solo:#4FBFA6}
+body.pagina-clinica{--verde:var(--azul); --verde-claro:var(--azul-claro); --verde-suave:var(--azul-suave); --verde-fundo:var(--azul-fundo); --verde-fundo-2:var(--azul-fundo-2); --sobre-verde:var(--sobre-azul)}
+body.pagina-clinica{--papel:#F2F4F8; --folha-2:#E9EDF4; --linha:#D6DDE8; --linha-forte:#B5C1D3; --tinta:#0B1220; --tinta-2:#3D4A5E; --tinta-3:#5E6B80}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) body.pagina-clinica{--papel:#080D15; --folha:#0E1520; --folha-2:#141D2B; --linha:#222D3E; --linha-forte:#364458; --tinta:#E5EAF2; --tinta-2:#AEBACC; --tinta-3:#7D8A9F}
+}
+:root[data-theme="dark"] body.pagina-clinica{--papel:#080D15; --folha:#0E1520; --folha-2:#141D2B; --linha:#222D3E; --linha-forte:#364458; --tinta:#E5EAF2; --tinta-2:#AEBACC; --tinta-3:#7D8A9F}
+body.pagina-clinica .btn.pri, body.pagina-clinica .btn-pri{color:#fff}
+:root[data-theme="dark"] body.pagina-clinica .btn.pri{color:#071630}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) body.pagina-clinica .btn.pri{color:#071630} }
+body.pagina-clinica .ceu .v1{background:radial-gradient(circle closest-side, var(--azul) 0%, color-mix(in srgb, var(--azul) 62%, transparent) 26%, color-mix(in srgb, var(--azul) 26%, transparent) 55%, color-mix(in srgb, var(--azul) 8%, transparent) 78%, transparent 100%)}
+body.pagina-clinica .ceu .v2{background:radial-gradient(circle closest-side, var(--azul-claro) 0%, color-mix(in srgb, var(--azul-claro) 62%, transparent) 26%, color-mix(in srgb, var(--azul-claro) 26%, transparent) 55%, color-mix(in srgb, var(--azul-claro) 8%, transparent) 78%, transparent 100%); opacity:.28}
+#campoTestador{margin-top:16px}
+.marca .cli-marca{display:none}
+body.pagina-clinica .marca .solo-marca{display:none}
+body.pagina-clinica .marca .cli-marca{display:inline}
+
+</style>
+<style id="painel-dono">
+:root{ --c-rec:#0F8A73; --c-pag:#2C63BE; --ouro:#9A6B12; --ouro-suave:#F6EEDC; --ok:#1D7A46; --atencao:#8A5810; --critico:#A1301B; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --c-rec:#2FA88C; --c-pag:#6E93E0; --ouro:#E0B064; --ouro-suave:#2A2113; --ok:#5CC48A; --atencao:#E0B064; --critico:#EE8E7B; } }
+:root[data-theme="dark"]{ --c-rec:#2FA88C; --c-pag:#6E93E0; --ouro:#E0B064; --ouro-suave:#2A2113; --ok:#5CC48A; --atencao:#E0B064; --critico:#EE8E7B; }
+main{flex:1}
+[hidden]{display:none !important}
+.pd-acoes .btn{background:var(--folha); color:var(--tinta); border:1px solid var(--linha-forte)}
+.pd-largo{max-width:1120px; margin:0 auto; padding:34px 22px 60px}
+.pd-entrar{display:flex; justify-content:center}
+.pd-caixa{max-width:470px; width:100%}
+.pd-caixa h1{font-family:Newsreader,Georgia,serif; font-weight:600; font-size:clamp(28px,4vw,36px); line-height:1.12; color:var(--tinta); margin:4px 0 10px; text-wrap:balance}
+.pd-lead{margin:0 0 18px; color:var(--tinta-2)}
+.pd-campo{display:grid; gap:6px; margin:0 0 14px; font-weight:500; color:var(--tinta)}
+.pd-campo input{font:inherit; padding:11px 12px; border:1px solid var(--linha-forte); border-radius:10px; background:var(--folha); color:var(--tinta); width:100%}
+.pd-campo input:focus{outline:2px solid var(--verde); outline-offset:1px}
+.pd-senha{display:flex; gap:8px}
+.pd-ver{font:inherit; font-size:13px; border:1px solid var(--linha); border-radius:10px; background:var(--folha-2); color:var(--tinta-2); padding:0 12px; cursor:pointer}
+.pd-btn{width:100%; justify-content:center}
+.pd-recado{min-height:22px; font-size:14px; margin:0 0 10px; color:var(--tinta-2)}
+.pd-recado.erro{color:var(--erro)}
+.pd-nota{font-size:13.5px; color:var(--tinta-3); margin-top:16px}
+.pd-topo{display:flex; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap; margin-bottom:18px}
+.pd-topo h1{font-family:Newsreader,Georgia,serif; font-weight:600; font-size:clamp(28px,4vw,40px); color:var(--tinta); margin:2px 0 4px; line-height:1.1}
+.pd-sub{margin:0; color:var(--tinta-3); font-size:14px}
+.pd-acoes{display:flex; gap:8px}
+.pd-filtro{display:flex; gap:6px; flex-wrap:wrap; margin:0 0 18px}
+.pd-filtro button{font:inherit; font-size:14px; padding:7px 14px; border-radius:999px; border:1px solid var(--linha); background:var(--folha); color:var(--tinta-2); cursor:pointer}
+.pd-filtro button[aria-selected="true"]{background:var(--verde); border-color:var(--verde); color:var(--sobre-cheio)}
+.pd-filtro button:focus-visible, .pd-card :focus-visible, .btn:focus-visible{outline:2px solid var(--verde); outline-offset:2px}
+.pd-kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; margin-bottom:16px}
+.pd-kpi{background:var(--folha); border:1px solid var(--linha); border-radius:14px; padding:14px 16px; box-shadow:var(--sombra)}
+.pd-kpi .k{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--tinta-3)}
+.pd-kpi .v{font-size:25px; font-weight:700; color:var(--tinta); font-variant-numeric:tabular-nums; margin-top:4px; line-height:1.15}
+.pd-kpi .s{font-size:13px; color:var(--tinta-3); margin-top:2px}
+.pd-kpi.ok .v{color:var(--ok)} .pd-kpi.critico .v{color:var(--critico)} .pd-kpi.atencao .v{color:var(--atencao)}
+.pd-grade{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px}
+.pd-largo-card{grid-column:1/-1}
+.pd-card{background:var(--folha); border:1px solid var(--linha); border-radius:16px; padding:16px 18px; box-shadow:var(--sombra); min-width:0}
+.pd-card header{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; flex-wrap:wrap}
+.pd-card h2{font-size:16px; margin:0; color:var(--tinta); font-weight:600}
+.pd-selo{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ouro); background:var(--ouro-suave); border-radius:999px; padding:3px 10px}
+.pd-legenda{display:flex; gap:14px; font-size:13px; color:var(--tinta-2)}
+.pd-legenda i{display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; vertical-align:-1px}
+.pd-grafico{overflow-x:auto}
+.pd-grafico svg{display:block; width:100%; min-width:560px; height:auto}
+.pd-grafico .grade line{stroke:var(--linha); stroke-width:1}
+.pd-grafico text{fill:var(--tinta-3); font-size:11px; font-family:"IBM Plex Mono",monospace}
+.pd-grafico .alvo{fill:transparent; cursor:default}
+.pd-grafico .alvo:hover{fill:color-mix(in srgb, var(--tinta) 5%, transparent)}
+.pd-tabela{margin-top:8px; font-size:13.5px}
+.pd-tabela summary{cursor:pointer; color:var(--verde)}
+.pd-tabela table{border-collapse:collapse; width:100%; margin-top:8px; font-variant-numeric:tabular-nums}
+.pd-tabela th,.pd-tabela td{padding:6px 8px; border-bottom:1px solid var(--linha); text-align:right}
+.pd-tabela th:first-child,.pd-tabela td:first-child{text-align:left}
+.pd-barras{display:grid; gap:9px}
+.pd-barra{display:grid; grid-template-columns:minmax(90px,38%) 1fr auto; align-items:center; gap:10px; font-size:14px}
+.pd-barra .n{color:var(--tinta); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.pd-barra .t{height:10px; background:var(--folha-2); border-radius:4px; overflow:hidden}
+.pd-barra .t b{display:block; height:100%; background:var(--c-rec); border-radius:0 4px 4px 0}
+.pd-barra .v{font-variant-numeric:tabular-nums; color:var(--tinta-2); min-width:2ch; text-align:right}
+.pd-linhas{display:grid; gap:0}
+.pd-linha{display:flex; justify-content:space-between; gap:12px; padding:9px 0; border-bottom:1px solid var(--linha); font-size:14.5px}
+.pd-linha:last-child{border-bottom:0}
+.pd-linha span{color:var(--tinta-2)}
+.pd-linha b{color:var(--tinta); font-variant-numeric:tabular-nums; text-align:right}
+.pd-linha b.critico{color:var(--critico)} .pd-linha b.atencao{color:var(--atencao)} .pd-linha b.ok{color:var(--ok)}
+.pd-estado{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; border-radius:999px; padding:2px 10px; border:1px solid var(--linha)}
+.pd-estado::before{content:""; width:7px; height:7px; border-radius:50%; background:currentColor}
+.pd-estado.ok{color:var(--ok)} .pd-estado.atencao{color:var(--atencao)}
+.pd-secao{font-family:Newsreader,Georgia,serif; font-weight:600; font-size:26px; color:var(--tinta); margin:30px 0 12px}
+.pd-clinicas{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px}
+.pd-vazio{color:var(--tinta-3); font-size:14px; margin:4px 0}
+.pd-seguro{margin-top:26px; border-top:1px solid var(--linha); padding-top:14px}
+.pd-dica{position:fixed; z-index:50; pointer-events:none; background:var(--tinta); color:var(--papel); border-radius:10px; padding:8px 10px; font-size:13px; line-height:1.45; box-shadow:var(--sombra); font-variant-numeric:tabular-nums}
+.pd-dica i{display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:6px}
+@media (max-width:760px){ .pd-grade{grid-template-columns:1fr} .pd-kpis{grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px} .pd-kpi{padding:12px} .pd-largo{padding:22px 16px 48px} .pd-kpi .v{font-size:21px} }
+@media (prefers-reduced-motion: no-preference){ .pd-painel:not([hidden]){animation:pdEntra .35s ease-out} @keyframes pdEntra{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none}} }
+</style>
+</head>
+<body>
+<script>
+/* 3.2 — veio pela Clínica? a página já nasce azul (sem piscar verde antes) */
+(function(){ try{
+  var q = location.search, ss = sessionStorage.getItem('produto');
+  if(/[?&]clinica=1/.test(q) || /[?&]c=/.test(q)) sessionStorage.setItem('produto', 'clinica');
+  if(/[?&]solo=1/.test(q)) sessionStorage.setItem('produto', 'solo');
+  document.body.classList.add('pagina-clinica');
+}catch(e){} })();
+window.mcaPintarClinica = function(sim){
+  document.body.classList.toggle('pagina-clinica', !!sim);
+  try{ sessionStorage.setItem('produto', sim ? 'clinica' : 'solo'); }catch(e){}
+  var img = document.querySelector('.marca-selo img'); if(img) img.src = sim ? '/img/favicon-clinica.png' : '/img/favicon.png';
+  var ic = document.querySelector('link[rel="icon"]'); if(ic) ic.href = sim ? '/img/favicon-clinica.png' : '/img/favicon.png';
+};
+if(document.body.classList.contains('pagina-clinica')) document.addEventListener('DOMContentLoaded', function(){ window.mcaPintarClinica(document.body.classList.contains('pagina-clinica')); });
+</script>
+<div class="ceu" aria-hidden="true">
+  <div class="veu v1"></div><div class="veu v2"></div><div class="veu v3"></div>
+</div>
+<header class="topo">
+  <div class="topo-in">
+    <a class="marca" href="/" aria-label="Meu Consultório App — início"><span class="marca-selo"><img src="/img/favicon.png" alt="" width="40" height="40" /></span><span class="marca-nome"><b>Meu Consultório</b><small><span class="solo-marca">App</span><span class="cli-marca">App | Clínica</span></small></span></a>
+    <nav><a href="/clinica">A Clínica</a>
+      <span class="tema" role="group" aria-label="Tema da página">
+        <button type="button" data-tema="light" aria-pressed="false" title="Tema claro" aria-label="Tema claro">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button type="button" data-tema="dark" aria-pressed="false" title="Tema escuro" aria-label="Tema escuro">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5z"/></svg>
+        </button>
+      </span>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="pd-largo">
+
+    <section class="pd-entrar" id="pdEntrar">
+      <div class="caixa pd-caixa">
+        <p class="rot">Painel do dono</p>
+        <h1>As suas clínicas, num lugar só</h1>
+        <p class="pd-lead">Entre com o e-mail e a senha do programa. O resumo de cada clínica chega aqui cifrado e só se abre <b>neste navegador</b>, com a sua senha — nem o site consegue ler.</p>
+        <form id="pdForma" autocomplete="on" novalidate>
+          <label class="pd-campo"><span>E-mail</span><input type="email" name="email" id="pdEmail" autocomplete="username" required /></label>
+          <label class="pd-campo"><span>Senha do programa</span>
+            <span class="pd-senha"><input type="password" name="senha" id="pdSenha" autocomplete="current-password" required /><button type="button" id="pdVer" class="pd-ver">mostrar</button></span>
+          </label>
+          <div class="pd-recado" id="pdRecado" role="status" aria-live="polite"></div>
+          <button class="btn pri pd-btn" id="pdBotao" type="submit">Abrir o painel</button>
+        </form>
+        <p class="pd-nota">Ainda não aparece nada? No programa, em <b>Ajustes → Painel do dono no site</b>, o administrador liga o painel de cada clínica com este mesmo e-mail.</p>
+      </div>
+    </section>
+
+    <section class="pd-painel" id="pdPainel" hidden>
+      <div class="pd-topo">
+        <div>
+          <p class="rot">Painel do dono</p>
+          <h1 id="pdTitulo">Suas clínicas</h1>
+          <p class="pd-sub" id="pdSub"></p>
+        </div>
+        <div class="pd-acoes">
+          <button class="btn" type="button" id="pdAtualizar">Atualizar</button>
+          <button class="btn" type="button" id="pdSair">Sair</button>
+        </div>
+      </div>
+
+      <div class="pd-filtro" role="tablist" aria-label="Qual clínica" id="pdFiltro"></div>
+
+      <div class="pd-kpis" id="pdKpis"></div>
+
+      <div class="pd-grade">
+        <article class="pd-card pd-largo-card">
+          <header><h2>Recebido e pago, mês a mês</h2><div class="pd-legenda" id="pdLegenda"></div></header>
+          <div class="pd-grafico" id="pdGrafico"></div>
+          <details class="pd-tabela"><summary>Ver em tabela</summary><div id="pdTabela"></div></details>
+        </article>
+        <article class="pd-card"><header><h2>Atendimentos do mês por dentista</h2></header><div id="pdDentistas"></div></article>
+        <article class="pd-card"><header><h2>Por especialidade</h2></header><div id="pdEsp"></div></article>
+        <article class="pd-card"><header><h2>Escritório</h2><span class="pd-selo">Escritório</span></header><div id="pdEscritorio"></div></article>
+        <article class="pd-card"><header><h2>Pacientes e agenda</h2></header><div id="pdAgenda"></div></article>
+      </div>
+
+      <h2 class="pd-secao">Clínica por clínica</h2>
+      <div class="pd-clinicas" id="pdClinicas"></div>
+
+      <p class="pd-nota pd-seguro">Os números chegam cifrados de cada clínica e são abertos aqui, com a sua senha. Nada fica guardado neste navegador: ao sair ou fechar a aba, o painel some. Nenhum nome de paciente entra no resumo.</p>
+    </section>
+
+  </div>
+</main>
+<div class="pd-dica" id="pdDica" role="tooltip" hidden></div>
+<footer class="rodape">
+  <div>
+    <span>© 2026 Meu Consultório App</span>
+    <a href="/contrato.pdf" target="_blank" rel="noopener">Contrato de adesão</a>
+    <a href="/#planos">Planos</a>
+    <a href="mailto:contato@meuconsultorioappodonto.com.br">contato@meuconsultorioappodonto.com.br</a>
+    <a href="https://wa.me/5521986624185" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+</footer>
+<script src="/js/acesso.js"></script>
+<script src="/js/ceu.js" defer></script>
+<script>
+/* O BOTÃO DE TEMA — três estados, não dois: claro, escuro e "o que o sistema
+   preferir". Quem nunca clicou fica no terceiro, e por isso os dois botões só
+   marcam um como apertado quando existe escolha gravada. Clicar de novo no que
+   já está ligado devolve a escolha para o sistema. É o mesmo código da página
+   inicial, palavra por palavra. */
+(function(){
+  var raiz = document.documentElement;
+  var botoes = document.querySelectorAll(".tema button[data-tema]");
+  if(!botoes.length) return;
+  function guardado(){
+    try{ return localStorage.getItem("mca-tema"); }catch(e){ return null; }
+  }
+  function daMaquina(){
+    return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+  function pintar(){
+    var q = guardado() || daMaquina();
+    botoes.forEach(function(b){
+      b.setAttribute("aria-pressed", b.dataset.tema === q ? "true" : "false");
+    });
+  }
+  botoes.forEach(function(b){
+    b.addEventListener("click", function(){
+      var quer = b.dataset.tema;
+      if(guardado() === quer){
+        try{ localStorage.removeItem("mca-tema"); }catch(e){}
+        raiz.removeAttribute("data-theme");
+      }else{
+        try{ localStorage.setItem("mca-tema", quer); }catch(e){}
+        raiz.setAttribute("data-theme", quer);
+      }
+      pintar();
+    });
+  });
+  try{
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(){
+      if(!guardado()) pintar();
+    });
+  }catch(e){}
+  pintar();
+})();
+</script>
+
+<script>
+(function(){
+  if(!document.body.classList.contains('pagina-clinica')) return;
+  document.querySelectorAll('a[href="/criar-conta"]').forEach(function(a){ a.href = '/criar-conta?clinica=1'; });
+  var l = [].find.call(document.querySelectorAll('a'), function(a){ return /Criar conta e testar 14 dias/.test(a.textContent); });
+  if(l) l.textContent = 'Criar a conta da clínica e testar 30 dias';
+})();
+</script>
+<style id="ajuste-telas">
+/* nada pode empurrar a página para o lado */
+html, body{max-width:100%}
+body{overflow-x:clip}
+img, video, svg, canvas, iframe{max-width:100%}
+/* bolinhas escondidas dos seletores (radio) não podem ter a largura do formulário */
+.mc-chips label{position:relative}
+.mc-chips input{width:1px; height:1px; margin:0; left:0; top:0}
+/* endereços e links compridos quebram em vez de vazar */
+.rodape a, .rodape p, .resp a, .resp p, .faq summary, td, dd{overflow-wrap:anywhere}
+/* filhos de grid e flex podem encolher */
+.rodape > *, .faq, .resp{min-width:0}
+pre, table{max-width:100%}
+.tabela-rolagem, pre{overflow-x:auto}
+
+/* topo, computador: marca, links e botões em três colunas que não se encostam */
+@media (min-width:1001px){
+  html:not(.rolou) body:has(.topo-links) .topo-in{grid-template-columns:auto minmax(0,1fr) auto; gap:24px}
+  body:has(.topo-links) .topo-links{min-width:0; justify-content:center}
+  body:has(.topo-links) .topo-links a{white-space:nowrap}
+}
+@media (min-width:1001px){
+  html:not(.rolou) body:has(.topo-links) .topo-in{gap:18px}
+  body:has(.topo-links) .topo-links{gap:16px}
+  body:has(.topo-links) .topo-links a{font-size:11px; letter-spacing:.1em}
+  html:not(.rolou) body:has(.topo-links) .marca-nome b{font-size:23px}
+  html:not(.rolou) body:has(.topo-links) .marca-selo, html:not(.rolou) body:has(.topo-links) .marca-selo img{width:46px; height:46px}
+  html.rolou body:has(.topo-links) .topo-in{gap:16px}
+}
+@media (min-width:1001px) and (max-width:1120px){
+  body:has(.topo-links) .topo-acoes .tema{display:none}
+  body:has(.topo-links) .topo-links{gap:13px}
+}
+/* topo, notebook pequeno, tablet e celular: links numa segunda linha, que desliza com o dedo */
+@media (max-width:1000px){
+  html:not(.rolou) body:has(.topo-links) .topo-in{grid-template-columns:minmax(0,1fr) auto}
+  html:not(.rolou) body:has(.topo-links) .topo-links{display:flex; grid-column:1 / -1; grid-row:2; justify-self:stretch;
+    flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden; min-width:0; max-width:100%; margin-top:-6px;
+    scrollbar-width:none; -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain; padding-bottom:2px}
+  body:has(.topo-links) .topo-links::-webkit-scrollbar{display:none}
+  body:has(.topo-links) .topo-links a{flex:none; white-space:nowrap}
+  body:has(.topo-links) .marca{min-width:0}
+}
+@media (min-width:901px) and (max-width:1000px){
+  html.rolou body:has(.topo-links) .marca-nome{display:none}
+  body:has(.topo-links) .abertura{padding-top:calc(clamp(44px,7vw,86px) + 112px) !important}
+}
+@media (max-width:480px){
+  html:not(.rolou) body:has(.topo-links) .topo-links{-webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);
+    mask-image:linear-gradient(90deg,#000 86%,transparent); padding-right:24px}
+  body:has(.topo-links) .abertura{padding-top:calc(clamp(44px,7vw,86px) + 72px) !important}
+}
+
+/* topo simples (entrar, perfil, planos, baixar…): o nome não passa por cima dos links */
+@media (max-width:600px){
+  body:not(:has(.topo-links)) .topo nav .tema{display:none}
+  body:not(:has(.topo-links)) .marca{flex:0 1 auto; min-width:0}
+  body:not(:has(.topo-links)) .marca-selo{flex:none}
+  body:not(:has(.topo-links)) .marca-nome{overflow:hidden; min-width:0}
+}
+@media (max-width:330px){
+  body:not(:has(.topo-links)) .marca span.marca-selo{display:grid}
+}
+@media (max-width:380px){
+  body:not(:has(.topo-links)) .marca-nome b{font-size:17px}
+  body:not(:has(.topo-links)) .topo nav{gap:10px; font-size:13px}
+}
+/* página da Duda: o topo fica sobre o palco escuro, então o texto do topo clareia */
+html:not(.rolou) body:has(#ddTitulo) .marca-nome b{color:#F2F7F5}
+html:not(.rolou) body:has(#ddTitulo) .marca-nome small{color:#9FE3D2}
+html:not(.rolou) body:has(#ddTitulo) .topo-links a{color:rgba(230,240,238,.80)}
+html:not(.rolou) body:has(#ddTitulo) .topo-links a[href="/clinica"]{color:#A9C4F2 !important}
+html:not(.rolou) body:has(#ddTitulo) .topo-links a.link-duda{background:linear-gradient(90deg,#8FD9C8,#9FBDF0);
+  -webkit-background-clip:text; background-clip:text; color:transparent}
+html:not(.rolou) body:has(#ddTitulo) .topo-acoes a.entrar{color:#F2F7F5; background:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.28)}
+html:not(.rolou) body:has(#ddTitulo) .tema{background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.2)}
+@media (max-width:700px){
+  .dd-palco-topo .duda-orbe{margin-left:12px}
+}
+</style>
+<script>
+var DONO5 = (function(){
+  var ITER = 310000, enc = new TextEncoder(), dec = new TextDecoder();
+  function b64(u8){ var s = ""; u8 = new Uint8Array(u8); for(var i = 0; i < u8.length; i++) s += String.fromCharCode(u8[i]); return btoa(s); }
+  function deb64(s){ var b = atob(s), u = new Uint8Array(b.length); for(var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+  function hex(u8){ return Array.prototype.map.call(new Uint8Array(u8), function(x){ return ("0" + x.toString(16)).slice(-2); }).join(""); }
+  function sorteio(n){ return crypto.getRandomValues(new Uint8Array(n)); }
+  function sha256hex(s){ return crypto.subtle.digest("SHA-256", enc.encode(s)).then(hex); }
+  function normEmail(e){ return String(e || "").trim().toLowerCase(); }
+  function donoId(email){ return sha256hex("mca-dono|" + normEmail(email)); }
+  function pbkdf2(senha, sal){
+    return crypto.subtle.importKey("raw", enc.encode(senha), "PBKDF2", false, ["deriveBits"]).then(function(k){
+      return crypto.subtle.deriveBits({ name:"PBKDF2", hash:"SHA-256", salt:sal, iterations:ITER }, k, 256);
+    }).then(function(b){ return new Uint8Array(b); });
+  }
+  function leitor(email, senha){ return pbkdf2(senha, enc.encode("mca-dono-leitor|" + normEmail(email))).then(hex); }
+  function chaveAes(bytes, usos){ return crypto.subtle.importKey("raw", bytes, "AES-GCM", false, usos); }
+  function cifrar(chave, bytes){
+    var iv = sorteio(12);
+    return chaveAes(chave, ["encrypt"]).then(function(k){ return crypto.subtle.encrypt({ name:"AES-GCM", iv:iv }, k, bytes); })
+      .then(function(c){ return { iv:b64(iv), ct:b64(c) }; });
+  }
+  function decifrar(chave, iv, ct){
+    return chaveAes(chave, ["decrypt"]).then(function(k){ return crypto.subtle.decrypt({ name:"AES-GCM", iv:deb64(iv) }, k, deb64(ct)); })
+      .then(function(b){ return new Uint8Array(b); });
+  }
+  /* o embrulho da Kp para um dono: sal novo, chave da senha, Kp cifrada */
+  function embrulhar(email, senha, kp){
+    var sal = sorteio(16);
+    return Promise.all([pbkdf2(senha, sal), leitor(email, senha), donoId(email)]).then(function(r){
+      return cifrar(r[0], kp).then(function(w){
+        return sha256hex(r[1]).then(function(lh){ return { salt:b64(sal), wrap:w.iv + "." + w.ct, leitorHash:lh, donoId:r[2] }; });
+      });
+    });
+  }
+  /* o caminho de volta (é o que o site faz) */
+  function abrir(senha, item){
+    return pbkdf2(senha, deb64(item.salt)).then(function(w){
+      var p = String(item.wrap).split(".");
+      return decifrar(w, p[0], p[1]);
+    }).then(function(kp){ return decifrar(kp, item.iv, item.ct); }).then(function(b){ return JSON.parse(dec.decode(b)); });
+  }
+  return { b64:b64, deb64:deb64, hex:hex, sorteio:sorteio, donoId:donoId, leitor:leitor, embrulhar:embrulhar, cifrar:cifrar, decifrar:decifrar, abrir:abrir, normEmail:normEmail, ITER:ITER };
+})();
+(function(){
+  "use strict";
+  var PONTE = "https://ponte.meuconsultorioappodonto.com.br";
+  /* nos testes (só no próprio computador) a ponte pode ser outra */
+  try { var q = new URLSearchParams(location.search).get("ponte"); if(q && /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) PONTE = q; } catch(e) {}
+  var $ = function(id){ return document.getElementById(id); };
+  var SESSAO = null;           /* { email, senha, clinicas:[resumo...] } — só na memória */
+  var FILTRO = "todas";
+  var MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]; }); }
+  function brl(v){ return (Number(v) || 0).toLocaleString("pt-BR", { style:"currency", currency:"BRL", maximumFractionDigits:0 }); }
+  function brlCurto(v){ v = Number(v) || 0; var a = Math.abs(v); if(a >= 1e6) return "R$ " + (v / 1e6).toLocaleString("pt-BR", { maximumFractionDigits:1 }) + " mi"; if(a >= 1e3) return "R$ " + Math.round(v / 1e3) + " mil"; return "R$ " + Math.round(v); }
+  function num(v){ return (Number(v) || 0).toLocaleString("pt-BR"); }
+  function rotMes(m, curto){ var p = String(m).split("-"); var t = MESES[(+p[1] || 1) - 1]; return curto ? t : t + "/" + String(p[0]).slice(2); }
+  function haQuanto(iso){
+    var d = (Date.now() - new Date(iso).getTime()) / 60000;
+    if(!(d >= 0)) return "agora"; if(d < 2) return "agora mesmo"; if(d < 60) return "há " + Math.round(d) + " min";
+    if(d < 60 * 24) return "há " + Math.round(d / 60) + " h"; return "há " + Math.round(d / 1440) + " dia(s)";
+  }
+  function recado(t, erro){ var r = $("pdRecado"); r.textContent = t || ""; r.className = "pd-recado" + (erro ? " erro" : ""); }
+
+  /* ----------------------------------------------------------- entrar -- */
+  $("pdVer").onclick = function(){ var i = $("pdSenha"); i.type = i.type === "password" ? "text" : "password"; this.textContent = i.type === "password" ? "mostrar" : "ocultar"; };
+  try { var em = localStorage.getItem("mca-dono-email"); if(em) $("pdEmail").value = em; } catch(e) {}
+  function buscar(email, senha){
+    return Promise.all([DONO5.donoId(email), DONO5.leitor(email, senha)]).then(function(r){
+      return fetch(PONTE + "/v1/painel/" + r[0], { headers:{ "x-leitor":r[1] }, cache:"no-store" });
+    }).then(function(resp){
+      return resp.json().catch(function(){ return {}; }).then(function(corpo){
+        if(resp.status === 429) throw new Error("Muitas tentativas erradas. Espere 15 minutos e tente de novo.");
+        if(resp.status === 403) throw new Error("Nada encontrado com esse e-mail e essa senha. Confira os dois — é a senha do programa — e se o painel foi ligado em Ajustes.");
+        if(!resp.ok) throw new Error("O painel não respondeu agora (" + resp.status + "). Tente de novo em instantes.");
+        return corpo.clinicas || [];
+      });
+    }).then(function(itens){
+      return Promise.all(itens.map(function(it){
+        return DONO5.abrir(senha, it).then(function(r){ r._recebido = it.recebido; r._id = it.clinica; return r; }).catch(function(){ return null; });
+      }));
+    }).then(function(l){ return l.filter(Boolean).sort(function(a, b){ return String(a.clinica).localeCompare(String(b.clinica), "pt-BR"); }); });
+  }
+  $("pdForma").onsubmit = function(ev){
+    ev.preventDefault();
+    var email = DONO5.normEmail($("pdEmail").value), senha = $("pdSenha").value, b = $("pdBotao");
+    if(!email || !senha) return recado("Preencha o e-mail e a senha.", true);
+    b.disabled = true; recado("Abrindo com a sua senha (leva alguns segundos)…");
+    buscar(email, senha).then(function(cl){
+      b.disabled = false;
+      if(!cl.length) return recado("Encontramos o painel, mas a senha não abriu nenhuma clínica. Se trocou a senha, ligue o painel de novo no programa.", true);
+      try { localStorage.setItem("mca-dono-email", email); } catch(e) {}
+      SESSAO = { email:email, senha:senha, clinicas:cl };
+      $("pdSenha").value = ""; recado("");
+      $("pdEntrar").hidden = true; $("pdPainel").hidden = false;
+      desenhar();
+      window.scrollTo(0, 0);
+    }).catch(function(e){ b.disabled = false; recado(e && e.message ? e.message : "Algo falhou no caminho. Confira sua conexão.", true); });
+  };
+  $("pdSair").onclick = function(){ SESSAO = null; $("pdPainel").hidden = true; $("pdEntrar").hidden = false; FILTRO = "todas"; ["pdKpis","pdGrafico","pdClinicas","pdTabela"].forEach(function(id){ $(id).innerHTML = ""; }); };
+  $("pdAtualizar").onclick = function(){
+    if(!SESSAO) return; var b = this; b.disabled = true; b.textContent = "Atualizando…";
+    buscar(SESSAO.email, SESSAO.senha).then(function(cl){ if(cl.length) SESSAO.clinicas = cl; desenhar(); })
+      .catch(function(){}).then(function(){ b.disabled = false; b.textContent = "Atualizar"; });
+  };
+
+  /* --------------------------------------------------------- somar -- */
+  function g(o, c, d){ var x = o; c.split(".").forEach(function(k){ x = x == null ? x : x[k]; }); return x == null ? (d === undefined ? 0 : d) : x; }
+  function somar(lista){
+    if(lista.length === 1) return lista[0];
+    var s = { clinica:"Todas as clínicas", dinheiro:{ rec:0, desp:0, res:0, aReceber:0 }, contas:{ abertas:{ n:0, v:0 }, vencidas:{ n:0, v:0 }, semana:{ n:0, v:0 } },
+      compras:{ aguardando:{ n:0, v:0 }, andamento:0 }, mesAtend:{ atendidos:0, faltas:0, taxaFalta:0, porDentista:[], porEspecialidade:[] }, pacientes:{ total:0, novosMes:0 },
+      orcamentos:{ parados:0, valor:0 }, confirmacao:{ n:0, ok:0 }, equipe:{ total:0, trabalhando:0, membros:0 }, rh:{ ativos:0, vencimentos:0, graves:0 },
+      crc:{ leadsMes:0, fecharam:0, faltososSemVolta:0 }, convenios:{ aFaturar:0, glosas:0 }, estoque:{ abaixo:0 }, dia:{ agendados:0, concluidos:0, faltas:0, sala:0 }, serie:[] };
+    var ser = {}, esp = {};
+    lista.forEach(function(c){
+      ["dinheiro.rec","dinheiro.desp","dinheiro.res","dinheiro.aReceber","contas.abertas.n","contas.abertas.v","contas.vencidas.n","contas.vencidas.v","contas.semana.n","contas.semana.v",
+       "compras.aguardando.n","compras.aguardando.v","compras.andamento","mesAtend.atendidos","mesAtend.faltas","pacientes.total","pacientes.novosMes","orcamentos.parados","orcamentos.valor",
+       "confirmacao.n","confirmacao.ok","equipe.total","equipe.trabalhando","equipe.membros","rh.ativos","rh.vencimentos","rh.graves","crc.leadsMes","crc.fecharam","crc.faltososSemVolta",
+       "convenios.aFaturar","convenios.glosas","estoque.abaixo","dia.agendados","dia.concluidos","dia.faltas","dia.sala"].forEach(function(cam){
+        var p = cam.split("."), alvo = s; for(var i = 0; i < p.length - 1; i++) alvo = alvo[p[i]];
+        alvo[p[p.length - 1]] += Number(g(c, cam)) || 0;
+      });
+      (c.serie || []).forEach(function(x){ var o = ser[x.m] = ser[x.m] || { m:x.m, r:0, d:0 }; o.r += +x.r || 0; o.d += +x.d || 0; });
+      g(c, "mesAtend.porDentista", []).forEach(function(x){ s.mesAtend.porDentista.push({ nome:x.nome + " · " + c.clinica, n:x.n }); });
+      g(c, "mesAtend.porEspecialidade", []).forEach(function(x){ esp[x.nome] = (esp[x.nome] || 0) + x.n; });
+    });
+    s.serie = Object.keys(ser).sort().slice(-12).map(function(k){ return ser[k]; });
+    s.mesAtend.porDentista.sort(function(a, b){ return b.n - a.n; }); s.mesAtend.porDentista = s.mesAtend.porDentista.slice(0, 12);
+    s.mesAtend.porEspecialidade = Object.keys(esp).map(function(k){ return { nome:k, n:esp[k] }; }).sort(function(a, b){ return b.n - a.n; });
+    s.mesAtend.taxaFalta = s.mesAtend.atendidos + s.mesAtend.faltas ? Math.round(s.mesAtend.faltas / (s.mesAtend.atendidos + s.mesAtend.faltas) * 100) : 0;
+    s.mes = lista[0].mes;
+    return s;
+  }
+
+  /* ------------------------------------------------------- desenhar -- */
+  function kpi(rot, v, sub, cls){ return '<div class="pd-kpi ' + (cls || "") + '"><div class="k">' + esc(rot) + '</div><div class="v">' + esc(v) + '</div>' + (sub ? '<div class="s">' + esc(sub) + '</div>' : "") + '</div>'; }
+  function linha(rot, v, cls){ return '<div class="pd-linha"><span>' + esc(rot) + '</span><b class="' + (cls || "") + '">' + esc(v) + '</b></div>'; }
+  function barras(l){
+    if(!l || !l.length) return '<p class="pd-vazio">Sem atendimentos concluídos neste mês.</p>';
+    var max = Math.max.apply(null, l.map(function(x){ return x.n; })) || 1;
+    return '<div class="pd-barras">' + l.map(function(x){ return '<div class="pd-barra"><span class="n" title="' + esc(x.nome) + '">' + esc(x.nome) + '</span><span class="t"><b style="width:' + Math.max(2, Math.round(x.n / max * 100)) + '%"></b></span><span class="v">' + num(x.n) + '</span></div>'; }).join("") + '</div>';
+  }
+  function desenhar(){
+    var cl = SESSAO.clinicas;
+    var abas = [{ id:"todas", rot:cl.length > 1 ? "Todas (" + cl.length + ")" : cl[0].clinica }].concat(cl.length > 1 ? cl.map(function(c){ return { id:c._id, rot:c.clinica }; }) : []);
+    if(cl.length === 1) FILTRO = "todas";
+    $("pdFiltro").innerHTML = abas.map(function(a){ return '<button role="tab" type="button" aria-selected="' + (a.id === FILTRO) + '" data-f="' + esc(a.id) + '">' + esc(a.rot) + '</button>'; }).join("");
+    [].forEach.call($("pdFiltro").querySelectorAll("button"), function(b){ b.onclick = function(){ FILTRO = b.getAttribute("data-f"); desenhar(); }; });
+    var sel = FILTRO === "todas" ? cl : cl.filter(function(c){ return c._id === FILTRO; });
+    if(!sel.length){ FILTRO = "todas"; sel = cl; }
+    var s = somar(sel);
+    $("pdTitulo").textContent = sel.length === 1 ? sel[0].clinica : "Suas " + sel.length + " clínicas";
+    var mais = cl.map(function(c){ return c.em; }).sort()[0];
+    $("pdSub").textContent = "Mês de " + rotMes(s.mes || "", false).replace("/", " de 20") + " · dados de " + (sel.length === 1 ? haQuanto(sel[0].em) : "até " + haQuanto(mais));
+    var conf = s.confirmacao.n ? Math.round(s.confirmacao.ok / s.confirmacao.n * 100) + "%" : "—";
+    $("pdKpis").innerHTML = kpi("Recebido no mês", brl(s.dinheiro.rec), "", "ok") + kpi("Pago no mês", brl(s.dinheiro.desp))
+      + kpi("Resultado", brl(s.dinheiro.res), s.dinheiro.res < 0 ? "no vermelho" : "recebido − pago", s.dinheiro.res < 0 ? "critico" : "ok")
+      + kpi("A receber (30 dias)", brl(s.dinheiro.aReceber))
+      + kpi("Contas vencidas", num(s.contas.vencidas.n), brl(s.contas.vencidas.v), s.contas.vencidas.n ? "critico" : "")
+      + kpi("Atendimentos no mês", num(s.mesAtend.atendidos), s.mesAtend.taxaFalta + "% de faltas", s.mesAtend.taxaFalta >= 15 ? "atencao" : "")
+      + kpi("Equipe agora", num(s.equipe.trabalhando), "de " + num(s.equipe.total) + " no ponto")
+      + kpi("Confirmação de amanhã", conf, s.confirmacao.ok + " de " + s.confirmacao.n);
+    grafico(s.serie || []);
+    $("pdDentistas").innerHTML = barras(g(s, "mesAtend.porDentista", []));
+    $("pdEsp").innerHTML = barras(g(s, "mesAtend.porEspecialidade", []));
+    $("pdEscritorio").innerHTML = '<div class="pd-linhas">'
+      + linha("Contas que vencem em 7 dias", num(s.contas.semana.n) + " · " + brl(s.contas.semana.v), s.contas.semana.n ? "atencao" : "")
+      + linha("Contas em aberto", num(s.contas.abertas.n) + " · " + brl(s.contas.abertas.v))
+      + linha("Compras esperando aprovação", num(s.compras.aguardando.n) + " · " + brl(s.compras.aguardando.v), s.compras.aguardando.n ? "atencao" : "")
+      + linha("Itens de estoque abaixo do ideal", num(s.estoque.abaixo), s.estoque.abaixo ? "atencao" : "")
+      + linha("RH: vencimentos em 30 dias", num(s.rh.vencimentos) + (s.rh.graves ? " · " + s.rh.graves + " urgente(s)" : ""), s.rh.graves ? "critico" : "")
+      + linha("Convênios: guias a faturar", num(s.convenios.aFaturar)) + linha("Convênios: glosas sem recurso", num(s.convenios.glosas), s.convenios.glosas ? "atencao" : "")
+      + '</div>';
+    $("pdAgenda").innerHTML = '<div class="pd-linhas">'
+      + linha("Hoje: agendados", num(s.dia.agendados)) + linha("Hoje: concluídos", num(s.dia.concluidos)) + linha("Pacientes cadastrados", num(s.pacientes.total))
+      + linha("Novos pacientes no mês", num(s.pacientes.novosMes), "ok") + linha("Orçamentos parados (7 dias)", num(s.orcamentos.parados) + " · " + brl(s.orcamentos.valor), s.orcamentos.parados ? "atencao" : "")
+      + linha("CRC: contatos novos no mês", num(s.crc.leadsMes) + " · " + num(s.crc.fecharam) + " fecharam") + linha("Faltaram e não remarcaram", num(s.crc.faltososSemVolta), s.crc.faltososSemVolta ? "atencao" : "")
+      + '</div>';
+    $("pdClinicas").innerHTML = cl.map(function(c){
+      var velho = Date.now() - new Date(c.em).getTime() > 26 * 3600e3;
+      return '<article class="pd-card"><header><h2>' + esc(c.clinica) + '</h2><span class="pd-estado ' + (velho ? "atencao" : "ok") + '">' + esc(haQuanto(c.em)) + '</span></header><div class="pd-linhas">'
+        + linha("Recebido no mês", brl(g(c, "dinheiro.rec")), "ok") + linha("Pago no mês", brl(g(c, "dinheiro.desp"))) + linha("Resultado", brl(g(c, "dinheiro.res")), g(c, "dinheiro.res") < 0 ? "critico" : "")
+        + linha("Contas vencidas", num(g(c, "contas.vencidas.n")) + " · " + brl(g(c, "contas.vencidas.v")), g(c, "contas.vencidas.n") ? "critico" : "")
+        + linha("Atendimentos no mês", num(g(c, "mesAtend.atendidos")) + " · " + g(c, "mesAtend.taxaFalta") + "% faltas")
+        + linha("Equipe agora", num(g(c, "equipe.trabalhando")) + " de " + num(g(c, "equipe.total")))
+        + '</div>' + (velho ? '<p class="pd-vazio">Sem atualização há mais de um dia: o resumo só sai quando um administrador abre o programa na clínica.</p>' : "") + '</article>';
+    }).join("");
+  }
+
+  /* ------------------------------------------- o gráfico de barras -- */
+  function grafico(serie){
+    var cor = getComputedStyle(document.documentElement), cR = cor.getPropertyValue("--c-rec").trim() || "#0F8A73", cP = cor.getPropertyValue("--c-pag").trim() || "#2C63BE";
+    $("pdLegenda").innerHTML = '<span><i style="background:var(--c-rec)"></i>Recebido</span><span><i style="background:var(--c-pag)"></i>Pago</span>';
+    if(!serie.length){ $("pdGrafico").innerHTML = '<p class="pd-vazio">Ainda sem lançamentos pagos.</p>'; $("pdTabela").innerHTML = ""; return; }
+    var W = 900, H = 260, E = 74, D = 8, T = 10, B = 28, w = (W - E - D) / serie.length, max = 0;
+    serie.forEach(function(x){ max = Math.max(max, +x.r || 0, +x.d || 0); });
+    var passo = Math.pow(10, Math.floor(Math.log10(max || 1))), topo = Math.ceil((max || 1) / passo) * passo; if(topo / passo > 6) { passo *= 2; topo = Math.ceil(max / passo) * passo; }
+    var y = function(v){ return T + (H - T - B) * (1 - v / topo); };
+    var h = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Recebido e pago por mês"><g class="grade">';
+    for(var v = 0; v <= topo + 1e-9; v += passo) h += '<line x1="' + E + '" x2="' + (W - D) + '" y1="' + y(v) + '" y2="' + y(v) + '"/><text x="' + (E - 8) + '" y="' + (y(v) + 4) + '" text-anchor="end">' + esc(brlCurto(v)) + '</text>';
+    h += '</g>';
+    var bw = Math.min(22, (w - 10) / 2);
+    serie.forEach(function(x, i){
+      var cx = E + w * i + w / 2;
+      [[+x.r || 0, cR, cx - bw - 1], [+x.d || 0, cP, cx + 1]].forEach(function(b){
+        var yy = y(b[0]), hh = Math.max(0, H - B - yy), r = Math.min(4, hh);
+        if(hh > 0) h += '<path d="M' + b[2] + ',' + (H - B) + 'V' + (yy + r) + 'Q' + b[2] + ',' + yy + ' ' + (b[2] + r) + ',' + yy + 'H' + (b[2] + bw - r) + 'Q' + (b[2] + bw) + ',' + yy + ' ' + (b[2] + bw) + ',' + (yy + r) + 'V' + (H - B) + 'Z" fill="' + b[1] + '"/>';
+      });
+      h += '<text x="' + cx + '" y="' + (H - 9) + '" text-anchor="middle">' + esc(rotMes(x.m, serie.length > 8)) + '</text>';
+      h += '<rect class="alvo" x="' + (E + w * i) + '" y="' + T + '" width="' + w + '" height="' + (H - T - B) + '" data-i="' + i + '" tabindex="0"/>';
+    });
+    h += '<line x1="' + E + '" x2="' + (W - D) + '" y1="' + (H - B) + '" y2="' + (H - B) + '" stroke="var(--linha-forte)"/></svg>';
+    $("pdGrafico").innerHTML = h;
+    var dica = $("pdDica");
+    [].forEach.call($("pdGrafico").querySelectorAll(".alvo"), function(a){
+      function mostra(ev){
+        var x = serie[+a.getAttribute("data-i")], r = a.getBoundingClientRect();
+        dica.innerHTML = '<b>' + esc(rotMes(x.m)) + '</b><br><i style="background:' + cR + '"></i>Recebido ' + esc(brl(x.r)) + '<br><i style="background:' + cP + '"></i>Pago ' + esc(brl(x.d)) + '<br>Resultado ' + esc(brl((+x.r || 0) - (+x.d || 0)));
+        dica.hidden = false;
+        var px = ev && ev.clientX ? ev.clientX : r.left + r.width / 2, py = ev && ev.clientY ? ev.clientY : r.top + 20;
+        dica.style.left = Math.min(window.innerWidth - dica.offsetWidth - 8, px + 14) + "px"; dica.style.top = Math.max(8, py - dica.offsetHeight - 10) + "px";
+      }
+      a.addEventListener("mousemove", mostra); a.addEventListener("focus", mostra);
+      a.addEventListener("mouseleave", function(){ dica.hidden = true; }); a.addEventListener("blur", function(){ dica.hidden = true; });
+    });
+    $("pdTabela").innerHTML = '<table><thead><tr><th>Mês</th><th>Recebido</th><th>Pago</th><th>Resultado</th></tr></thead><tbody>'
+      + serie.map(function(x){ return '<tr><td>' + esc(rotMes(x.m)) + '</td><td>' + brl(x.r) + '</td><td>' + brl(x.d) + '</td><td>' + brl((+x.r || 0) - (+x.d || 0)) + '</td></tr>'; }).join("") + '</tbody></table>';
+  }
+})();
+</script>
+</body>
+</html>

@@ -1131,6 +1131,7 @@ main > section.faixa.escuro:last-of-type::before{
       <a href="/duda" class="link-duda">Duda</a>
       <a href="/recursos">Recursos</a>
       <a href="/treinamento">Treinamento</a>
+      <a href="/escritorio" class="link-esc" style="color:#9A6B12;font-weight:650">Escritório</a>
       <a href="/seguranca">Segurança</a>
       <a href="/#planos">Planos</a>
       <a href="/duvidas">Dúvidas</a>
@@ -1165,8 +1166,27 @@ main > section.faixa.escuro:last-of-type::before{
   <section class="faixa" style="padding-top:clamp(12px,2vw,24px)">
     <div class="centro">
       <div class="versoes">
+      <article class="versao" id="v5-0-0">
+        <div class="versao-num">5.0.0<small>versão atual</small></div>
+        <ul>
+          <li><b>Na Clínica, o Escritório</b> (em dourado no menu): a administração da clínica no mesmo programa, com a mesma criptografia. Papéis novos, cada um com o próprio acesso e as próprias gavetas: <b>Financeiro, Compras, CRC, Faturamento, RH e Marketing</b>. Liga em Ajustes, com 30 dias de teste. <a href="/escritorio">Veja tudo o que ele faz</a>.</li>
+          <li><b>Painel do escritório:</b> o dia da clínica e do escritório numa tela — agendados, sala de espera, confirmação de amanhã, dinheiro do mês, contas, compras, equipe agora, tarefas, RH, CRC e convênios.</li>
+          <li><b>Compras:</b> pede, a gerência ou o administrador aprova, recebe (parcial ou total, com a nota) e o estoque sobe; a conta a pagar nasce sozinha. O que foge do padrão chega em destaque.</li>
+          <li><b>Contas a pagar:</b> fornecedores com CNPJ conferido, nota e boleto anexados e cifrados, parcelas, centros de custo, contas recorrentes, alçada de aprovação e relatórios.</li>
+          <li><b>Pagamentos dos dentistas:</b> a conta-corrente de cada profissional, com adiantamentos, descontos e o pagamento do repasse. O dentista vê o próprio extrato.</li>
+          <li><b>CRC e marketing:</b> confirmações com taxa por especialidade, faltosos, orçamentos parados, funil de leads, origem dos pacientes, campanhas e metas por atendente.</li>
+          <li><b>Convênios</b> (opcional): tabela de procedimentos, guias, autorizações, lotes, recebimento e glosas. <b>RH:</b> ficha completa, férias, atestados, afastamentos, ASO, vacinas, EPI e o que vence em 30 dias. <b>Recados e tarefas</b> por canal.</li>
+          <li><b>Folha de ponto:</b> entrada no primeiro login do dia e saída ao fechar o programa, conferida com rosto ou digital, só nos computadores da clínica e com a hora do servidor. Ajustes sempre com justificativa; espelho do mês para imprimir.</li>
+          <li><b>Computadores em outras redes:</b> o escritório em outro roteador ou atrás de repetidores entra pela <b>ponte</b>, com o código da clínica e o código de 8 dígitos. Por dentro passa o mesmo HTTPS do programa — a ponte só vê bytes cifrados.</li>
+          <li><b>Abre junto com o Windows</b> (Solo e Clínica, ligado por padrão) e o <b>servidor dedicado</b> da sala do TI: fechar a janela não desliga o servidor, ele sobe escondido e nele só o administrador entra.</li>
+          <li><b>Painel do dono</b> aqui no site: o administrador liga em Ajustes e vê, em <a href="/painel-dono">/painel-dono</a>, o resumo de todas as suas clínicas, cifrado com a senha dele.</li>
+          <li><b>Trazer dados de outro sistema</b> (Solo e Clínica): pacientes, agenda, financeiro, tabela, fornecedores, contas e funcionários, de Excel ou CSV, com prévia e desfazer.</li>
+          <li><b>Treinamento:</b> catorze aulas novas, narradas pela Duda — a trilha Escritório inteira.</li>
+          <li><b>Consertos:</b> a rede entre computadores aguentava mal muitos pedidos ao mesmo tempo (a sessão segura era reaproveitada sem o certificado do servidor); agora cada conexão confere o servidor de novo. Testado com 120 computadores juntos.</li>
+        </ul>
+      </article>
       <article class="versao" id="v4-2-0">
-        <div class="versao-num">4.2.0<small>versão atual</small></div>
+        <div class="versao-num">4.2.0</div>
         <ul>
           <li><b>O atendimento de hoje.</b> No Atendimento, a aba <b>Hoje</b> traz o plano aprovado com uma caixa de marcar em cada procedimento. Ao finalizar, sai o <b>termo de atendimento</b> com o que foi feito no dia, para o dentista e o paciente assinarem de qualquer um dos cinco jeitos. Finalizar a consulta na agenda também gera o termo.</li>
           <li><b>Procedimento só com saldo.</b> Marcar um procedimento como feito gasta o saldo da conta do paciente. Sem saldo, o programa não deixa: a recepção dá baixa no pagamento ou a gerência libera, com o motivo escrito. No Solo, você mesmo libera, com o motivo.</li>
