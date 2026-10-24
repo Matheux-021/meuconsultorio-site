@@ -1515,6 +1515,90 @@ main > section.faixa.escuro:last-of-type::before{
 .esc-calc-res p{font-size:13px;color:var(--tinta-3);margin:10px 0 0}
 @media (max-width:760px){.esc-calc{grid-template-columns:1fr}}
 </style>
+<style id="topo51">
+/* 5.1 — O CABEÇALHO COM AS OITO PÁGINAS.
+   Com o Escritório, o menu passou a ter oito itens e, no meio de três colunas
+   iguais (1fr auto 1fr), empurrava a logo e os botões para cima dele. Agora:
+   as pontas ocupam só o que precisam, o menu fica no meio sem encavalar, o
+   espaçamento aperta antes de faltar lugar e, abaixo de 1180px, os links vão
+   para um botão "Menu" — que antes nem existia no celular. */
+.topo-in{max-width:1440px; grid-template-columns:auto minmax(0,1fr) auto; gap:clamp(16px,2vw,32px)}
+.marca{min-width:max-content}
+.topo-links{gap:clamp(14px,1.55vw,26px); justify-self:center; min-width:0; flex-wrap:nowrap}
+.topo-links a{white-space:nowrap; letter-spacing:.12em}
+.topo-links a.link-cli{color:var(--azul)}
+.topo-links a.link-esc, .topo-menu a.link-esc{color:#9A6B12; font-weight:650}
+.topo-links a.link-esc:hover{color:#9A6B12; border-bottom-color:#9A6B12}
+.topo-links a.link-esc[aria-current="page"]{color:#9A6B12; border-bottom-color:#9A6B12}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .topo-links a.link-esc, :root:not([data-theme="light"]) .topo-menu a.link-esc,
+  :root:not([data-theme="light"]) .topo-links a.link-esc:hover, :root:not([data-theme="light"]) .topo-links a.link-esc[aria-current="page"]{color:#E0B064; border-bottom-color:currentColor}
+}
+:root[data-theme="dark"] .topo-links a.link-esc, :root[data-theme="dark"] .topo-menu a.link-esc,
+:root[data-theme="dark"] .topo-links a.link-esc:hover, :root[data-theme="dark"] .topo-links a.link-esc[aria-current="page"]{color:#E0B064; border-bottom-color:currentColor}
+.topo-links a.link-esc:not(:hover):not([aria-current="page"]){border-bottom-color:transparent}
+@media (min-width:901px) and (max-width:1380px){
+  .topo-links a{letter-spacing:.07em; font-size:11px}
+  .marca-nome b{font-size:25px}
+  .marca-selo, .marca-selo img{width:50px; height:50px}
+}
+/* o pílula depois de rolar: o mesmo cuidado */
+html.rolou .topo-in{grid-template-columns:auto auto auto; gap:clamp(12px,1.6vw,22px)}
+html.rolou .topo-links{gap:clamp(12px,1.3vw,20px)}
+
+/* ---- o botão Menu (abaixo de 1180px) ---- */
+.topo-menu{display:none; position:relative}
+.topo-menu > summary{list-style:none; cursor:pointer; box-sizing:border-box; height:44px; display:inline-flex; align-items:center; gap:8px;
+  padding:0 14px; border:1px solid var(--linha-forte); border-radius:9px; font-weight:600; font-size:14.5px; color:var(--tinta);
+  background:color-mix(in srgb, var(--folha) 45%, transparent); user-select:none}
+.topo-menu > summary::-webkit-details-marker{display:none}
+.topo-menu > summary:hover, .topo-menu[open] > summary{border-color:var(--verde); color:var(--verde)}
+.topo-menu > summary:focus-visible{outline:2px solid var(--verde); outline-offset:2px}
+.topo-menu .menu-painel{position:absolute; right:0; top:calc(100% + 8px); z-index:40; min-width:236px; display:grid; gap:2px; padding:8px;
+  background:var(--folha); border:1px solid var(--linha); border-radius:14px; box-shadow:var(--sombra-tela, 0 18px 40px -18px rgba(0,0,0,.45))}
+.topo-menu .menu-painel a{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:11px 12px; border-radius:9px;
+  font-family:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; font-size:12.5px; font-weight:500; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--tinta-2); text-decoration:none}
+.topo-menu .menu-painel a:hover{background:color-mix(in srgb, var(--verde) 10%, transparent); color:var(--verde)}
+.topo-menu .menu-painel a[aria-current="page"]{color:var(--verde); background:color-mix(in srgb, var(--verde) 8%, transparent)}
+.topo-menu .menu-painel a.link-cli{color:var(--azul)}
+.topo-menu .menu-painel a.link-esc{color:#9A6B12; font-weight:650}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .topo-menu .menu-painel a.link-esc{color:#E0B064} }
+:root[data-theme="dark"] .topo-menu .menu-painel a.link-esc{color:#E0B064}
+.topo-menu .menu-painel .sep{height:1px; background:var(--linha); margin:6px 4px}
+.topo-menu .tema, html.rolou .topo-menu .tema{display:inline-flex !important}
+.topo-menu .menu-painel .menu-tema{display:flex; align-items:center; justify-content:space-between; padding:6px 6px 4px 12px;
+  font-size:13px; color:var(--tinta-3)}
+@media (max-width:1180px){
+  .topo-in{grid-template-columns:auto 1fr auto}
+  .topo-links{display:none}
+  .topo-menu{display:block}
+  .topo-acoes > .tema{display:none}   /* o tema vai para dentro do Menu */
+  html.rolou .topo-in{grid-template-columns:auto auto}
+}
+/* abaixo de 900px a segunda linha de links (que com oito páginas virava três
+   linhas no celular) dá lugar ao Menu */
+@media (max-width:900px){
+  .topo-links{display:none !important}
+  .abertura{padding-top:calc(clamp(44px,7vw,86px) + 84px) !important}
+}
+.topo-menu .menu-painel a.menu-entrar{display:none}
+@media (max-width:600px){
+  .abertura{padding-top:calc(clamp(44px,7vw,86px) + 64px) !important}
+  .topo-menu > summary{height:38px; padding:0 10px; font-size:13.5px}
+  .topo-menu > summary .rot-menu{display:none}
+  html.rolou .topo-menu > summary{height:36px}
+}
+html.rolou .topo-menu > summary{height:36px; font-size:13.5px; padding:0 11px}
+@media (max-width:480px){
+  .topo-acoes{gap:6px}
+  .topo-acoes a.entrar{display:none}
+  .topo-menu .menu-painel a.menu-entrar{display:flex; color:var(--tinta); font-weight:600}
+  .topo-acoes .btn{padding:0 11px}
+}
+@media (prefers-reduced-motion: no-preference){ .topo-menu[open] .menu-painel{animation:menuAbrir .16s ease-out} }
+@keyframes menuAbrir{from{opacity:0; transform:translateY(-4px)} to{opacity:1; transform:none}}
+</style>
 </head>
 <body class="pagina-clinica">
 
@@ -1534,8 +1618,9 @@ main > section.faixa.escuro:last-of-type::before{
     </a>
     <nav class="topo-links" aria-label="Páginas do site">
       <a href="/" class="link-solo">Solo</a>
+      <a href="/clinica" class="link-cli">Clínica</a>
+      <a href="/escritorio" class="link-esc" aria-current="page">Escritório</a>
       <a href="/duda" class="link-duda">Duda</a>
-      <a href="/clinica">Clínica</a>
       <a href="/seguranca">Segurança</a>
       <a href="#preco">Preço</a>
       <a href="/duvidas">Dúvidas</a>
@@ -1549,6 +1634,24 @@ main > section.faixa.escuro:last-of-type::before{
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5z"/></svg>
         </button>
       </span>
+      <details class="topo-menu">
+        <summary aria-label="Abrir o menu de páginas"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span class="rot-menu">Menu</span></summary>
+        <div class="menu-painel">
+          <a href="/" class="link-solo">Solo</a>
+          <a href="/clinica" class="link-cli">Clínica</a>
+          <a href="/escritorio" class="link-esc" aria-current="page">Escritório</a>
+          <a href="/duda" class="link-duda">Duda</a>
+          <a href="/seguranca">Segurança</a>
+          <a href="#preco">Preço</a>
+          <a href="/duvidas">Dúvidas</a>
+          <div class="sep" aria-hidden="true"></div>
+          <a href="/entrar" class="menu-entrar">Entrar na conta</a>
+          <div class="menu-tema"><span>Tema</span><span class="tema" role="group" aria-label="Tema da página">
+              <button type="button" data-tema="light" aria-pressed="false" title="Tema claro" aria-label="Tema claro"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+              <button type="button" data-tema="dark" aria-pressed="false" title="Tema escuro" aria-label="Tema escuro"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5z"/></svg></button>
+            </span></div>
+        </div>
+      </details>
       <a class="entrar" href="/entrar?clinica=1">Entrar</a>
       <a class="btn pri" href="/criar-conta?clinica=1"><span class="longo">Testar 30 dias</span><span class="curto">Testar</span></a>
     </div>
@@ -1949,6 +2052,15 @@ html:not(.rolou) body:has(#ddTitulo) .tema{background:rgba(255,255,255,.08); bor
   document.getElementById('ecDent').addEventListener('click', function(e){ var b = e.target.closest('button'); if(b){ dent = +b.getAttribute('data-n'); pintar(); } });
   document.getElementById('ecPer').addEventListener('click', function(e){ var b = e.target.closest('button'); if(b){ per = +b.getAttribute('data-k'); pintar(); } });
   pintar();
+})();
+</script>
+<script id="topo51js">
+/* o Menu fecha ao clicar fora, ao escolher um link e com Esc */
+(function(){
+  var m = document.querySelector('details.topo-menu'); if(!m) return;
+  document.addEventListener('click', function(e){ if(m.open && !m.contains(e.target)) m.removeAttribute('open'); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && m.open){ m.removeAttribute('open'); m.querySelector('summary').focus(); } });
+  m.querySelectorAll('.menu-painel a').forEach(function(a){ a.addEventListener('click', function(){ m.removeAttribute('open'); }); });
 })();
 </script>
 </body>
