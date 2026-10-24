@@ -1567,7 +1567,7 @@ main > section.faixa.escuro:last-of-type::before{
         <em>Os dados continuam cifrados</em> — agora, também os do escritório.</p>
       <div class="acoes">
         <a class="btn pri" href="/criar-conta?clinica=1">Testar a Clínica 30 dias</a>
-        <a class="btn sec" href="#preco">Ver o preço do Escritório</a>
+        <a class="btn sec" href="#preco">Como funciona o preço</a>
       </div>
       <p class="sob-acoes">O Escritório liga em Ajustes, com <b>30 dias de teste</b>. Depois, um fixo por unidade e um valor pequeno por pessoa do escritório, na mesma cobrança da clínica.</p>
       <div style="margin-top:clamp(34px,5vw,56px)"><figure class="tela aparece" style="margin:0"><div class="tela-topo" aria-hidden="true"><i></i><i></i><i></i><span>Painel do escritório — Meu Consultório App | Clínica</span></div><img src="img/esc-painel.webp" width="1600" height="990" alt="O painel do escritório: agendados, sala de espera, confirmação de amanhã, dinheiro do mês e um cartão para cada setor" /></figure></div>
@@ -1700,21 +1700,19 @@ main > section.faixa.escuro:last-of-type::before{
   <section class="faixa" id="preco">
     <div class="centro">
       <p class="olho esc-olho" style="text-align:center">Preço</p>
-      <h2 style="text-align:center">A clínica pelo número de dentistas. O Escritório, mostrado à parte.</h2>
+      <h2 style="text-align:center">A clínica pelo número de dentistas. O Escritório, combinado com a sua clínica.</h2>
       <div class="esc-calc aparece">
         <div class="esc-calc-ctl">
           <label>Dentistas na unidade</label>
           <div class="esc-seg" id="ecDent"><button type="button" data-n="2">Até 2</button><button type="button" data-n="3">Até 3</button><button type="button" data-n="5" aria-pressed="true">Até 5</button><button type="button" data-n="8">Até 8</button></div>
-          <label for="ecUs">Pessoas que trabalham só no escritório: <b id="ecUsN">3</b></label>
-          <input type="range" id="ecUs" min="0" max="20" value="3" />
           <label>Período</label>
           <div class="esc-seg" id="ecPer"><button type="button" data-k="1" aria-pressed="true">Mensal</button><button type="button" data-k="3">Trimestral −15%</button><button type="button" data-k="6">Semestral −20%</button><button type="button" data-k="12">Anual −25%</button></div>
-          <p class="esc-nota">Gerência, recepção, ASB e dentistas não contam como usuários do escritório. Acima de 8 dentistas, orçamento.</p>
+          <p class="esc-nota">Equipe ilimitada no plano da clínica. O Escritório tem valor combinado com cada clínica, pelo tamanho da equipe do escritório — e entra na mesma cobrança, mostrado à parte. Acima de 8 dentistas, orçamento.</p>
         </div>
         <div class="esc-calc-res" id="ecRes" aria-live="polite"></div>
       </div>
       <div class="acoes" style="justify-content:center;margin-top:28px">
-        <a class="btn pri" href="/assinar#clinica-escritorio">Acrescentar o Escritório ao plano</a>
+        <a class="btn pri" href="https://wa.me/5521986624185?text=Quero%20combinar%20o%20Escrit%C3%B3rio%20para%20a%20minha%20cl%C3%ADnica" target="_blank" rel="noopener">Combinar o valor do Escritório</a>
         <a class="btn sec" href="/treinamento">Ver as aulas do Escritório</a>
       </div>
     </div>
@@ -1933,25 +1931,23 @@ html:not(.rolou) body:has(#ddTitulo) .tema{background:rgba(255,255,255,.08); bor
 </style>
 
 <script>
-/* 5.0 — a conta do Escritório (as mesmas do servidor do site) */
+/* 5.0 — a conta da clínica; o Escritório é combinado com cada clínica */
 (function(){
   var CLI = { 2:147.90, 3:177.90, 5:272.90, 8:366.90 }, DESC = { 1:0, 3:15, 6:20, 12:25 }, dent = 5, per = 1;
   var res = document.getElementById('ecRes'); if(!res) return;
   function brl(v){ return v.toLocaleString('pt-BR', { style:'currency', currency:'BRL' }); }
   function tot(m){ return per === 1 ? m : Math.round(m * per * (1 - DESC[per] / 100)) - 0.10; }
   function pintar(){
-    var us = +document.getElementById('ecUs').value; document.getElementById('ecUsN').textContent = us;
-    var mc = CLI[dent], me = Math.round((129.90 + 14.90 * us) * 100) / 100, tc = tot(mc), te = tot(me);
+    var mc = CLI[dent], tc = tot(mc);
     [].forEach.call(document.querySelectorAll('#ecDent button'), function(b){ b.setAttribute('aria-pressed', +b.getAttribute('data-n') === dent); });
     [].forEach.call(document.querySelectorAll('#ecPer button'), function(b){ b.setAttribute('aria-pressed', +b.getAttribute('data-k') === per); });
     res.innerHTML = '<div class="l"><span>Clínica · até ' + dent + ' dentistas<small>' + brl(mc) + '/mês</small></span><b>' + brl(tc) + '</b></div>'
-      + '<div class="l e"><span>Escritório · ' + us + ' usuário' + (us === 1 ? '' : 's') + '<small>R$ 129,90 + ' + us + ' × R$ 14,90 = ' + brl(me) + '/mês</small></span><b>' + brl(te) + '</b></div>'
-      + '<div class="t"><span>' + (per === 1 ? 'Por mês' : 'A cada ' + per + ' meses') + '</span><b>' + brl(tc + te) + '</b></div>'
-      + '<p>' + (per > 1 ? 'Equivale a ' + brl((tc + te) / per) + ' por mês. ' : '') + 'Uma cobrança só, com a clínica e o Escritório separados na descrição. Cartão com renovação automática: mais 3% de desconto.</p>';
+      + '<div class="l e"><span>Escritório<small>valor combinado com a sua clínica</small></span><b>a combinar</b></div>'
+      + '<div class="t"><span>Clínica, ' + (per === 1 ? 'por mês' : 'a cada ' + per + ' meses') + '</span><b>' + brl(tc) + '</b></div>'
+      + '<p>' + (per > 1 ? 'Equivale a ' + brl(tc / per) + ' por mês. ' : '') + 'Combinado o Escritório, ele entra sozinho na mesma cobrança, separado na descrição. Teste 30 dias no programa antes (Ajustes › Escritório).</p>';
   }
   document.getElementById('ecDent').addEventListener('click', function(e){ var b = e.target.closest('button'); if(b){ dent = +b.getAttribute('data-n'); pintar(); } });
   document.getElementById('ecPer').addEventListener('click', function(e){ var b = e.target.closest('button'); if(b){ per = +b.getAttribute('data-k'); pintar(); } });
-  document.getElementById('ecUs').addEventListener('input', pintar);
   pintar();
 })();
 </script>

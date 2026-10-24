@@ -2,6 +2,7 @@
  "versao": "5.0.0",
  "arquivos": [
   "404.html",
+  "admin-escritorio.html",
   "armazenamento.html",
   "assinar.html",
   "baixar.html",
