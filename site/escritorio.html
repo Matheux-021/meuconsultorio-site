@@ -1672,7 +1672,7 @@ html.rolou .topo-menu > summary{height:36px; font-size:13.5px; padding:0 11px}
         <a class="btn pri" href="/criar-conta?clinica=1">Testar a Clínica 30 dias</a>
         <a class="btn sec" href="#preco">Como funciona o preço</a>
       </div>
-      <p class="sob-acoes">O Escritório liga em Ajustes, com <b>30 dias de teste</b>. Depois, um fixo por unidade e um valor pequeno por pessoa do escritório, na mesma cobrança da clínica.</p>
+      <p class="sob-acoes">O Escritório é contratado à parte, com <b>valor combinado</b> com cada clínica, e entra na mesma cobrança da clínica, mostrado à parte. Contratado, ele já vem ligado no programa. Para conhecer, peça uma demonstração.</p>
       <div style="margin-top:clamp(34px,5vw,56px)"><figure class="tela aparece" style="margin:0"><div class="tela-topo" aria-hidden="true"><i></i><i></i><i></i><span>Painel do escritório — Meu Consultório App | Clínica</span></div><img src="img/esc-painel.webp" width="1600" height="990" alt="O painel do escritório: agendados, sala de espera, confirmação de amanhã, dinheiro do mês e um cartão para cada setor" /></figure></div>
     </div>
   </section>
@@ -2047,7 +2047,7 @@ html:not(.rolou) body:has(#ddTitulo) .tema{background:rgba(255,255,255,.08); bor
     res.innerHTML = '<div class="l"><span>Clínica · até ' + dent + ' dentistas<small>' + brl(mc) + '/mês</small></span><b>' + brl(tc) + '</b></div>'
       + '<div class="l e"><span>Escritório<small>valor combinado com a sua clínica</small></span><b>a combinar</b></div>'
       + '<div class="t"><span>Clínica, ' + (per === 1 ? 'por mês' : 'a cada ' + per + ' meses') + '</span><b>' + brl(tc) + '</b></div>'
-      + '<p>' + (per > 1 ? 'Equivale a ' + brl(tc / per) + ' por mês. ' : '') + 'Combinado o Escritório, ele entra sozinho na mesma cobrança, separado na descrição. Teste 30 dias no programa antes (Ajustes › Escritório).</p>';
+      + '<p>' + (per > 1 ? 'Equivale a ' + brl(tc / per) + ' por mês. ' : '') + 'Combinado o Escritório, ele entra sozinho na mesma cobrança, separado na descrição. Contratado, ele já vem ligado no programa.</p>';
   }
   document.getElementById('ecDent').addEventListener('click', function(e){ var b = e.target.closest('button'); if(b){ dent = +b.getAttribute('data-n'); pintar(); } });
   document.getElementById('ecPer').addEventListener('click', function(e){ var b = e.target.closest('button'); if(b){ per = +b.getAttribute('data-k'); pintar(); } });
